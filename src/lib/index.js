@@ -1,1 +1,3 @@
-// Reexport your entry components here
+import Button from "./Components/Button.svelte"
+
+export { Button }

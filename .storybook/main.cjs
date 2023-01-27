@@ -13,6 +13,9 @@ module.exports = {
     "name": "@storybook/sveltekit",
     "options": {}
   },
+  "core": {
+    "disableTelemetry": true
+  },
   "docs": {
     "autodocs": "tag"
   }

@@ -2,7 +2,7 @@
 	import clickOutside from '$lib/utils/clickOutside'
 
 	export let title = ''
-	let opened = false
+	export let opened = false
 </script>
 
 <details bind:open={opened} use:clickOutside on:outclick={() => (opened = false)}>

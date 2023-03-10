@@ -1,5 +1,5 @@
 <script>
-  import ScreenReaderText from '$components/ScreenReaderText.svelte'
+  import ScreenReaderText from './ScreenReaderText.svelte'
   export let text = 'Loading'
 </script>
 

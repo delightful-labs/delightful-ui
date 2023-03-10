@@ -1,11 +1,25 @@
 <script>
+  
+  /** @enum {string} */
+  const TextInputTypes = {
+    Email: 'email',
+    Search: 'search',
+    Text: 'text',
+    Url: 'url'
+  };
+
   /**
-   * @type {'email'|'text'|'url'}
+   * @type {TextInputTypes}
    */
   export let type = 'text'
+
+  /**
+	 * @type {string}
+	 */
+  export let style = ''
 </script>
 
-<input type={type} />
+<input {type} {style} />
 
 <style>
   input {

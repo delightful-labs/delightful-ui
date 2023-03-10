@@ -2,12 +2,12 @@
   /**
 	 * @type {string}
 	 */
-   export let text = ''
+  export let text = ''
 
-   /**
+  /**
 	 * @type {string}
 	 */
-   export let style = ''
+  export let style = ''
 </script>
 
 <button {style}>{text}</button>

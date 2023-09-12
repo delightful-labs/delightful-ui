@@ -15,3 +15,14 @@ export const INPUT_TYPES = Object.freeze({
   TEXT: "text", 
   URL: "url" 
 })
+
+export const DEFAULT_LANGUAGE = 'EN'
+
+// @TODO: create type for this
+export const DEFAULT_LABELS = {
+  BUTTON: {
+    IDLE: {
+      EN: 'click me'
+    }
+  }
+}

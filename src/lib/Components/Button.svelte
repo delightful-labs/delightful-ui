@@ -1,13 +1,54 @@
 <script>
-  /**
-	 * @type {string}
-	 */
-  export let text = ''
+	import { DEFAULT_LABELS } from '$lib'
+	import Microcopy from './Microcopy.svelte'
 
-  /**
+	const labelKey = 'BUTTON'
+
+	// @TODO: Figue out types for this
+	// Each component can probably reveal what states it has
+	/**
+	 * @type {*}
+	 */
+	export let text = DEFAULT_LABELS[labelKey]
+
+	/**
 	 * @type {string}
 	 */
-  export let style = ''
+	export let style = ''
+
+	/**
+	 * @type {'button'|'submit'}
+	 */
+	export let type = 'button'
 </script>
 
-<button {style}>{text}</button>
+{#if type === 'button'}
+	<button {style}><Microcopy key={labelKey} customLabel={text} /></button>
+{:else}
+	<input type="submit" value={text} />
+{/if}
+
+<style>
+	button,
+	input {
+		-webkit-appearance: none;
+		appearance: none;
+		font-family: var(--button-font-family, inherit);
+		font-size: var(--button-font-size, inherit);
+		box-sizing: border-box;
+		padding: var(--button-padding, 1rem);
+		color: var(--button-color, inherit);
+		min-height: var(--button-min-height, 48px);
+		border-color: var(--button-border-color, currentColor);
+		border-style: var(--button-border-style, solid);
+		border-width: var(--button-border-width, 1px);
+		background-color: var(--button-background-color, transparent);
+	}
+
+	button:hover,
+	input:hover {
+		color: var(--button-color_hover, white);
+		background-color: var(--button-background-color_hover, black);
+		border-color: var(--button-border-color_hover, currentColor);
+	}
+</style>

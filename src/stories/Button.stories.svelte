@@ -1,14 +1,17 @@
 <script>
-  import { Meta, Story, Template } from '@storybook/addon-svelte-csf';
+	import { Meta, Story, Template } from '@storybook/addon-svelte-csf'
 
-  import Button from '../lib/Components/Button.svelte';
-
+	import Button from '../lib/Components/Button.svelte'
+	import UiProvider from '$lib/Components/UIProvider.svelte'
 </script>
 
-<Meta title="Inputs/Button" component={Button}/>
+<Meta title="Inputs/Button" component={Button} />
 
 <Template let:args>
-  <Button {...args} />
+	<UiProvider Preferred_Langauge="SW">
+		<Button {...args} />
+	</UiProvider>
+	<Button {...args} />
 </Template>
 
-<Story name="Text" args={{text: "true"}}/>
+<Story name="Text" args={{ text: { IDLE: { SW: 'Piga' } } }} />

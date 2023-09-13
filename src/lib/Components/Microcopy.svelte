@@ -2,32 +2,33 @@
 	import { DEFAULT_LABELS, DEFAULT_LANGUAGE } from '$lib'
 	import { getContext } from 'svelte'
 
-	export let state = 'IDLE'
-
 	export let key = ''
 
 	/**
 	 * @ptype {*}
 	 */
-	export let customLabel = undefined
+	export let custom_label = undefined
 
-	const customLabels = getContext('Custom_Labels')
-	const preferredLanguage = getContext('Preferred_Language_Store')
+	const custom_labels = getContext('custom_labels')
+	const preferred_language = getContext('preferred_language_store')
 
 	/**
 	 *
 	 * @param {string} label
+	 * @param {*} custom_label
 	 * @returns {string}
 	 */
-	const printLabel = (label) => {
-		if (customLabel?.[state]?.[$preferredLanguage]) {
-			return customLabel[state][$preferredLanguage]
-		} else if (customLabels?.[label]?.[state]?.[$preferredLanguage]) {
-			return customLabels[label][state][$preferredLanguage]
+	const printLabel = (label, custom_label) => {
+		if (custom_label?.[$preferred_language]) {
+			return custom_label[$preferred_language]
+		} else if (custom_labels?.[label]?.[$preferred_language]) {
+			return custom_labels[label][$preferred_language]
 		} else {
-			return DEFAULT_LABELS[label][state][DEFAULT_LANGUAGE]
+			return DEFAULT_LABELS[label][DEFAULT_LANGUAGE]
 		}
 	}
+
+	$: label = printLabel(key, custom_label)
 </script>
 
-{printLabel(key)}
+{label}

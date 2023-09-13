@@ -5,15 +5,15 @@
 	/**
 	 * @type {string|undefined}
 	 */
-	export let Preferred_Langauge = undefined
+	export let preferred_langauge = undefined
 
 	/**
 	 * @type {*}
 	 */
-	export let Custom_Labels = undefined
+	export let custom_labels = undefined
 
-	setContext('Preferred_Language_Store', writable(Preferred_Langauge))
-	setContext('Custom_Labels', Custom_Labels)
+	setContext('preferred_language_store', writable(preferred_langauge))
+	setContext('custom_labels', custom_labels)
 </script>
 
 <slot />

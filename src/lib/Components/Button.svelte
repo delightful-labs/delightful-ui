@@ -23,7 +23,7 @@
 </script>
 
 {#if type === 'button'}
-	<button {style}><Microcopy key={labelKey} customLabel={text} /></button>
+	<button {style}><Microcopy key={labelKey} custom_label={text} /></button>
 {:else}
 	<input type="submit" value={text} />
 {/if}

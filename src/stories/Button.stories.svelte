@@ -8,10 +8,10 @@
 <Meta title="Inputs/Button" component={Button} />
 
 <Template let:args>
-	<UiProvider Preferred_Langauge="SW">
+	<UiProvider preferred_langauge="SW">
 		<Button {...args} />
 	</UiProvider>
 	<Button {...args} />
 </Template>
 
-<Story name="Text" args={{ text: { IDLE: { SW: 'Piga' } } }} />
+<Story name="Text" args={{ text: { SW: 'Piga' } }} />

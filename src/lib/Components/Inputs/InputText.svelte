@@ -4,6 +4,11 @@
 	import createFieldTitle from '$lib/utils/createFieldTitle'
 
 	/**
+	 * @type {import('$lib/types').AutocompleteOptions}
+	 */
+	export let autocomplete = 'off'
+
+	/**
 	 * @type {import('$lib/types').InputModes}
 	 */
 	export let inputmode = undefined
@@ -63,6 +68,9 @@
 	 */
 	export let placeholder = undefined
 
+	/**
+	 * @type {boolean}
+	 */
 	export let limitToNumbers = false
 
 	/**
@@ -77,6 +85,7 @@
 
 <InputWrapper {title} {required} {key}>
 	<input
+		{autocomplete}
 		data-valid={dataValid}
 		id={key}
 		{inputmode}

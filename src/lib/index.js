@@ -22,5 +22,8 @@ export const DEFAULT_LANGUAGE = 'EN'
 export const DEFAULT_LABELS = {
   BUTTON: {
     EN: 'click me'
+  },
+  DIALOGUE: {
+    EN: 'Title'
   }
 }

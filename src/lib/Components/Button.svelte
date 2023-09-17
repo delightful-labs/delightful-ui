@@ -21,11 +21,14 @@
 	 */
 	export let disabled = undefined
 
-	$: console.log(text)
+	/**
+	 * @type {string|undefined}
+	 */
+	export let popovertarget = undefined
 </script>
 
 {#if type === 'button'}
-	<button class="button" {disabled} on:click
+	<button class="button" {disabled} on:click {popovertarget}
 		><Microcopy key={labelKey} custom_label={text} /></button
 	>
 {:else}
@@ -52,5 +55,9 @@
 		color: var(--button-color_hover, white);
 		background-color: var(--button-background-color_hover, black);
 		border-color: var(--button-border-color_hover, currentColor);
+	}
+
+	.button:disabled {
+		opacity: 0.5;
 	}
 </style>

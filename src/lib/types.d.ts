@@ -1,5 +1,9 @@
 /* [ Form Input Types ] */
 
+export type AutocompleteOptions = 
+  | 'off'
+  | 'on'
+
 export type InputTypes = 
 | 'email' 
 | 'number' 
@@ -18,3 +22,5 @@ export type InputModes =
   | 'decimal'
   | 'search'
   | undefined;
+
+  export type InputTypes = 

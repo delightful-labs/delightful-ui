@@ -12,25 +12,28 @@
 	export let text = DEFAULT_LABELS[labelKey]
 
 	/**
-	 * @type {string}
-	 */
-	export let style = ''
-
-	/**
 	 * @type {'button'|'submit'}
 	 */
 	export let type = 'button'
+
+	/**
+	 * @type {boolean|undefined}
+	 */
+	export let disabled = undefined
+
+	$: console.log(text)
 </script>
 
 {#if type === 'button'}
-	<button {style}><Microcopy key={labelKey} custom_label={text} /></button>
+	<button class="button" {disabled} on:click
+		><Microcopy key={labelKey} custom_label={text} /></button
+	>
 {:else}
-	<input type="submit" value={text} />
+	<input class="button" type="submit" value={text} {disabled} />
 {/if}
 
 <style>
-	button,
-	input {
+	.button {
 		-webkit-appearance: none;
 		appearance: none;
 		font-family: var(--button-font-family, inherit);
@@ -45,8 +48,7 @@
 		background-color: var(--button-background-color, transparent);
 	}
 
-	button:hover,
-	input:hover {
+	.button:hover {
 		color: var(--button-color_hover, white);
 		background-color: var(--button-background-color_hover, black);
 		border-color: var(--button-border-color_hover, currentColor);

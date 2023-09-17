@@ -18,17 +18,17 @@
 	 * @param {*} custom_label
 	 * @returns {string}
 	 */
-	const printLabel = (label, custom_label) => {
-		if (custom_label?.[$preferred_language]) {
-			return custom_label[$preferred_language]
-		} else if (custom_labels?.[label]?.[$preferred_language]) {
-			return custom_labels[label][$preferred_language]
+	const printLabel = (label, custom_label, language) => {
+		if (custom_label?.[language]) {
+			return custom_label[language]
+		} else if (custom_labels?.[label]?.[language]) {
+			return custom_labels[label][language]
 		} else {
 			return DEFAULT_LABELS[label][DEFAULT_LANGUAGE]
 		}
 	}
 
-	$: label = printLabel(key, custom_label)
+	$: label = printLabel(key, custom_label, $preferred_language || 'EN')
 </script>
 
 {label}

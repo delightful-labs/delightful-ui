@@ -9,6 +9,11 @@
 	export let autocomplete = 'off'
 
 	/**
+	 * @type {boolean}
+	 */
+	export let autofocus = false
+
+	/**
 	 * @type {import('$lib/types').InputModes}
 	 */
 	export let inputmode = undefined
@@ -84,8 +89,10 @@
 </script>
 
 <InputWrapper {title} {required} {key}>
+	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		{autocomplete}
+		{autofocus}
 		data-valid={dataValid}
 		id={key}
 		{inputmode}

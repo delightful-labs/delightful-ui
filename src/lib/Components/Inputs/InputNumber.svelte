@@ -4,6 +4,11 @@
 	import createFieldTitle from '$lib/utils/createFieldTitle'
 
 	/**
+	 * @type {boolean}
+	 */
+	export let autofocus = false
+
+	/**
 	 * @type {import('$lib/types').InputModes}
 	 */
 	export let inputmode = undefined
@@ -77,8 +82,10 @@
 </script>
 
 <InputWrapper {title} {required} {key}>
+	<!-- svelte-ignore a11y-autofocus -->
 	<input
 		bind:this={input}
+		{autofocus}
 		class={hideArrows ? 'hide-arrows' : ''}
 		id={key}
 		{inputmode}

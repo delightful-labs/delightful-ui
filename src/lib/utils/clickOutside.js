@@ -14,7 +14,7 @@ export default function clickOutside(node) {
     const target = event.target
     
     if (target && !node.contains(event.target)) {
-      node.dispatchEvent(new CustomEvent("outclick"))
+      node.dispatchEvent(new CustomEvent("clickoutside"))
     }
   }
 

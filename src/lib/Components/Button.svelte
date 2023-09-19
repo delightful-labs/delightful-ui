@@ -4,10 +4,8 @@
 
 	const labelKey = 'BUTTON'
 
-	// @TODO: Figue out types for this
-	// Each component can probably reveal what states it has
 	/**
-	 * @type {*}
+	 * @type {import('$lib/types').LocalizedString}
 	 */
 	export let text = DEFAULT_LABELS[labelKey]
 

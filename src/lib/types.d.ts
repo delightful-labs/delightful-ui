@@ -23,4 +23,4 @@ export type InputModes =
   | 'search'
   | undefined;
 
-  export type InputTypes = 
+  export type LocalizedString = { [key: string]: string }

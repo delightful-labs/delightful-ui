@@ -13,4 +13,4 @@
 	</UiProvider>
 </Template>
 
-<Story name="Default" args={{ text: { SW: 'Piga' } }} />
+<Story name="Default" args={{ button_title: { SW: 'Piga' } }} />

@@ -6,7 +6,11 @@
 	export let positionAbsolutely = false
 </script>
 
-<details bind:open={opened} use:clickOutside on:outclick={() => (opened = false)}>
+<details
+	bind:open={opened}
+	use:clickOutside
+	on:clickoutside={() => (opened = false)}
+>
 	<summary>{title}</summary>
 	<div class="details-content {positionAbsolutely && 'absolute'}">
 		<slot />

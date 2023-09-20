@@ -27,7 +27,10 @@ export const INPUT_TYPES = Object.freeze({
 
 export const DEFAULT_LANGUAGE = 'EN'
 
-// @TODO: create type for this
+/**
+ * @typedef {import('$lib/types').LocalizedString} LocalizedString
+ * @type {{ [key: string]: LocalizedString}}
+ */
 export const DEFAULT_LABELS = {
   BUTTON: {
     EN: 'click me'

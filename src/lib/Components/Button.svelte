@@ -1,6 +1,7 @@
 <script>
 	import { DEFAULT_LABELS } from '$lib'
 	import Microcopy from './Microcopy.svelte'
+	import MicrocopyFactory from '$lib/Classes/MicrocopyFactory'
 
 	const labelKey = 'BUTTON'
 
@@ -23,6 +24,8 @@
 	 * @type {string|undefined}
 	 */
 	export let popovertarget = undefined
+
+	const copy = new MicrocopyFactory().display(labelKey, text)
 </script>
 
 {#if type === 'button'}
@@ -30,7 +33,7 @@
 		><Microcopy key={labelKey} custom_label={text} /></button
 	>
 {:else}
-	<input class="button" type="submit" value={text} {disabled} />
+	<input class="button" type="submit" value={$copy} {disabled} />
 {/if}
 
 <style>

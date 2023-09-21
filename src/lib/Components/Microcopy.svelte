@@ -1,5 +1,5 @@
 <script>
-	import Microcopy from '$lib/Classes/Microcopy'
+	import MicrocopyFactory from '$lib/Classes/MicrocopyFactory'
 
 	export let key = ''
 
@@ -8,7 +8,7 @@
 	 */
 	export let custom_label = undefined
 
-	const copy = new Microcopy()
+	const copy = new MicrocopyFactory()
 
 	const label = copy.display(key, custom_label)
 </script>

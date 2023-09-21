@@ -15,3 +15,4 @@
 </Template>
 
 <Story name="Text" args={{ text: { SW: 'Piga' } }} />
+<Story name="Submit" args={{ type: 'submit', text: { SW: 'Piga' } }} />

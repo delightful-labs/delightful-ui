@@ -20,7 +20,7 @@ const process_copy = (label, lang, custom_label, custom_labels) => {
   }
 }
 
-export default class Microcopy {
+export default class MicrocopyFactory {
   constructor() {
     this.preferred_language = getContext('preferred_language_store')
     this.custom_labels = getContext('custom_labels')

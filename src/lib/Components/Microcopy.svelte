@@ -10,7 +10,7 @@
 
 	const copy = new MicrocopyFactory()
 
-	const label = copy.display(key, custom_label)
+	$: label = copy.display(key, custom_label)
 </script>
 
 {$label}

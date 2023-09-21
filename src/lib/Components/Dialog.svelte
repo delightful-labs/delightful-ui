@@ -2,6 +2,7 @@
 	import { DEFAULT_LABELS } from '$lib'
 	import Button from './Button.svelte'
 	import Microcopy from './Microcopy.svelte'
+	import { createEventDispatcher } from 'svelte'
 
 	const labelKey = 'DIALOGUE'
 
@@ -21,6 +22,16 @@
 	 * @type {HTMLDialogElement}
 	 */
 	let el
+
+	/**
+	 * @type {boolean}
+	 */
+	export let show = false
+
+	const dispatch = createEventDispatcher()
+
+	$: show ? el?.showModal() : el?.close()
+	$: show && dispatch('open')
 
 	/**
 	 *
@@ -52,7 +63,7 @@
 	bind:this={el}
 	on:close
 	use:click_outside
-	on:click_outside={() => el.close()}
+	on:click_outside={() => (show = false)}
 >
 	<div class="wrapper">
 		<svelte:element this={title_heading_level} id="title"
@@ -62,7 +73,7 @@
 	</div>
 </dialog>
 
-<Button on:click={() => el.showModal()} text={button_title} />
+<Button on:click={() => (show = true)} text={button_title} />
 
 <style>
 	dialog {

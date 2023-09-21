@@ -1,6 +1,6 @@
 import Button from "./Components/Button.svelte"
 import Details from "./Components/Details.svelte"
-import Dialogue from "./Components/Dialogue.svelte"
+import Dialog from "./Components/Dialog.svelte"
 import LoadingSpinner from "./Components/LoadingSpinner.svelte"
 import ScreenReaderText from "./Components/ScreenReaderText.svelte"
 import InputText from "./Components/Inputs/InputText.svelte"
@@ -9,7 +9,7 @@ import InputNumber from "./Components/Inputs/InputNumber.svelte"
 export { 
   Button, 
   Details, 
-  Dialogue,
+  Dialog,
   InputText, 
   InputNumber, 
   LoadingSpinner, 

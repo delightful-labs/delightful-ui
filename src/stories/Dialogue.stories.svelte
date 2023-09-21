@@ -1,16 +1,16 @@
 <script>
 	import { Meta, Story, Template } from '@storybook/addon-svelte-csf'
 
-	import Dialogue from '../lib/Components/Dialogue.svelte'
+	import Dialog from '../lib/Components/Dialog.svelte'
 	import UiProvider from '$lib/Components/UIProvider.svelte'
 </script>
 
-<Meta title="Dialogue" component={Dialogue} />
+<Meta title="Dialog" component={Dialog} />
 
 <Template let:args>
 	<UiProvider preferred_langauge="SW">
-		<Dialogue {...args} />
+		<Dialog {...args} on:open={() => console.log('it is open')} />
 	</UiProvider>
 </Template>
 
-<Story name="Default" args={{ button_title: { SW: 'Piga' } }} />
+<Story name="Default" args={{ button_title: { SW: 'Piga' }, show: true }} />

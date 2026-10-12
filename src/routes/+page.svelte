@@ -1,7 +1,9 @@
 <script lang="ts">
 	import '$lib/theme.css'
-	import { Button, InputNumber, InputText } from '$lib'
+	import { Button, Details, InputNumber, InputText } from '$lib'
 
+	let absoluteOpen = $state(false)
+	let lastToggle = $state('Not toggled')
 	let submitted = $state<string | undefined>()
 	let boundText = $state<string | undefined>()
 	let boundNumber = $state<number | undefined>()
@@ -95,6 +97,49 @@
 		<h3>Submitted FormData</h3>
 		<pre aria-live="polite">{submitted ?? 'No submission yet.'}</pre>
 	</section>
+	<section aria-labelledby="details-heading">
+		<h2 id="details-heading">Details</h2>
+		<div class="inline-example">
+			<Details open>
+				{#snippet summary()}
+					<strong>Inline details</strong>
+				{/snippet}
+				<a href="#input-heading">View input examples</a>
+			</Details>
+		</div>
+		<div class="details-examples">
+			<Details
+				summary="Start-aligned panel"
+				position="absolute"
+				name="details-demo"
+				bind:open={absoluteOpen}
+			>
+				<a href="#input-heading">View input examples</a>
+			</Details>
+			<div class="end-panel">
+				<Details
+					summary="End-aligned panel"
+					position="absolute"
+					align="end"
+					name="details-demo"
+					style="--dui-details-panel-width: 18rem;"
+					ontoggle={(event) => {
+						lastToggle = event.currentTarget.open
+							? 'End panel opened'
+							: 'End panel closed'
+					}}
+				>
+					<a href="#button-heading">View button examples</a>
+				</Details>
+			</div>
+		</div>
+		<div class="controls">
+			<Button onclick={() => (absoluteOpen = true)}>Open start panel</Button>
+			<Button onclick={() => (absoluteOpen = false)}>Close start panel</Button>
+		</div>
+		<p aria-live="polite">Start panel: {absoluteOpen ? 'open' : 'closed'}</p>
+		<p aria-live="polite">{lastToggle}</p>
+	</section>
 	<section aria-labelledby="theme-heading">
 		<h2 id="theme-heading">Theme</h2>
 		<a href="#input-heading">Input examples</a>
@@ -126,6 +171,23 @@
 
 	.bound-fields p {
 		margin: 0;
+	}
+
+	.inline-example {
+		max-width: 32rem;
+	}
+
+	.details-examples {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: var(--dui-space-sm);
+		margin-block: var(--dui-space-sm);
+	}
+
+	.end-panel {
+		margin-inline-start: auto;
+		max-inline-size: 100%;
 	}
 
 	.controls {

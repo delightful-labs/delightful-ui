@@ -1,0 +1,80 @@
+/* Import explicitly with `import 'delightful-ui/theme.css'`. */
+@layer dui-theme {
+	:root {
+		--dui-color-foreground: #262626;
+		--dui-color-background: #fff;
+		--dui-color-accent: #94ff47;
+		--dui-color-on-accent: #262626;
+		--dui-color-focus: var(--dui-color-foreground);
+		--dui-font-family: 'Source Code Pro', monospace;
+		--dui-font-family-body: system-ui, sans-serif;
+		--dui-space-xs: 0.5rem;
+		--dui-space-sm: 1rem;
+		--dui-space-md: 1.5rem;
+		--dui-space-lg: 2rem;
+		--dui-border-width: 2px;
+		--dui-pressed-offset: 3px;
+		--dui-shadow: 3px 3px 0 var(--dui-color-foreground);
+		--dui-button-color-hover: var(--dui-color-on-accent);
+		--dui-button-background-color-hover: var(--dui-color-accent);
+		color-scheme: light;
+		accent-color: var(--dui-color-accent);
+	}
+
+	:root[data-dui-theme='dark'] {
+		--dui-color-foreground: #fff;
+		--dui-color-background: #262626;
+		color-scheme: dark;
+	}
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		font-family: var(--dui-font-family-body);
+		line-height: 1.5;
+		color: var(--dui-color-foreground);
+		background-color: var(--dui-color-background);
+	}
+
+	:where(button, input, select, textarea) {
+		font: inherit;
+		font-family: var(--dui-font-family);
+	}
+
+	a {
+		color: inherit;
+		text-decoration-color: var(--dui-color-accent);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.2em;
+		text-decoration-skip-ink: auto;
+	}
+
+	a:hover {
+		text-decoration-style: dashed;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--dui-color-focus);
+		outline-offset: 4px;
+	}
+
+	:where(img, picture, video) {
+		max-width: 100%;
+		height: auto;
+	}
+
+	pre {
+		overflow-x: auto;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:root {
+			scroll-behavior: auto;
+		}
+	}
+}

@@ -1,17 +1,13 @@
+import adapter from '@sveltejs/adapter-auto'
 import { sveltekit } from '@sveltejs/kit/vite'
-import { resolve } from 'path'
+import { defineConfig } from 'vitest/config'
 
-/** @type {import('vite').UserConfig} */
-const config = {
-	plugins: [sveltekit()],
-	resolve: {
-    alias: {
-      $components: resolve('./src/lib/Components')
-    }
-  },
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
-};
-
-export default config;
+export default defineConfig({
+	plugins: [
+		sveltekit({
+			adapter: adapter(),
+			alias: { $lib: './src/lib', $components: './src/lib/Components' }
+		})
+	],
+	test: { include: ['src/**/*.{test,spec}.{js,ts}'] }
+})

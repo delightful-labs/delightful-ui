@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import InputWrapper from './InputWrapper.svelte'
 
@@ -30,6 +31,10 @@
 		class: className,
 		...attributes
 	}: Props = $props()
+	// Seed once so SSR includes the default, without restoring it after edits.
+	untrack(() => {
+		if (value === undefined) value = defaultValue
+	})
 	const inputId = $derived(id ?? generatedId)
 </script>
 

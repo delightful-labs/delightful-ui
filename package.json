@@ -9,7 +9,7 @@
 		"prepublishOnly": "pnpm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
-		"test": "playwright test",
+		"test": "pnpm run build && playwright test",
 		"test:unit": "vitest",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."

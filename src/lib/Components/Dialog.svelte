@@ -1,95 +1,127 @@
-<script>
-	import { DEFAULT_LABELS } from '$lib'
-	import Button from './Button.svelte'
-	import Microcopy from './Microcopy.svelte'
-	import { createEventDispatcher } from 'svelte'
+<script lang="ts">
+	import { getContext, onDestroy, type Snippet } from 'svelte'
+	import { readable, type Readable } from 'svelte/store'
+	import type { HTMLDialogAttributes } from 'svelte/elements'
+	import type { LocalizedString, LocalizedStrings } from '$lib/types'
+	import { DEFAULT_LABELS, DEFAULT_LANGUAGE } from '$lib'
 
-	const labelKey = 'DIALOGUE'
-
-	export let title = DEFAULT_LABELS[labelKey]
-
-	/**
-	 * @type {import('$lib/types').LocalizedString | undefined};
-	 */
-	export let button_title
-
-	/**
-	 * @type {'h1'|'h2'|'h3'|'h4'|'h5'|'h6'}
-	 */
-	export let title_heading_level = 'h2'
-
-	/**
-	 * @type {HTMLDialogElement}
-	 */
-	let el
-
-	/**
-	 * @type {boolean}
-	 */
-	export let show = false
-
-	const dispatch = createEventDispatcher()
-
-	$: show ? el?.showModal() : el?.close()
-	$: show && dispatch('open')
-
-	/**
-	 *
-	 * @param {HTMLDialogElement} node
-	 */
-	const click_outside = (node) => {
-		/**
-		 * @param {MouseEvent} event
-		 */
-		const handle_click = ({ target: dialog }) => {
-			if (dialog instanceof HTMLDialogElement) {
-				if (dialog.nodeName === 'DIALOG')
-					node.dispatchEvent(new CustomEvent('click_outside'))
-			}
-		}
-
-		document.addEventListener('click', handle_click, true)
-
-		return {
-			destroy() {
-				document.removeEventListener('click', handle_click, true)
-			}
-		}
+	type Props = Omit<HTMLDialogAttributes, 'open' | 'popover' | 'tabindex'> & {
+		heading: string | Snippet | LocalizedString
+		headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+		open?: boolean
 	}
+
+	const generatedId = $props.id()
+	let {
+		heading,
+		headingLevel = 'h2',
+		open = $bindable(false),
+		id,
+		'aria-labelledby': labelledBy,
+		onclose,
+		ontoggle,
+		children,
+		...attributes
+	}: Props = $props()
+	let dialog = $state<HTMLDialogElement>()
+	const dialogId = $derived(id ?? generatedId)
+	const headingId = `${generatedId}-heading`
+
+	const preferredLanguage =
+		getContext<Readable<string | undefined> | undefined>(
+			'preferred_language_store'
+		) ?? readable(DEFAULT_LANGUAGE)
+	const customLabels = getContext<LocalizedStrings | undefined>('custom_labels')
+	const headingText = $derived(
+		typeof heading === 'string'
+			? heading
+			: typeof heading === 'function'
+				? undefined
+				: heading[$preferredLanguage ?? DEFAULT_LANGUAGE] ||
+					customLabels?.DIALOGUE?.[$preferredLanguage ?? DEFAULT_LANGUAGE] ||
+					DEFAULT_LABELS.DIALOGUE[DEFAULT_LANGUAGE]
+	)
+
+	$effect(() => {
+		if (!dialog) return
+		if (open && !dialog.open) {
+			dialog.returnValue = ''
+			dialog.showModal()
+			open = dialog.open
+		} else if (!open && dialog.open) {
+			dialog.close()
+		}
+	})
+
+	onDestroy(() => {
+		if (dialog?.open) dialog.close()
+	})
 </script>
 
 <dialog
-	aria-labelledby="title"
-	bind:this={el}
-	on:close
-	use:click_outside
-	on:click_outside={() => (show = false)}
+	{...attributes}
+	id={dialogId}
+	aria-labelledby={labelledBy ?? headingId}
+	bind:this={dialog}
+	onclose={(event) => {
+		open = event.currentTarget.open
+		onclose?.(event)
+	}}
+	ontoggle={(event) => {
+		open = event.currentTarget.open
+		ontoggle?.(event)
+	}}
 >
-	<div class="wrapper">
-		<svelte:element this={title_heading_level} id="title"
-			><Microcopy key={labelKey} custom_label={title} /></svelte:element
-		>
-		<slot />
-	</div>
+	<svelte:element this={headingLevel} id={headingId} class="heading">
+		{#if typeof heading === 'function'}
+			{@render heading()}
+		{:else}
+			{headingText}
+		{/if}
+	</svelte:element>
+	{@render children?.()}
 </dialog>
-
-<Button onclick={() => (show = true)} text={button_title} />
 
 <style>
 	dialog {
-		border: 0;
-		padding: 0;
+		box-sizing: border-box;
+		inline-size: var(--dui-dialog-width, 32rem);
+		max-inline-size: calc(100vw - 2rem);
+		max-block-size: calc(100dvh - 2rem);
+		overflow: auto;
+		padding: var(--dui-dialog-padding, var(--dui-space-md, 1.5rem));
+		color: var(--dui-dialog-color, var(--dui-color-foreground, #262626));
+		background-color: var(
+			--dui-dialog-background-color,
+			var(--dui-color-background, #fff)
+		);
+		border-color: var(
+			--dui-dialog-border-color,
+			var(--dui-color-foreground, currentColor)
+		);
+		border-style: var(--dui-dialog-border-style, solid);
+		border-width: var(--dui-dialog-border-width, var(--dui-border-width, 2px));
+		border-radius: 0;
+		box-shadow: var(
+			--dui-dialog-shadow,
+			var(--dui-shadow, 3px 3px 0 currentColor)
+		);
 	}
 
 	dialog::backdrop {
-		background-color: currentColor;
-		opacity: 0.6;
+		background-color: var(--dui-dialog-backdrop-color, #000);
+		opacity: var(--dui-dialog-backdrop-opacity, 0.5);
 	}
 
-	.wrapper {
-		padding: var(--dialog-padding, 1rem);
-		border-color: var(--dialog-border-color, currentColor);
-		border-style: var(--dialog-border-style, solid);
-		border-width: var(--dialog-border-width, 1px);
+	.heading {
+		margin: 0 0 var(--dui-space-sm, 1rem);
+		font-size: var(--dui-dialog-heading-font-size, 1.25rem);
+		line-height: 1.25;
+	}
+
+	@media (forced-colors: active) {
+		dialog {
+			box-shadow: none;
+		}
 	}
 </style>

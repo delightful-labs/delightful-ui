@@ -1,68 +1,89 @@
-<script>
-  import ScreenReaderText from './ScreenReaderText.svelte'
-  export let text = 'Loading'
+<script lang="ts">
+	import type { HTMLAttributes } from 'svelte/elements'
+	import ScreenReaderText from './ScreenReaderText.svelte'
+
+	type Props = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
+		text?: string
+	}
+
+	let {
+		text = 'Loading',
+		role = 'status',
+		class: className,
+		...attributes
+	}: Props = $props()
 </script>
 
-<div class="lds-ripple">
-  <ScreenReaderText>{text}</ScreenReaderText>
-  <div />
-  <div />
+<div {...attributes} {role} class={['spinner', className]}>
+	<ScreenReaderText>{text}</ScreenReaderText>
+	<div class="ring" aria-hidden="true"></div>
+	<div class="ring delayed" aria-hidden="true"></div>
 </div>
 
 <style>
-  .lds-ripple {
-    display: block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-    align-self: center;
-    justify-self: center;
-  }
+	.spinner {
+		display: block;
+		position: relative;
+		inline-size: var(--dui-loading-spinner-size, 80px);
+		block-size: var(--dui-loading-spinner-size, 80px);
+		margin-inline: auto;
+		align-self: center;
+		justify-self: center;
+		color: var(--dui-loading-spinner-color, currentColor);
+	}
 
-  .lds-ripple div {
-    position: absolute;
-    border: 4px solid currentColor;
-    opacity: 1;
-    border-radius: 50%;
-    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-  }
+	.spinner[hidden]:not([hidden='until-found']) {
+		display: none;
+	}
 
-  .lds-ripple div:nth-child(2) {
-    animation-delay: -0.5s;
-  }
+	.ring {
+		box-sizing: content-box;
+		position: absolute;
+		border: var(--dui-loading-spinner-border-width, 4px) solid currentColor;
+		border-radius: 50%;
+		animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+	}
 
-  @keyframes lds-ripple {
-    0% {
-      top: 36px;
-      left: 36px;
-      width: 0;
-      height: 0;
-      opacity: 0;
-    }
+	.delayed {
+		animation-delay: -0.5s;
+	}
 
-    4.9% {
-      top: 36px;
-      left: 36px;
-      width: 0;
-      height: 0;
-      opacity: 0;
-    }
+	@keyframes ripple {
+		0%,
+		4.9% {
+			top: calc(50% - var(--dui-loading-spinner-border-width, 4px));
+			left: calc(50% - var(--dui-loading-spinner-border-width, 4px));
+			width: 0;
+			height: 0;
+			opacity: 0;
+		}
 
-    5% {
-      top: 36px;
-      left: 36px;
-      width: 0;
-      height: 0;
-      opacity: 1;
-    }
+		5% {
+			top: calc(50% - var(--dui-loading-spinner-border-width, 4px));
+			left: calc(50% - var(--dui-loading-spinner-border-width, 4px));
+			width: 0;
+			height: 0;
+			opacity: 1;
+		}
 
-    100% {
-      top: 0px;
-      left: 0px;
-      width: 72px;
-      height: 72px;
-      opacity: 0;
-    }
-  }
+		100% {
+			top: 0;
+			left: 0;
+			width: calc(100% - 2 * var(--dui-loading-spinner-border-width, 4px));
+			height: calc(100% - 2 * var(--dui-loading-spinner-border-width, 4px));
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ring {
+			animation: none;
+			inset: 0;
+			opacity: 1;
+		}
+
+		.delayed {
+			display: none;
+		}
+	}
 </style>

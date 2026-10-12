@@ -1,122 +1,40 @@
-<script>
+<script lang="ts">
+	import type { HTMLInputAttributes } from 'svelte/elements'
 	import InputWrapper from './InputWrapper.svelte'
-	import createHtmlId from '$lib/utils/createHtmlId'
-	import createFieldTitle from '$lib/utils/createFieldTitle'
 
-	/**
-	 * @type {import('$lib/types').AutocompleteOptions}
-	 */
-	export let autocomplete = 'off'
-
-	/**
-	 * @type {boolean}
-	 */
-	export let autofocus = false
-
-	/**
-	 * @type {import('$lib/types').InputModes}
-	 */
-	export let inputmode = undefined
-
-	/**
-	 * @type {number|undefined}
-	 */
-	export let maxlength = undefined
-
-	/**
-	 * @type {number|undefined}
-	 */
-	export let minlength = undefined
-
-	/**
-	 * @type {string|undefined}
-	 */
-	export let pattern = undefined
-
-	/**
-	 * @type {string}
-	 */
-	export let title = createFieldTitle()
-
-	/**
-	 * @type {string}
-	 */
-	export let key = createHtmlId(title)
-
-	/**
-	 * @type {boolean}
-	 */
-	export let required = false
-
-	/**
-	 * @type {string|undefined}
-	 */
-	export let style = undefined
-
-	/**
-	 * @type {string}
-	 */
-	export let value = ''
-
-	/**
-	 * @type {string[]|undefined}
-	 */
-	export let list = undefined
-
-	/**
-	 * @type {number|undefined}
-	 */
-	export let size = undefined
-
-	/**
-	 * @type {string|undefined}
-	 */
-	export let placeholder = undefined
-
-	/**
-	 * @type {boolean}
-	 */
-	export let limitToNumbers = false
-
-	/**
-	 * @type {boolean}
-	 */
-	let dataValid = true
-
-	const stripNonNumbers = () => {
-		value = value.replace(/\D/g, '')
+	type Props = Omit<
+		HTMLInputAttributes,
+		'type' | 'value' | 'defaultValue' | 'defaultvalue' | 'children'
+	> & {
+		label: string
+		type?: Extract<
+			HTMLInputAttributes['type'],
+			'text' | 'email' | 'password' | 'search' | 'tel' | 'url'
+		>
+		value?: string
+		defaultValue?: string
 	}
+
+	const generatedId = $props.id()
+	let {
+		label,
+		id,
+		type = 'text',
+		required = false,
+		defaultValue,
+		value = $bindable(),
+		...attributes
+	}: Props = $props()
+	const inputId = $derived(id ?? generatedId)
 </script>
 
-<InputWrapper {title} {required} {key}>
-	<!-- svelte-ignore a11y-autofocus -->
+<InputWrapper title={label} key={inputId} required={required === true}>
 	<input
-		{autocomplete}
-		{autofocus}
-		data-valid={dataValid}
-		id={key}
-		{inputmode}
-		{title}
-		list={list ? `${title}-list` : undefined}
-		{maxlength}
-		{minlength}
-		type="text"
+		{...attributes}
+		id={inputId}
+		{type}
 		{required}
-		{pattern}
-		{placeholder}
-		{size}
-		{style}
+		{defaultValue}
 		bind:value
-		on:input={limitToNumbers ? () => stripNonNumbers() : undefined}
-		on:invalid={() => (dataValid = false)}
-		on:input={() => (dataValid = true)}
 	/>
 </InputWrapper>
-
-{#if list}
-	<datalist id="{title}-list">
-		{#each list as listItem}
-			<option value={listItem}></option>
-		{/each}
-	</datalist>
-{/if}

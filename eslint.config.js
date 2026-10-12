@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import tsParser from '@typescript-eslint/parser'
 import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
 import globals from 'globals'
@@ -24,6 +25,7 @@ export default [
 		files: ['**/*.svelte'],
 		languageOptions: {
 			parserOptions: {
+				parser: tsParser,
 				svelteConfig: {
 					alias: {
 						$lib: resolve('src/lib'),

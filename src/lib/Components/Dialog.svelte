@@ -73,7 +73,7 @@
 	</div>
 </dialog>
 
-<Button on:click={() => (show = true)} text={button_title} />
+<Button onclick={() => (show = true)} text={button_title} />
 
 <style>
 	dialog {

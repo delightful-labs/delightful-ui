@@ -1,6 +1,6 @@
 <script>
 	import { Meta, Story, Template } from '@storybook/addon-svelte-csf'
-	import InputNumber from '$lib/Components/Inputs/InputNumber.svelte'
+	import InputNumber from '#lib/Components/Inputs/InputNumber.svelte'
 </script>
 
 <Meta title="Inputs/Number" component={Number} />

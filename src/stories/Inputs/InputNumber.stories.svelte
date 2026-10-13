@@ -1,27 +1,15 @@
-<script>
-	import { Meta, Story, Template } from '@storybook/addon-svelte-csf'
+<script module lang="ts">
+	import { defineMeta } from '@storybook/addon-svelte-csf'
 	import InputNumber from '#lib/Components/Inputs/InputNumber.svelte'
+
+	const { Story } = defineMeta({
+		title: 'Inputs/Number',
+		component: InputNumber,
+		tags: ['autodocs'],
+		args: { label: 'Quantity', name: 'quantity' }
+	})
 </script>
 
-<Meta title="Inputs/Number" component={Number} />
-
-<Template let:args>
-	<form on:submit|preventDefault>
-		<InputNumber {...args} --input-font-family="monospace" />
-		<input type="submit" />
-	</form>
-</Template>
-
-<Story name="Number Input" args={{ title: 'number' }} />
-
-<Story
-	name="Number Size"
-	args={{
-		size: 6,
-		placeholder: '000000',
-		hideArrows: true,
-		maxlength: 6,
-		minlength: 6,
-		required: true
-	}}
-/>
+<Story name="Default" args={{ defaultValue: 0, min: 0, max: 100 }} />
+<Story name="Decimal" args={{ defaultValue: 1.25, step: 0.01 }} />
+<Story name="Without arrows" args={{ hideArrows: true }} />

@@ -1,6 +1,6 @@
-import { addons } from '@storybook/manager-api';
-import delightfulLight from './delightful-light'
+import { addons } from 'storybook/manager-api'
+import delightfulLight from './delightful-light.js'
 
 addons.setConfig({
-  theme: delightfulLight
-});
+	theme: delightfulLight
+})

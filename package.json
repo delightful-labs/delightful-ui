@@ -12,7 +12,9 @@
 		"test": "pnpm run build && playwright test",
 		"test:unit": "vitest",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"storybook": "storybook dev --host 127.0.0.1 --port 6006 --exact-port --disable-telemetry",
+		"build-storybook": "storybook build --disable-telemetry"
 	},
 	"exports": {
 		".": {
@@ -34,6 +36,10 @@
 		"@eslint/js": "^10.0.1",
 		"@opentelemetry/api": "^1.9.0",
 		"@playwright/test": "^1.64.0",
+		"@storybook/addon-docs": "^10.6.2",
+		"@storybook/addon-svelte-csf": "^5.1.5",
+		"@storybook/svelte": "^10.6.2",
+		"@storybook/svelte-vite": "^10.6.2",
 		"@sveltejs/adapter-auto": "^8.0.0",
 		"@sveltejs/kit": "^3.0.1",
 		"@sveltejs/package": "^3.0.0",
@@ -47,6 +53,7 @@
 		"prettier": "^3.9.10",
 		"prettier-plugin-svelte": "^4.1.1",
 		"publint": "^0.3.25",
+		"storybook": "^10.6.2",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.6",
 		"tslib": "^2.6.2",

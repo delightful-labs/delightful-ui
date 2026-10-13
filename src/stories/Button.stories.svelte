@@ -1,14 +1,19 @@
-<script>
-	import { Meta, Story, Template } from '@storybook/addon-svelte-csf'
+<script module lang="ts">
+	import { defineMeta } from '@storybook/addon-svelte-csf'
+	import Button from '#lib/Components/Button.svelte'
 
-	import Button from '../lib/Components/Button.svelte'
+	const { Story } = defineMeta({
+		title: 'Controls/Button',
+		component: Button,
+		tags: ['autodocs'],
+		args: { text: 'Save' }
+	})
 </script>
 
-<Meta title="Inputs/Button" component={Button} />
-
-<Template let:args>
-	<Button {...args} />
-</Template>
-
-<Story name="Text" args={{ text: 'Piga' }} />
-<Story name="Submit" args={{ type: 'submit', text: 'Piga' }} />
+<Story name="Default" />
+<Story name="Disabled" args={{ disabled: true }} />
+<Story name="Children">
+	{#snippet template(args)}
+		<Button {...args}>Save changes</Button>
+	{/snippet}
+</Story>

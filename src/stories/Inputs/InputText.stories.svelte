@@ -1,36 +1,15 @@
-<script>
-	import { Meta, Story, Template } from '@storybook/addon-svelte-csf'
+<script module lang="ts">
+	import { defineMeta } from '@storybook/addon-svelte-csf'
 	import InputText from '#lib/Components/Inputs/InputText.svelte'
+
+	const { Story } = defineMeta({
+		title: 'Inputs/Text',
+		component: InputText,
+		tags: ['autodocs'],
+		args: { label: 'Description', name: 'description' }
+	})
 </script>
 
-<Meta title="Inputs/Text" component={Text} />
-
-<Template let:args>
-	<form on:submit|preventDefault>
-		<InputText {...args} --input-font-family="monospace" , />
-		<input type="submit" />
-	</form>
-</Template>
-
-<Story
-	name="Text Input"
-	args={{
-		type: 'text',
-		title: 'My Field'
-	}}
-/>
-
-<Story
-	name="Max length"
-	args={{
-		title: 'My Field',
-		minlength: 6,
-		maxlength: 6,
-		size: 6,
-		placeholder: '000000',
-		required: true,
-		pattern: 'd+',
-		limitToNumbers: true,
-		inputmode: 'tel'
-	}}
-/>
+<Story name="Default" args={{ defaultValue: 'Groceries' }} />
+<Story name="Required" args={{ required: true, maxlength: 40 }} />
+<Story name="Disabled" args={{ disabled: true, defaultValue: 'Unavailable' }} />

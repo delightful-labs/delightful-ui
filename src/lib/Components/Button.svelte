@@ -1,16 +1,12 @@
 <script lang="ts">
-	import { getContext } from 'svelte'
-	import { readable, type Readable } from 'svelte/store'
 	import type { HTMLButtonAttributes } from 'svelte/elements'
-	import type { LocalizedString, LocalizedStrings } from '$lib/types'
-	import { DEFAULT_LABELS, DEFAULT_LANGUAGE } from '$lib'
 
 	type Props = HTMLButtonAttributes & {
-		text?: string | LocalizedString
+		text?: string
 	}
 
 	let {
-		text = $bindable(DEFAULT_LABELS.BUTTON),
+		text = $bindable(''),
 		type = $bindable('button'),
 		disabled = $bindable(undefined),
 		popovertarget = $bindable(undefined),
@@ -19,20 +15,6 @@
 		children,
 		...attributes
 	}: Props = $props()
-
-	// Keep the existing localization provider during the incremental migration.
-	const preferredLanguage =
-		getContext<Readable<string | undefined> | undefined>(
-			'preferred_language_store'
-		) ?? readable(DEFAULT_LANGUAGE)
-	const customLabels = getContext<LocalizedStrings | undefined>('custom_labels')
-	const label = $derived(
-		typeof text === 'string'
-			? text
-			: text[$preferredLanguage ?? DEFAULT_LANGUAGE] ||
-					customLabels?.BUTTON?.[$preferredLanguage ?? DEFAULT_LANGUAGE] ||
-					DEFAULT_LABELS.BUTTON[DEFAULT_LANGUAGE]
-	)
 </script>
 
 <button
@@ -46,7 +28,7 @@
 	{#if children}
 		{@render children()}
 	{:else}
-		{label}
+		{text}
 	{/if}
 </button>
 

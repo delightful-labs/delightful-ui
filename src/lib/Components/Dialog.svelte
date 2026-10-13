@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { getContext, onDestroy, type Snippet } from 'svelte'
-	import { readable, type Readable } from 'svelte/store'
+	import { onDestroy, type Snippet } from 'svelte'
 	import type { HTMLDialogAttributes } from 'svelte/elements'
-	import type { LocalizedString, LocalizedStrings } from '$lib/types'
-	import { DEFAULT_LABELS, DEFAULT_LANGUAGE } from '$lib'
 
 	type Props = Omit<HTMLDialogAttributes, 'open' | 'popover' | 'tabindex'> & {
-		heading: string | Snippet | LocalizedString
+		heading: string | Snippet
 		headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 		open?: boolean
 	}
@@ -26,21 +23,6 @@
 	let dialog = $state<HTMLDialogElement>()
 	const dialogId = $derived(id ?? generatedId)
 	const headingId = `${generatedId}-heading`
-
-	const preferredLanguage =
-		getContext<Readable<string | undefined> | undefined>(
-			'preferred_language_store'
-		) ?? readable(DEFAULT_LANGUAGE)
-	const customLabels = getContext<LocalizedStrings | undefined>('custom_labels')
-	const headingText = $derived(
-		typeof heading === 'string'
-			? heading
-			: typeof heading === 'function'
-				? undefined
-				: heading[$preferredLanguage ?? DEFAULT_LANGUAGE] ||
-					customLabels?.DIALOGUE?.[$preferredLanguage ?? DEFAULT_LANGUAGE] ||
-					DEFAULT_LABELS.DIALOGUE[DEFAULT_LANGUAGE]
-	)
 
 	$effect(() => {
 		if (!dialog) return
@@ -76,7 +58,7 @@
 		{#if typeof heading === 'function'}
 			{@render heading()}
 		{:else}
-			{headingText}
+			{heading}
 		{/if}
 	</svelte:element>
 	{@render children?.()}

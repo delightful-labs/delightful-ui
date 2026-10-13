@@ -148,7 +148,7 @@
 	}
 
 	.button:focus-visible {
-		outline: 2px solid
+		outline: 2px dashed
 			var(--dui-button-focus-color, var(--dui-color-focus, #2563eb));
 		outline-offset: 4px;
 	}

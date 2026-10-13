@@ -27,6 +27,8 @@ import 'delightful-ui/theme.css'
 
 The theme supplies green accents (`#94ff47`), light surfaces, shared spacing, and base typography/media/focus styles. Button hover uses green with dark text. Source Code Pro falls back to monospace; font files are not bundled. Without this import, components retain their own styling fallbacks.
 
+Field labels use the shared `--dui-font-size-sm` token (`0.875rem`, with the same fallback without the theme). Override `--dui-field-font-size` to customize label size independently of input text.
+
 For the dark theme, set `data-dui-theme="dark"` on the root `<html>` element; remove it or use `light` for light mode. The theme does not switch automatically. Override `--dui-*` properties on the root for application-wide theming, or `--dui-button-*` properties to customize Button.
 
 The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS can override its defaults. It is global when imported: it changes body margins, colors, fonts, box sizing, links, focus indicators, and native control fonts/accent colors. It contains no page layout, heading scale, or form-control replacement.
@@ -100,6 +102,36 @@ Native numeric constraints and callbacks pass through. Optional `bind:value` yie
 
 Values stay as date-only strings; the library performs no Date or timezone conversion. Native `min`, `max`, and `step` constraints pass through. `bind:value` is optional, and `defaultValue` supplies initial/reset text.
 
+## TagInput
+
+```svelte
+<TagInput
+	label="Tags"
+	name="tags"
+	addLabel="Add tag"
+	removeLabel={(tag) => `Remove ${tag}`}
+	selectedTagsLabel="Selected tags"
+	addedMessage={(tag) => `${tag} added`}
+	removedMessage={(tag) => `${tag} removed`}
+	duplicateMessage={(tag) => `${tag} is already added`}
+	instructions="Press Enter to add a tag. Use Arrow keys to choose a suggestion."
+	defaultValue={['Work']}
+	suggestions={['Work', 'Personal', 'Recipes']}
+/>
+```
+
+This custom component has no tag-input dependency. Enter or the Add button adds a trimmed tag; empty values and case-insensitive duplicates are rejected. Commas remain part of tag text. Duplicate drafts remain available for correction, and blur does not commit a draft. Optional `suggestions` appear in a native popover filtered by the draft, excluding tags already selected. Clicking a suggestion adds it immediately. Arrow keys select an option, Enter adds it, and Escape dismisses the list; typing again reopens it. Focus stays in the input. The list follows the input on scroll and resize, opens above it when space below is limited, and stays within the viewport. Browsers without the Popover API retain free-text entry and the Add button.
+
+Optional `bind:value` reads and updates a string array. `defaultValue` defaults to an empty array and supplies initial/reset tags; reset also clears the draft. Caller-supplied arrays are copied when edited. Supply translated `addLabel`, `removeLabel(tag)`, `selectedTagsLabel`, `addedMessage(tag)`, `removedMessage(tag)`, and `duplicateMessage(tag)` text. These labels and message callbacks are required. `id` and `placeholder` are optional.
+
+Committed tags render as a named list. Additions and removals are announced through a polite status region; duplicate feedback is also visible and leaves the draft intact. Editing the draft or resetting clears feedback. After removal, focus moves to the next remove button, then the previous one if the last tag was removed, or to the input when no tags remain.
+
+Optional `instructions` and `errorMessage` render visible text linked to the input. `errorMessage` marks the input invalid by default; an explicit `aria-invalid` takes precedence. `aria-describedby` accepts IDs for application-provided descriptions and is combined with internal help, error, and duplicate-feedback IDs. The application owns validation; no minimum tag count is enforced.
+
+Chips and the entry controls share a wrapping row, with compact borderless remove buttons and 48px minimum heights. Customize `--dui-tag-gap`, `--dui-tag-entry-gap`, `--dui-tag-min-height`, `--dui-tag-color`, `--dui-tag-background-color`, and `--dui-tag-remove-background-color-hover`; input styling uses the shared input tokens.
+
+Inside a form, each committed tag submits a separate field under `name`; read tags with `new FormData(form).getAll('tags')`. Draft text is excluded, and an empty array submits no fields. `disabled` prevents editing and submission; `readonly` prevents editing but submits existing tags. The component contains no nested form.
+
 ## Select
 
 ```svelte
@@ -168,7 +200,7 @@ Children supply visually hidden supplementary text. Native span attributes pass 
 
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all twelve public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all thirteen public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -181,7 +213,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, LoadingSpinner, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, TagInput, LoadingSpinner, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

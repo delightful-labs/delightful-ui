@@ -25,7 +25,7 @@
 
 	label {
 		font-family: var(--dui-field-font-family, var(--dui-font-family, inherit));
-		font-size: var(--dui-field-font-size, inherit);
+		font-size: var(--dui-field-font-size, var(--dui-font-size-sm, 0.875rem));
 		color: var(--dui-field-color, var(--dui-color-foreground, inherit));
 	}
 
@@ -56,20 +56,15 @@
 		max-width: 100%;
 	}
 
-	.wrapper
-		:global(
-			:is(input, select, textarea):hover:not(:disabled):not([readonly]):not(
-					[data-valid='false']
-				):not([aria-invalid='true']):not(:user-invalid)
-		) {
+	.wrapper :global(:is(input, select, textarea):focus) {
 		border-color: var(
-			--dui-input-border-color-hover,
+			--dui-input-border-color-focus,
 			var(--dui-color-accent, currentColor)
 		);
 	}
 
 	.wrapper :global(:is(input, select, textarea):focus-visible) {
-		outline: 2px solid
+		outline: 2px dashed
 			var(--dui-input-focus-color, var(--dui-color-focus, currentColor));
 		outline-offset: 4px;
 	}

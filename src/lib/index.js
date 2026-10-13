@@ -10,6 +10,7 @@ import Select from './Components/Inputs/Select.svelte'
 import Textarea from './Components/Inputs/Textarea.svelte'
 import Checkbox from './Components/Inputs/Checkbox.svelte'
 import InputDate from './Components/Inputs/InputDate.svelte'
+import TagInput from './Components/Inputs/TagInput.svelte'
 
 export {
 	Button,
@@ -19,6 +20,7 @@ export {
 	InputText,
 	InputNumber,
 	InputDate,
+	TagInput,
 	Select,
 	Textarea,
 	Checkbox,

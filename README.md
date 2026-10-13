@@ -42,6 +42,26 @@ Labels are caller-provided strings or child snippets. Button no longer accepts l
 
 Field labels render exactly as supplied. Native `required` validation remains; supply your own translated visible marker in the label when needed. Shared `--dui-color-error` adapts invalid styling to the explicit light/dark themes.
 
+Button defaults to `variant="raised"`. Use `variant="flat"` for square bordered controls with no default shadow or pressed movement. Flat pressed colors can be customized with `--dui-button-color-active` and `--dui-button-background-color-active`.
+
+## NumberKeypad
+
+```svelte
+<NumberKeypad
+	label="Amount keypad"
+	decimalLabel="Decimal separator"
+	backspaceLabel="Delete last digit"
+	nextLabel="Next"
+	onkey={handleKey}
+/>
+```
+
+`handleKey` receives a `NumberKeypadKey`: a digit string (`'0'`–`'9'`), `'decimal'`, `'backspace'`, or `'next'`. Import that type from `delightful-ui` when typing your handler. All keys are native `type="button"` controls; the keypad does not edit a value, submit a form, parse money, navigate, or listen for physical number keys.
+
+Supply translated labels from the application. `decimalSeparator` changes the displayed character (default `.`) while its command remains `'decimal'`. `disabled` disables every key; `nextDisabled` disables Next independently. Native group attributes, class, and style pass through.
+
+The three-column grid fills its container, with a full-width Next button. Keys use flat Buttons and responsive `--dui-number-keypad-key-aspect-ratio` (default `1`). Override it with `3 / 2` for rectangular keys. Other properties are `--dui-number-keypad-gap` (default `0.5rem`), `--dui-number-keypad-key-min-height` (default `64px`), and `--dui-number-keypad-font-size` (default `1.5rem`). Minimum height and content size take precedence when space is tight. The application owns width, screen placement, amount drafts, caret/focus management, and custom/device keyboard selection.
+
 ## InputText
 
 Use a native name and optional default value for form submission without field state:
@@ -148,7 +168,7 @@ Children supply visually hidden supplementary text. Native span attributes pass 
 
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all eleven public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all twelve public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -161,7 +181,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, Details, Dialog, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, LoadingSpinner, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, LoadingSpinner, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

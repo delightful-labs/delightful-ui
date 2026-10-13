@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
@@ -22,6 +23,11 @@ export default [
 	{ languageOptions: { globals: { ...globals.browser, ...globals.node } } },
 	{
 		files: ['**/*.svelte'],
+		plugins: { '@typescript-eslint': tsPlugin },
+		rules: {
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': 'error'
+		},
 		languageOptions: {
 			parserOptions: {
 				parser: tsParser

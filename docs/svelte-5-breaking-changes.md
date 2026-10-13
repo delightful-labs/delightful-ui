@@ -6,9 +6,11 @@ This is the current migration reference. The migration has not been published; p
 
 Consumers need Svelte ^5.57.2. Library development uses Node 22.17+ on the 22.x line or Node 24+, pnpm 10.22.0, and TypeScript 6. Use the pnpm lockfile; the npm lockfile was removed.
 
-Import the eleven public components from delightful-ui. The package exports generated code/types from dist. Import optional global styles from delightful-ui/theme.css. Source development uses private #lib imports; consumers do not use those paths.
+Import the twelve public components from delightful-ui. The package exports generated code/types from dist. Import optional global styles from delightful-ui/theme.css. Source development uses private #lib imports; consumers do not use those paths.
 
 Storybook is restored with the Svelte/Vite framework and current Svelte CSF stories. It documents the component library independently of the SvelteKit demo. Old Meta/Template/slot stories and obsolete Storybook addons/configuration are replaced.
+
+Button now supports `variant="raised"` (default) and `variant="flat"`. Flat defaults omit shadows and pressed movement. NumberKeypad adds a responsive three-column key grid emitting typed commands through `onkey`; its consuming application owns editing, validation, and keyboard mode. See the README for labels, disabled states, and aspect-ratio styling.
 
 ## Native composition and events
 

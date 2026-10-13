@@ -4,13 +4,15 @@ Prepared on 2026-10-12 for a fresh chat in the Delightful UI repository.
 
 ## Current status
 
-Tooling and all eleven public components now use Svelte 5. Native Select, Textarea, Checkbox, and InputDate are implemented. Locale objects, UIProvider, Microcopy, and translation defaults are removed. Storybook is restored with the Svelte/Vite framework. See [breaking changes](./svelte-5-breaking-changes.md) and the repository README for current APIs and commands.
+Tooling and all twelve public components now use Svelte 5. Native Select, Textarea, Checkbox, and InputDate are implemented. Locale objects, UIProvider, Microcopy, and translation defaults are removed. Storybook is restored with the Svelte/Vite framework. See [breaking changes](./svelte-5-breaking-changes.md) and the repository README for current APIs and commands.
 
 The optional theme uses consistently prefixed --dui-* properties, green accents, and explicit light/dark modes. The presentation and [Clipper rewrite branch](https://github.com/delightful-labs/delightful-clipper/tree/rewrite) remain style references; exact application page layouts are not carried over. Breaking API/style changes are accepted.
 
 The last approved implementation passed 33 SSR checks and 42 Chromium scenarios. Subsequent checkbox focus/error-color and caller-owned required-label fixes await runtime validation after implementation review. The absolute Details hidden issue remains pending. Packed-package consumption, broader browser/assistive-technology coverage, and release preparation remain outstanding. Finance integration is deferred at the user's request.
 
 Per-iteration review files have been removed at the user's request. The original assessment below is historical, including its old dependency versions, migration sequence, and checkout baseline; use the current status above rather than restarting completed phases.
+
+The approved keypad plan is underway. Button's flat variant and responsive Storybook key example are reviewed; all 33 SSR checks and 24 Storybook browser scenarios passed before NumberKeypad was added. NumberKeypad is now implemented for review, with aspect-ratio sizing, caller-supplied labels, disabled states, and typed digit/decimal/backspace/next commands. Its runtime coverage must wait for implementation review. Keyboard mode, focus/caret handling, amount editing, and currency parsing remain consuming-application responsibilities. No Finance integration is implemented.
 
 ## Start here in a new chat
 

@@ -1,4 +1,5 @@
 import Button from './Components/Button.svelte'
+import NumberKeypad from './Components/NumberKeypad.svelte'
 import Details from './Components/Details.svelte'
 import Dialog from './Components/Dialog.svelte'
 import LoadingSpinner from './Components/LoadingSpinner.svelte'
@@ -12,6 +13,7 @@ import InputDate from './Components/Inputs/InputDate.svelte'
 
 export {
 	Button,
+	NumberKeypad,
 	Details,
 	Dialog,
 	InputText,
@@ -32,3 +34,5 @@ export const INPUT_TYPES = Object.freeze({
 	TEXT: 'text',
 	URL: 'url'
 })
+
+/** @typedef {import('./Components/NumberKeypad.svelte').NumberKeypadKey} NumberKeypadKey */

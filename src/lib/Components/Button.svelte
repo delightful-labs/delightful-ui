@@ -3,10 +3,14 @@
 
 	type Props = HTMLButtonAttributes & {
 		text?: string
+		variant?: 'primary' | 'secondary' | 'destructive'
+		appearance?: 'raised' | 'flat'
 	}
 
 	let {
 		text = $bindable(''),
+		variant = 'secondary',
+		appearance = 'raised',
 		type = $bindable('button'),
 		disabled = $bindable(undefined),
 		popovertarget = $bindable(undefined),
@@ -22,7 +26,15 @@
 	{type}
 	{disabled}
 	{popovertarget}
-	class={['button', className]}
+	class={[
+		'button',
+		className,
+		{
+			flat: appearance === 'flat',
+			primary: variant === 'primary',
+			destructive: variant === 'destructive'
+		}
+	]}
 	{onclick}
 >
 	{#if children}
@@ -89,6 +101,52 @@
 		);
 	}
 
+	.button.flat {
+		box-shadow: var(--dui-button-box-shadow, none);
+	}
+
+	.button.primary {
+		color: var(--dui-button-color-primary, #fff);
+		background-color: var(--dui-button-background-color-primary, #000);
+		border: none;
+	}
+
+	.button.primary:hover:not(:disabled) {
+		color: var(--dui-button-color-primary-hover, #000);
+		background-color: var(--dui-button-background-color-primary-hover, #94ff47);
+		border-color: var(--dui-button-border-color-primary-hover, #94ff47);
+	}
+
+	.button.destructive {
+		color: var(--dui-button-color-destructive, #fff);
+		background-color: var(
+			--dui-button-background-color-destructive,
+			var(--dui-color-error, #b91c1c)
+		);
+		border-color: var(
+			--dui-button-border-color-destructive,
+			var(--dui-color-error, #b91c1c)
+		);
+	}
+
+	.button.destructive:hover:not(:disabled) {
+		color: var(--dui-button-color-destructive-hover, #fff);
+		background-color: var(
+			--dui-button-background-color-destructive-hover,
+			#991b1b
+		);
+		border-color: var(--dui-button-border-color-destructive-hover, #991b1b);
+	}
+
+	.button.flat:active:not(:disabled) {
+		transform: none;
+		color: var(--dui-button-color-active, var(--dui-color-background, #fff));
+		background-color: var(
+			--dui-button-background-color-active,
+			var(--dui-color-foreground, #000)
+		);
+	}
+
 	.button:focus-visible {
 		outline: 2px solid
 			var(--dui-button-focus-color, var(--dui-color-focus, #2563eb));
@@ -111,7 +169,8 @@
 	}
 
 	@media (forced-colors: active) {
-		.button {
+		.button,
+		.button.flat {
 			box-shadow: none;
 		}
 

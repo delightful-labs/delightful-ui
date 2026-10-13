@@ -169,6 +169,19 @@ The native control submits its value only when checked and enabled. `bind:checke
 
 Inline is the default. Absolute mode anchors a bounded panel to its summary and supports outside-pointer and Escape dismissal. Use native attributes/callbacks and optional `bind:open`.
 
+## Popover
+
+```svelte
+<Button popovertarget="amount-info">About amounts</Button>
+<Popover id="amount-info">
+	<p>Enter the total amount, including tax.</p>
+</Popover>
+```
+
+Supply a unique `id` and caller-owned, accessibly named trigger. Rich children and native div attributes/callbacks pass through, including `onbeforetoggle` and `ontoggle`. Popover always uses native auto behavior: the trigger toggles it, outside clicks and Escape dismiss it, and opening another unrelated auto popover closes it. There is no `bind:open`, modal focus trap, or default tooltip/dialog role. Callers provide translated content, headings, and optional close buttons using `popovertargetaction="hide"`.
+
+CSS anchor positioning places the panel below the invoking button with a 4px gap and alternative placements when space is limited. Browsers without CSS anchor positioning retain centered native placement. Native Popover API support is required; no polyfill is included. The panel defaults to 24rem, bounded by the viewport with scrollable overflow. Customize `--dui-popover-width`, `--dui-popover-gap`, `--dui-popover-padding`, `--dui-popover-color`, `--dui-popover-background-color`, `--dui-popover-border-width`, `--dui-popover-border-color`, and `--dui-popover-shadow`; shared theme tokens supply defaults.
+
 ## Dialog
 
 ```svelte
@@ -200,7 +213,7 @@ Children supply visually hidden supplementary text. Native span attributes pass 
 
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all thirteen public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all fourteen public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -213,7 +226,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, TagInput, LoadingSpinner, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, TagInput, LoadingSpinner, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

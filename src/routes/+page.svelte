@@ -4,6 +4,7 @@
 		Button,
 		Details,
 		Dialog,
+		Popover,
 		InputNumber,
 		InputText,
 		LoadingSpinner
@@ -36,6 +37,23 @@
 
 <main>
 	<h1>Delightful UI</h1>
+	<section aria-labelledby="popover-heading">
+		<h2 id="popover-heading">Popover</h2>
+		<div class="controls">
+			<Button popovertarget="amount-info">About amounts</Button>
+			<Button popovertarget="amount-info">More amount information</Button>
+			<Button popovertarget="help-info">Help information</Button>
+		</div>
+		<Popover id="amount-info" title="Amount & tax" data-example="information">
+			<p>Enter the total amount, including tax.</p>
+			<a href="#input-heading">View input examples</a>
+			<Button popovertarget="amount-info" popovertargetaction="hide"
+				>Close amount information</Button
+			>
+		</Popover>
+		<Popover id="help-info"><p>Contact your administrator for help.</p></Popover
+		>
+	</section>
 	<section aria-labelledby="button-heading">
 		<h2 id="button-heading">Button</h2>
 		<div class="controls">

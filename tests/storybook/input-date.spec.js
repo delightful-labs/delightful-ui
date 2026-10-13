@@ -46,7 +46,7 @@ test('required, range and day-step constraints use native validity', async ({
 	page
 }) => {
 	await openStory(page, 'constraints')
-	const field = page.getByLabel('Date (required)', { exact: true })
+	const field = page.getByLabel('Date', { exact: true })
 	const submit = page.getByRole('button', { name: 'Submit', exact: true })
 	await submit.click()
 	await expect(field).toBeFocused()

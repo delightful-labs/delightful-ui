@@ -13,9 +13,9 @@ pnpm dev
 
 `pnpm build` builds the development app and the library. `pnpm package` generates `dist`, including declarations, and validates package metadata with publint. `pnpm check` runs static Svelte and TypeScript checks. `pnpm lint` checks formatting and ESLint; format only the files you change with `pnpm exec prettier --write <files>`.
 
-Tests require implementation review and approval before they are added or run. After approval, use `pnpm test:unit --run` for SSR/unit checks and `pnpm test` to build current source and run Chromium scenarios against a temporary production preview on port 4174. See [input validation review](docs/svelte-5-input-validation-review.md) for coverage; the [InputNumber SSR correction](docs/svelte-5-input-number-ssr-review.md) resolves the remaining default-value failure.
+Tests require implementation review and approval before they are added or run. After approval, use `pnpm test:unit --run` for SSR/unit checks and `pnpm test` to build current source and run Chromium scenarios against a temporary production preview on port 4174.
 
-Source imports use `#lib` and `#lib/*`, declared in `package.json`. Public package imports remain `delightful-ui` and `delightful-ui/theme.css`. See [alias cleanup review](docs/svelte-5-alias-cleanup-review.md).
+Source imports use `#lib` and `#lib/*`, declared in `package.json`. Public package imports remain `delightful-ui` and `delightful-ui/theme.css`.
 
 ## Theme
 
@@ -38,7 +38,9 @@ The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS ca
 <Button text={cancelLabel} />
 ```
 
-Labels are caller-provided strings or child snippets. Button no longer accepts locale objects or reads UIProvider; absent content has no generic English fallback. Provide an accessible label for every button. See [localization removal review](docs/svelte-5-button-localization-removal-review.md).
+Labels are caller-provided strings or child snippets. Button no longer accepts locale objects or reads UIProvider; absent content has no generic English fallback. Provide an accessible label for every button.
+
+Field labels render exactly as supplied. Native `required` validation remains; supply your own translated visible marker in the label when needed. Shared `--dui-color-error` adapts invalid styling to the explicit light/dark themes.
 
 ## InputText
 
@@ -53,7 +55,7 @@ Use a native name and optional default value for form submission without field s
 />
 ```
 
-Native attributes and callbacks pass through. `bind:value` is optional. Use `label` for visible text, `id` for an explicit input ID, and a native datalist ID for `list`. See [InputText review](docs/svelte-5-input-text-review.md) for reset semantics and breaking changes from the old API.
+Native attributes and callbacks pass through. `bind:value` is optional. Use `label` for visible text, `id` for an explicit input ID, and a native datalist ID for `list`.
 
 ## InputNumber
 
@@ -68,7 +70,7 @@ Native attributes and callbacks pass through. `bind:value` is optional. Use `lab
 />
 ```
 
-Native numeric constraints and callbacks pass through. Optional `bind:value` yields a number or undefined; FormData still yields strings. Use `min`, `max`, and `step` rather than character-length truncation. See [InputNumber review](docs/svelte-5-input-number-review.md) for defaults, reset behavior, and breaking changes.
+Native numeric constraints and callbacks pass through. Optional `bind:value` yields a number or undefined; FormData still yields strings. Use `min`, `max`, and `step` rather than character-length truncation.
 
 ## InputDate
 
@@ -76,7 +78,7 @@ Native numeric constraints and callbacks pass through. Optional `bind:value` yie
 <InputDate label="Date" name="date" defaultValue="2026-10-13" />
 ```
 
-Values stay as date-only strings; the library performs no Date or timezone conversion. Native `min`, `max`, and `step` constraints pass through. `bind:value` is optional, and `defaultValue` supplies initial/reset text. See [InputDate review](docs/svelte-5-input-date-review.md).
+Values stay as date-only strings; the library performs no Date or timezone conversion. Native `min`, `max`, and `step` constraints pass through. `bind:value` is optional, and `defaultValue` supplies initial/reset text.
 
 ## Select
 
@@ -87,7 +89,7 @@ Values stay as date-only strings; the library performs no Date or timezone conve
 </Select>
 ```
 
-Options and groups use native markup. Native attributes pass through; `bind:value` is optional. Use strings for single-select values/defaults, or string arrays with `multiple`. Styling shares the field/input tokens and keeps native browser appearance. See [Select review](docs/svelte-5-select-review.md).
+Options and groups use native markup. Native attributes pass through; `bind:value` is optional. Use strings for single-select values/defaults, or string arrays with `multiple`. Styling shares the field/input tokens and keeps native browser appearance.
 
 ## Textarea
 
@@ -95,7 +97,7 @@ Options and groups use native markup. Native attributes pass through; `bind:valu
 <Textarea label="Notes" name="notes" defaultValue="First line" rows={4} />
 ```
 
-Native multiline editing, attributes, and callbacks pass through. `bind:value` is optional; `defaultValue` supplies initial/reset text. Styling shares the field/input tokens, with vertical resizing by default through `--dui-textarea-resize`. See [Textarea review](docs/svelte-5-textarea-review.md).
+Native multiline editing, attributes, and callbacks pass through. `bind:value` is optional; `defaultValue` supplies initial/reset text. Styling shares the field/input tokens, with vertical resizing by default through `--dui-textarea-resize`.
 
 ## Checkbox
 
@@ -103,7 +105,7 @@ Native multiline editing, attributes, and callbacks pass through. `bind:value` i
 <Checkbox label="Receive updates" name="updates" value="yes" defaultChecked />
 ```
 
-The native control submits its value only when checked and enabled. `bind:checked` is optional; `defaultChecked` supplies initial/reset state. The clickable label and native checkbox use green accent and explicit focus styling. See [Checkbox review](docs/svelte-5-checkbox-review.md).
+The native control submits its value only when checked and enabled. `bind:checked` is optional; `defaultChecked` supplies initial/reset state. The clickable label and native checkbox use green accent and explicit focus styling.
 
 ## Details
 
@@ -113,7 +115,7 @@ The native control submits its value only when checked and enabled. `bind:checke
 </Details>
 ```
 
-Inline is the default. Absolute mode anchors a bounded panel to its summary and supports outside-pointer and Escape dismissal. Use native attributes/callbacks and optional `bind:open`. See [Details review](docs/svelte-5-details-review.md) for sizing, behavior, and breaking changes.
+Inline is the default. Absolute mode anchors a bounded panel to its summary and supports outside-pointer and Escape dismissal. Use native attributes/callbacks and optional `bind:open`.
 
 ## Dialog
 
@@ -126,7 +128,7 @@ Inline is the default. Absolute mode anchors a bounded panel to its summary and 
 </Dialog>
 ```
 
-Initialize dialogOpen as a Svelte boolean state. Dialog uses native modal behavior and callbacks; triggers and close controls belong to the caller. Required headings accept caller-translated strings or snippets. Locale objects and UIProvider have been removed. See [Dialog review](docs/svelte-5-dialog-review.md) for IDs, state, and styling, and [localization removal](docs/svelte-5-localization-removal-review.md) for breaking changes.
+Initialize dialogOpen as a Svelte boolean state. Dialog uses native modal behavior and callbacks; triggers and close controls belong to the caller. Required headings accept caller-translated strings or snippets. Locale objects and UIProvider have been removed.
 
 ## LoadingSpinner
 
@@ -134,7 +136,7 @@ Initialize dialogOpen as a Svelte boolean state. Dialog uses native modal behavi
 <LoadingSpinner text="Saving changes" />
 ```
 
-The hidden status text defaults to Loading. Native div attributes and callbacks pass through. Customize `--dui-loading-spinner-size`, `--dui-loading-spinner-color`, and `--dui-loading-spinner-border-width`; defaults retain the 80px current-color ripple. Reduced-motion mode shows one static ring. See [LoadingSpinner review](docs/svelte-5-loading-spinner-review.md).
+The hidden status text defaults to Loading. Native div attributes and callbacks pass through. Customize `--dui-loading-spinner-size`, `--dui-loading-spinner-color`, and `--dui-loading-spinner-border-width`; defaults retain the 80px current-color ripple. Reduced-motion mode shows one static ring.
 
 ## ScreenReaderText
 
@@ -142,7 +144,7 @@ The hidden status text defaults to Loading. Native div attributes and callbacks 
 <Button>Save <ScreenReaderText>changes to this item</ScreenReaderText></Button>
 ```
 
-Children supply visually hidden supplementary text. Native span attributes pass through, including `id` for accessible description references. Keep interactive controls outside this component. See [ScreenReaderText review](docs/svelte-5-screen-reader-text-review.md).
+Children supply visually hidden supplementary text. Native span attributes pass through, including `id` for accessible description references. Keep interactive controls outside this component.
 
 ## Storybook
 
@@ -153,9 +155,9 @@ pnpm storybook
 pnpm build-storybook
 ```
 
-The development command uses http://127.0.0.1:6006 with a strict port. The static build writes `storybook-static`, which is ignored by git and excluded from the published library. Stories and configuration participate in static checking and linting. See [Storybook restoration review](docs/svelte-5-storybook-review.md).
+The development command uses http://127.0.0.1:6006 with a strict port. The static build writes `storybook-static`, which is ignored by git and excluded from the published library. Stories and configuration participate in static checking and linting.
 
-After reviewing implementation, `pnpm test:storybook` builds a test-only Storybook and runs Select, Textarea, Checkbox, and InputDate Chromium scenarios on temporary preview port 6007. It includes binding fixtures without adding them to the normal Storybook. See [Select validation](docs/svelte-5-select-validation-review.md), [Textarea validation](docs/svelte-5-textarea-validation-review.md), [Checkbox validation](docs/svelte-5-checkbox-validation-review.md), and [InputDate validation](docs/svelte-5-input-date-validation-review.md).
+After reviewing implementation, `pnpm test:storybook` builds a test-only Storybook and runs Select, Textarea, Checkbox, and InputDate Chromium scenarios on temporary preview port 6007. It includes binding fixtures without adding them to the normal Storybook.
 
 ## Packaging and publishing
 

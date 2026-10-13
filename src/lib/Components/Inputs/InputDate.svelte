@@ -42,7 +42,7 @@
 	const inputId = $derived(id ?? generatedId)
 </script>
 
-<InputWrapper title={label} key={inputId} required={required === true}>
+<InputWrapper title={label} key={inputId}>
 	<input
 		{...attributes}
 		id={inputId}

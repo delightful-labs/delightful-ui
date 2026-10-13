@@ -49,7 +49,7 @@
 		{defaultChecked}
 		bind:checked
 	/>
-	<span>{label}{required ? ' (required)' : ''}</span>
+	<span>{label}</span>
 </label>
 
 <style>
@@ -79,16 +79,17 @@
 		overflow-wrap: anywhere;
 	}
 
+	input[aria-invalid='true'],
+	input:user-invalid {
+		outline: 2px solid
+			var(--dui-checkbox-error-color, var(--dui-color-error, #b91c1c));
+		outline-offset: 2px;
+	}
+
 	input:focus-visible {
 		outline: 2px solid
 			var(--dui-checkbox-focus-color, var(--dui-color-focus, currentColor));
 		outline-offset: 4px;
-	}
-
-	input[aria-invalid='true'],
-	input:user-invalid {
-		outline: 2px solid var(--dui-checkbox-error-color, #b91c1c);
-		outline-offset: 2px;
 	}
 
 	input:disabled,

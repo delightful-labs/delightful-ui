@@ -48,7 +48,7 @@ test('required and length constraints use native validation and editing', async 
 	page
 }) => {
 	await openStory(page, 'required')
-	const field = page.getByRole('textbox', { name: 'Notes (required)' })
+	const field = page.getByRole('textbox', { name: 'Notes' })
 	await page.getByRole('button', { name: 'Submit', exact: true }).click()
 	await expect(field).toBeFocused()
 	expect(

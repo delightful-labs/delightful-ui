@@ -1,7 +1,22 @@
 <script lang="ts">
-	import '$lib/theme.css'
-	import { Button, Details, InputNumber, InputText } from '$lib'
+	import '#lib/theme.css'
+	import {
+		Button,
+		Details,
+		Dialog,
+		InputNumber,
+		InputText,
+		LoadingSpinner
+	} from '#lib'
 
+	let loadingPreview = $state(false)
+	let dialogOpen = $state(false)
+	let dialogMounted = $state(true)
+	let lightDismissOpen = $state(false)
+	let preventOpening = $state(false)
+	let preventCancel = $state(false)
+	let dialogResult = $state('None')
+	let cancelStatus = $state('No cancel request')
 	let absoluteOpen = $state(false)
 	let lastToggle = $state('Not toggled')
 	let submitted = $state<string | undefined>()
@@ -26,7 +41,7 @@
 		<div class="controls">
 			<Button>Save</Button>
 			<Button disabled>Save</Button>
-			<Button text={{ EN: 'Locale label' }} />
+			<Button text="Text label" />
 		</div>
 	</section>
 	<section aria-labelledby="input-heading">
@@ -140,6 +155,123 @@
 		<p aria-live="polite">Start panel: {absoluteOpen ? 'open' : 'closed'}</p>
 		<p aria-live="polite">{lastToggle}</p>
 	</section>
+	<section aria-labelledby="dialog-heading">
+		<h2 id="dialog-heading">Dialog</h2>
+		<div class="controls">
+			<Button
+				onclick={() => {
+					dialogMounted = true
+					dialogOpen = true
+				}}>Open dialog</Button
+			>
+			<Button
+				aria-pressed={preventOpening}
+				onclick={() => (preventOpening = !preventOpening)}
+			>
+				Prevent opening
+			</Button>
+			<Button onclick={() => (lightDismissOpen = true)}
+				>Open light-dismiss dialog</Button
+			>
+		</div>
+		<p>Prevent opening: {preventOpening ? 'on' : 'off'}</p>
+		<p aria-live="polite">Dialog state: {dialogOpen ? 'open' : 'closed'}</p>
+		<p aria-live="polite">Last dialog result: {dialogResult}</p>
+		{#if dialogMounted}
+			<Dialog
+				heading="Review dialog"
+				id="review-dialog"
+				bind:open={dialogOpen}
+				onbeforetoggle={(event) => {
+					if (event.newState === 'open' && preventOpening)
+						event.preventDefault()
+				}}
+				oncancel={(event) => {
+					if (preventCancel) event.preventDefault()
+					cancelStatus = event.defaultPrevented
+						? 'Escape prevented'
+						: 'Escape allowed'
+				}}
+				onclose={(event) => {
+					dialogResult = event.currentTarget.returnValue || 'No return value'
+				}}
+			>
+				<form method="dialog">
+					<InputText
+						label="Dialog note"
+						name="dialog-note"
+						defaultValue="Draft"
+						required
+					/>
+					<div class="controls">
+						<Button type="submit" value="save">Save dialog</Button>
+						<Button type="submit" value="cancel" formnovalidate
+							>Cancel dialog</Button
+						>
+					</div>
+				</form>
+				<div class="dialog-options">
+					<Button
+						aria-pressed={preventCancel}
+						onclick={() => (preventCancel = !preventCancel)}
+					>
+						Prevent Escape
+					</Button>
+					<Button onclick={() => (dialogOpen = false)}>Close with state</Button>
+					<Button
+						onclick={() => {
+							dialogOpen = false
+							dialogMounted = false
+						}}>Remove dialog</Button
+					>
+				</div>
+				<p>Prevent Escape: {preventCancel ? 'on' : 'off'}</p>
+				<p role="status">{cancelStatus}</p>
+			</Dialog>
+		{/if}
+		<Dialog closedby="any" bind:open={lightDismissOpen}>
+			{#snippet heading()}
+				Light-dismiss dialog
+			{/snippet}
+			<form method="dialog">
+				<Button type="submit" value="close">Close light-dismiss dialog</Button>
+			</form>
+		</Dialog>
+		<p aria-live="polite">
+			Light-dismiss state: {lightDismissOpen ? 'open' : 'closed'}
+		</p>
+	</section>
+	<section aria-labelledby="loading-spinner-heading">
+		<h2 id="loading-spinner-heading">LoadingSpinner</h2>
+		<div class="spinner-examples">
+			<div>
+				<h3>Default</h3>
+				<LoadingSpinner />
+			</div>
+			<div>
+				<h3>Compact</h3>
+				<LoadingSpinner
+					text="Loading compact preview"
+					style="--dui-loading-spinner-size: 32px; --dui-loading-spinner-border-width: 2px; --dui-loading-spinner-color: var(--dui-color-accent);"
+				/>
+			</div>
+		</div>
+		<h3>Loading state</h3>
+		<Button
+			aria-pressed={loadingPreview}
+			onclick={() => (loadingPreview = !loadingPreview)}
+		>
+			Toggle loading preview
+		</Button>
+		<div aria-busy={loadingPreview}>
+			<p>Preview content: {loadingPreview ? 'loading' : 'ready'}</p>
+		</div>
+		<LoadingSpinner
+			id="loading-state-preview"
+			text="Loading preview content"
+			hidden={!loadingPreview}
+		/>
+	</section>
 	<section aria-labelledby="theme-heading">
 		<h2 id="theme-heading">Theme</h2>
 		<a href="#input-heading">Input examples</a>
@@ -188,6 +320,20 @@
 	.end-panel {
 		margin-inline-start: auto;
 		max-inline-size: 100%;
+	}
+
+	.dialog-options {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--dui-space-sm);
+		margin-top: var(--dui-space-sm);
+	}
+
+	.spinner-examples {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: start;
+		gap: var(--dui-space-lg);
 	}
 
 	.controls {

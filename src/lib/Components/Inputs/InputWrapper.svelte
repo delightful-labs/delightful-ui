@@ -4,15 +4,14 @@
 	type Props = {
 		title: string
 		key: string
-		required?: boolean
 		children: Snippet
 	}
 
-	let { title, key, required = false, children }: Props = $props()
+	let { title, key, children }: Props = $props()
 </script>
 
 <div class="wrapper">
-	<label for={key}>{title}{required ? ' (required)' : ''}</label>
+	<label for={key}>{title}</label>
 	{@render children()}
 </div>
 
@@ -78,7 +77,7 @@
 	.wrapper :global(:is(input, select, textarea)[data-valid='false']),
 	.wrapper :global(:is(input, select, textarea)[aria-invalid='true']),
 	.wrapper :global(:is(input, select, textarea):user-invalid) {
-		border-color: var(--dui-input-error-color, #b91c1c);
+		border-color: var(--dui-input-error-color, var(--dui-color-error, #b91c1c));
 	}
 
 	.wrapper :global(:is(input, select, textarea):disabled) {

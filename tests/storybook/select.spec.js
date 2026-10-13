@@ -33,7 +33,7 @@ test('required placeholder uses native validation and disabled select is omitted
 	page
 }) => {
 	await openStory(page, 'inputs-select--required')
-	const select = page.getByRole('combobox', { name: 'Category (required)' })
+	const select = page.getByRole('combobox', { name: 'Category' })
 	await expect(select).toHaveValue('')
 	await page.getByRole('button', { name: 'Submit', exact: true }).click()
 	await expect(select).toBeFocused()

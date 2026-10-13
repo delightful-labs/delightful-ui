@@ -19,7 +19,7 @@ describe('select server rendering', () => {
 		const id = body.match(/<select\b[^>]*id="([^"]+)"/)?.[1]
 		expect(id).toBeTruthy()
 		expect(body).toContain(`for="${id}"`)
-		expect(body).toContain('Category &amp; group (required)')
+		expect(body).toContain('Category &amp; group')
 		expect(body).toContain('name="category"')
 		expect(body).toMatch(/<select\b[^>]*\brequired(?:=""|\s|>)/)
 		expect(body).toContain('<option value="work">Work</option>')

@@ -30,7 +30,7 @@
 	const textareaId = $derived(id ?? generatedId)
 </script>
 
-<InputWrapper title={label} key={textareaId} required={required === true}>
+<InputWrapper title={label} key={textareaId}>
 	<textarea
 		{...attributes}
 		id={textareaId}

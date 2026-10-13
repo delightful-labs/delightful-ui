@@ -15,7 +15,7 @@ describe('date input server rendering', () => {
 		const id = body.match(/<input\b[^>]*id="([^"]+)"/)?.[1]
 		expect(id).toBeTruthy()
 		expect(body).toContain(`for="${id}"`)
-		expect(body).toContain('Date &amp; schedule (required)')
+		expect(body).toContain('Date &amp; schedule')
 		expect(body).toContain('type="date"')
 		expect(body).toContain('name="date"')
 		expect(body).toContain('value="2026-10-13"')

@@ -15,7 +15,7 @@ describe('textarea server rendering', () => {
 		const id = body.match(/<textarea\b[^>]*id="([^"]+)"/)?.[1]
 		expect(id).toBeTruthy()
 		expect(body).toContain(`for="${id}"`)
-		expect(body).toContain('Notes &amp; context (required)')
+		expect(body).toContain('Notes &amp; context')
 		expect(body).toContain('name="notes"')
 		expect(body).toContain('rows="4"')
 		expect(body).toMatch(/<textarea\b[^>]*\brequired(?:=""|\s|>)/)

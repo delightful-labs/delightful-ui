@@ -176,7 +176,7 @@ test('preserves server IDs through hydration and supports labels and keyboard co
 	expect(serverIds.length).toBeGreaterThan(1)
 	expect(clientIds).toEqual(serverIds)
 	expect(new Set(clientIds).size).toBe(clientIds.length)
-	await page.getByText('Description (required)', { exact: true }).click()
+	await page.getByText('Description', { exact: true }).click()
 	await expect(page.getByLabel('Description', { exact: false })).toBeFocused()
 	await page.keyboard.press('Tab')
 	await expect(page.getByLabel('Category', { exact: true })).toBeFocused()

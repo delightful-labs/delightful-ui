@@ -31,7 +31,7 @@
 	const selectId = $derived(id ?? generatedId)
 </script>
 
-<InputWrapper title={label} key={selectId} required={required === true}>
+<InputWrapper title={label} key={selectId}>
 	{#if multiple}
 		<select
 			{...attributes}

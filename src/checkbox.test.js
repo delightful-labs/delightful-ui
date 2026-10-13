@@ -16,7 +16,7 @@ describe('checkbox server rendering', () => {
 		const id = body.match(/<input\b[^>]*id="([^"]+)"/)?.[1]
 		expect(id).toBeTruthy()
 		expect(body).toContain(`for="${id}"`)
-		expect(body).toContain('Updates &amp; news (required)')
+		expect(body).toContain('Updates &amp; news')
 		expect(body).toContain('type="checkbox"')
 		expect(body).toContain('name="updates"')
 		expect(body).toContain('value="yes"')

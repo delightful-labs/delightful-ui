@@ -6,6 +6,7 @@
 		--dui-color-accent: #94ff47;
 		--dui-color-on-accent: #262626;
 		--dui-color-focus: var(--dui-color-foreground);
+		--dui-color-error: #b91c1c;
 		--dui-font-family: 'Source Code Pro', monospace;
 		--dui-font-family-body: system-ui, sans-serif;
 		--dui-space-xs: 0.5rem;
@@ -24,6 +25,7 @@
 	:root[data-dui-theme='dark'] {
 		--dui-color-foreground: #fff;
 		--dui-color-background: #262626;
+		--dui-color-error: #ff8f8f;
 		color-scheme: dark;
 	}
 

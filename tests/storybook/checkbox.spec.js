@@ -55,7 +55,7 @@ test('required checkbox uses native validation before submission', async ({
 }) => {
 	await openStory(page, 'required')
 	const checkbox = page.getByRole('checkbox', {
-		name: 'Accept the terms (required)'
+		name: 'Accept the terms'
 	})
 	await expect(checkbox).not.toBeChecked()
 	await page.getByRole('button', { name: 'Submit', exact: true }).click()

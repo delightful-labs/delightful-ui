@@ -7,6 +7,7 @@ import InputText from './Components/Inputs/InputText.svelte'
 import InputNumber from './Components/Inputs/InputNumber.svelte'
 import Select from './Components/Inputs/Select.svelte'
 import Textarea from './Components/Inputs/Textarea.svelte'
+import Checkbox from './Components/Inputs/Checkbox.svelte'
 
 export {
 	Button,
@@ -16,6 +17,7 @@ export {
 	InputNumber,
 	Select,
 	Textarea,
+	Checkbox,
 	LoadingSpinner,
 	ScreenReaderText
 }

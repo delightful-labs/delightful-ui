@@ -11,7 +11,8 @@ export default [
 			'.svelte-kit/**',
 			'build/**',
 			'dist/**',
-			'storybook-static/**'
+			'storybook-static/**',
+			'storybook-test-static/**'
 		]
 	},
 	js.configs.recommended,

@@ -14,7 +14,8 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"storybook": "storybook dev --host 127.0.0.1 --port 6006 --exact-port --disable-telemetry",
-		"build-storybook": "storybook build --disable-telemetry"
+		"build-storybook": "storybook build --disable-telemetry",
+		"test:storybook": "storybook build --config-dir tests/storybook --output-dir storybook-test-static --disable-telemetry && playwright test --config playwright.storybook.config.js"
 	},
 	"exports": {
 		".": {

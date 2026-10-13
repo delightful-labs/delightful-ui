@@ -5,6 +5,7 @@ import LoadingSpinner from './Components/LoadingSpinner.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
 import InputNumber from './Components/Inputs/InputNumber.svelte'
+import Select from './Components/Inputs/Select.svelte'
 
 export {
 	Button,
@@ -12,6 +13,7 @@ export {
 	Dialog,
 	InputText,
 	InputNumber,
+	Select,
 	LoadingSpinner,
 	ScreenReaderText
 }

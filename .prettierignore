@@ -17,3 +17,4 @@ yarn.lock
 /test-results
 /playwright-report
 /storybook-static
+/storybook-test-static

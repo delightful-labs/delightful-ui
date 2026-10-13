@@ -1,9 +1,28 @@
+import { createRawSnippet } from 'svelte'
 import { describe, expect, it } from 'vitest'
 import { render } from 'svelte/server'
 import Dialog from './lib/Components/Dialog.svelte'
 import Demo from './routes/+page.svelte'
 
 describe('dialog server rendering', () => {
+	it('renders caller-translated dialog headings as strings or snippets', () => {
+		const plain = render(Dialog, {
+			props: { heading: 'Kagua & hifadhi', lang: 'sw' }
+		})
+		expect(plain.body).toContain('Kagua &amp; hifadhi')
+		expect(plain.body).toContain('lang="sw"')
+		const rich = render(Dialog, {
+			props: {
+				heading: createRawSnippet(() => ({
+					render: () => '<strong>Kagua</strong>'
+				}))
+			}
+		})
+		expect(rich.body.replace(/<!--[\s\S]*?-->/g, '')).toMatch(
+			/<h2\b[^>]*><strong>Kagua<\/strong><\/h2>/
+		)
+	})
+
 	it('escapes headings and forwards native attributes', () => {
 		const { body } = render(Dialog, {
 			props: {

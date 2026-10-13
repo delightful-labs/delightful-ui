@@ -6,6 +6,7 @@ import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
 import InputNumber from './Components/Inputs/InputNumber.svelte'
 import Select from './Components/Inputs/Select.svelte'
+import Textarea from './Components/Inputs/Textarea.svelte'
 
 export {
 	Button,
@@ -14,6 +15,7 @@ export {
 	InputText,
 	InputNumber,
 	Select,
+	Textarea,
 	LoadingSpinner,
 	ScreenReaderText
 }

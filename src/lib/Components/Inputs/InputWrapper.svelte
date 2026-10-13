@@ -30,7 +30,7 @@
 		color: var(--dui-field-color, var(--dui-color-foreground, inherit));
 	}
 
-	.wrapper :global(:is(input, select)) {
+	.wrapper :global(:is(input, select, textarea)) {
 		font-family: var(--dui-input-font-family, var(--dui-font-family, inherit));
 		font-size: var(--dui-input-font-size, inherit);
 		line-height: 1.25;
@@ -59,7 +59,7 @@
 
 	.wrapper
 		:global(
-			:is(input, select):hover:not(:disabled):not([readonly]):not(
+			:is(input, select, textarea):hover:not(:disabled):not([readonly]):not(
 					[data-valid='false']
 				):not([aria-invalid='true']):not(:user-invalid)
 		) {
@@ -69,25 +69,25 @@
 		);
 	}
 
-	.wrapper :global(:is(input, select):focus-visible) {
+	.wrapper :global(:is(input, select, textarea):focus-visible) {
 		outline: 2px solid
 			var(--dui-input-focus-color, var(--dui-color-focus, currentColor));
 		outline-offset: 4px;
 	}
 
-	.wrapper :global(:is(input, select)[data-valid='false']),
-	.wrapper :global(:is(input, select)[aria-invalid='true']),
-	.wrapper :global(:is(input, select):user-invalid) {
+	.wrapper :global(:is(input, select, textarea)[data-valid='false']),
+	.wrapper :global(:is(input, select, textarea)[aria-invalid='true']),
+	.wrapper :global(:is(input, select, textarea):user-invalid) {
 		border-color: var(--dui-input-error-color, #b91c1c);
 	}
 
-	.wrapper :global(:is(input, select):disabled) {
+	.wrapper :global(:is(input, select, textarea):disabled) {
 		opacity: var(--dui-input-disabled-opacity, 0.5);
 		cursor: not-allowed;
 	}
 
 	@media (forced-colors: active) {
-		.wrapper :global(:is(input, select):focus-visible) {
+		.wrapper :global(:is(input, select, textarea):focus-visible) {
 			outline-color: Highlight;
 		}
 	}

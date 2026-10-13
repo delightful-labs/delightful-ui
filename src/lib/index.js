@@ -8,6 +8,7 @@ import InputNumber from './Components/Inputs/InputNumber.svelte'
 import Select from './Components/Inputs/Select.svelte'
 import Textarea from './Components/Inputs/Textarea.svelte'
 import Checkbox from './Components/Inputs/Checkbox.svelte'
+import InputDate from './Components/Inputs/InputDate.svelte'
 
 export {
 	Button,
@@ -15,6 +16,7 @@ export {
 	Dialog,
 	InputText,
 	InputNumber,
+	InputDate,
 	Select,
 	Textarea,
 	Checkbox,

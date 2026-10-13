@@ -70,6 +70,41 @@ Native attributes and callbacks pass through. `bind:value` is optional. Use `lab
 
 Native numeric constraints and callbacks pass through. Optional `bind:value` yields a number or undefined; FormData still yields strings. Use `min`, `max`, and `step` rather than character-length truncation. See [InputNumber review](docs/svelte-5-input-number-review.md) for defaults, reset behavior, and breaking changes.
 
+## InputDate
+
+```svelte
+<InputDate label="Date" name="date" defaultValue="2026-10-13" />
+```
+
+Values stay as date-only strings; the library performs no Date or timezone conversion. Native `min`, `max`, and `step` constraints pass through. `bind:value` is optional, and `defaultValue` supplies initial/reset text. See [InputDate review](docs/svelte-5-input-date-review.md).
+
+## Select
+
+```svelte
+<Select label="Category" name="category" defaultValue="personal">
+	<option value="personal">Personal</option>
+	<option value="work">Work</option>
+</Select>
+```
+
+Options and groups use native markup. Native attributes pass through; `bind:value` is optional. Use strings for single-select values/defaults, or string arrays with `multiple`. Styling shares the field/input tokens and keeps native browser appearance. See [Select review](docs/svelte-5-select-review.md).
+
+## Textarea
+
+```svelte
+<Textarea label="Notes" name="notes" defaultValue="First line" rows={4} />
+```
+
+Native multiline editing, attributes, and callbacks pass through. `bind:value` is optional; `defaultValue` supplies initial/reset text. Styling shares the field/input tokens, with vertical resizing by default through `--dui-textarea-resize`. See [Textarea review](docs/svelte-5-textarea-review.md).
+
+## Checkbox
+
+```svelte
+<Checkbox label="Receive updates" name="updates" value="yes" defaultChecked />
+```
+
+The native control submits its value only when checked and enabled. `bind:checked` is optional; `defaultChecked` supplies initial/reset state. The clickable label and native checkbox use green accent and explicit focus styling. See [Checkbox review](docs/svelte-5-checkbox-review.md).
+
 ## Details
 
 ```svelte
@@ -111,7 +146,7 @@ Children supply visually hidden supplementary text. Native span attributes pass 
 
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all seven public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all eleven public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -120,9 +155,11 @@ pnpm build-storybook
 
 The development command uses http://127.0.0.1:6006 with a strict port. The static build writes `storybook-static`, which is ignored by git and excluded from the published library. Stories and configuration participate in static checking and linting. See [Storybook restoration review](docs/svelte-5-storybook-review.md).
 
+After reviewing implementation, `pnpm test:storybook` builds a test-only Storybook and runs Select, Textarea, Checkbox, and InputDate Chromium scenarios on temporary preview port 6007. It includes binding fixtures without adding them to the normal Storybook. See [Select validation](docs/svelte-5-select-validation-review.md), [Textarea validation](docs/svelte-5-textarea-validation-review.md), [Checkbox validation](docs/svelte-5-checkbox-validation-review.md), and [InputDate validation](docs/svelte-5-input-date-validation-review.md).
+
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, Details, Dialog, InputText, InputNumber, LoadingSpinner, and ScreenReaderText.
+Import components from `delightful-ui`: Button, Details, Dialog, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, LoadingSpinner, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

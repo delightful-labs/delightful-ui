@@ -6,10 +6,12 @@ import Popover from './Components/Popover.svelte'
 import LoadingSpinner from './Components/LoadingSpinner.svelte'
 import StatusMessage from './Components/StatusMessage.svelte'
 import Table from './Components/Table.svelte'
+import Navigation from './Components/Navigation.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
 import FieldFeedback from './Components/Inputs/FieldFeedback.svelte'
 import InputNumber from './Components/Inputs/InputNumber.svelte'
+import InputCurrency from './Components/Inputs/InputCurrency.svelte'
 import Select from './Components/Inputs/Select.svelte'
 import Textarea from './Components/Inputs/Textarea.svelte'
 import Checkbox from './Components/Inputs/Checkbox.svelte'
@@ -25,6 +27,7 @@ export {
 	InputText,
 	FieldFeedback,
 	InputNumber,
+	InputCurrency,
 	InputDate,
 	TagInput,
 	Select,
@@ -33,6 +36,7 @@ export {
 	LoadingSpinner,
 	StatusMessage,
 	Table,
+	Navigation,
 	ScreenReaderText
 }
 

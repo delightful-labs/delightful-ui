@@ -20,18 +20,26 @@ Callers connect the ID through native `aria-describedby`, combining it with othe
 
 Storybook covers instructions, error, both, empty, wrapping and an accessible input/feedback composition. After review, two unit checks and two Chromium scenarios pass for escaped text, both messages, stable IDs, native attributes, accessible descriptions, invalid state updates and empty feedback layout. Finance adoption and automatic input-level help/error props are separate future changes, requiring review before modifying multiple controls.
 
-## Table — implemented, awaiting review
+## Table — reviewed and verified
 
 Finance's account and transaction lists repeat native table structure and need local responsive overflow. A small Table component is useful beyond global styles because it supplies that container and a visible caption. Require a caller-translated caption; name the focusable overflow region from its generated caption ID. Keep native table semantics, header scopes and caller-provided thead/tbody/tfoot markup. Forward native table attributes/events, class and style. Hidden tables must hide their container too.
 
 The approved styling uses a continuous black header with white text, reversed in explicit dark mode, and thin lines between rows. Use collapsed native table borders and configurable internal cell padding; do not replace native table layout with grid. Keep sibling action spacing gap-based. Expose header colors, row-border width/color, cell padding, minimum-width and foreground tokens. Allow native horizontal keyboard scrolling within the focusable region, with visible focus styling. Do not add sorting, selection, pagination, row schemas, striping or sticky headers. Callers own formatting, alignment, row actions, state and permissions.
 
-Storybook covers account rows/actions, transaction amounts with caller-owned alignment and a deliberately wide table in a narrow container. After implementation review, verify native caption/header/row semantics, unique caption IDs, attribute forwarding, hidden state, local overflow at narrow widths, keyboard scrolling and reachable row actions. Finance adoption requires a deliberate package refresh and separate consumer review.
+Storybook covers account rows/actions, transaction amounts with caller-owned alignment and a deliberately wide table in a narrow container. After implementation review, two unit checks and three Chromium scenarios pass for native caption/header/row semantics, attribute forwarding, hidden attributes, light/dark header colors, row separators, local overflow, keyboard scrolling and reachable row actions. Finance adoption requires a deliberate package refresh and separate consumer review.
 
-## Currency entry — proposed
+## InputCurrency — reviewed and verified
 
-Compose decimal-text entry, currency presentation and optional existing NumberKeypad. Keep draft editing, device/custom keyboard choice, focus/caret management and integer-money conversion application-owned. Preserve native FormData and reset behavior; do not substitute floating-point InputNumber values for money drafts. Specify the consumer workflow before adding an API.
+First ship decimal-text entry with a caller-supplied currency label beside the input; keypad/device selection remains deferred, consistent with the Finance trial. Require label and currencyLabel strings. Reuse InputWrapper styling with gap-based entry layout. Use a native text input with decimal input mode and autocomplete off by default; accept native text constraints/callbacks and optional string value binding/defaults. Generate a unique currency description ID and combine it with caller-provided aria-describedby IDs.
 
-## Navigation/layout — proposed
+Preserve raw drafts, including partial or comma-decimal text, native FormData and reset behavior. Submit only the amount text; callers explicitly submit currency separately when needed. Do not add a default pattern, locale/currency parsing, rounding, decimal precision, sign policy, min/max numeric enforcement or money conversion. Finance continues to own its non-negative USD pattern and integer-minor-unit parser. Existing NumberKeypad integration and caret/focus workflow need a separate consumer specification.
 
-Consider primitives or tokens for native navigation links, selected-link presentation, shell spacing and filter grouping. Keep routing, workspace state and permissions application-owned. Use the existing responsive Finance shell as evidence rather than introducing a new visual direction.
+Storybook covers initial drafts, disabled/read-only fields, comma-decimal text, native form submission/reset and feedback composition. After review, two unit checks and three Chromium scenarios pass for combined currency/help descriptions, raw string defaults/drafts, native submission/reset, required-field behavior, comma decimals and disabled/read-only state. Optional parent binding and additional caller patterns remain candidates for consumer-specific coverage. No Finance package refresh or consumer changes are included in this library iteration.
+
+## Navigation — implemented, awaiting review
+
+Provide a small labelled native nav landmark with a vertical native list. Require a caller-translated label and accept caller-provided li/link children; forward native nav attributes/events, class and style. Use gap between links, reset list margins/padding and provide minimum link height/focus treatment through existing tokens. Emphasize links with caller-owned aria-current="page" through font weight.
+
+Keep routing, active-route matching, permissions, workspace/filter state and responsive shell behavior application-owned. Do not introduce menu roles, custom keyboard navigation, route interception, generated links or data schemas. Multiple navigation landmarks need distinct labels. Native links preserve Enter activation, browser history and modified clicks.
+
+Storybook covers Finance-style sidebar links, multiple labelled groups and wrapping labels. After review, verify landmark/list/link semantics, current-page attributes, native attribute forwarding, Tab/Enter behavior, focus visibility and narrow layouts. AppShell adoption requires a separate consumer change and package refresh; no new application shell or mobile workflow is included.

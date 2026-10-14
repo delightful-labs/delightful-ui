@@ -94,6 +94,25 @@ Native attributes and callbacks pass through. `bind:value` is optional. Use `lab
 
 Native numeric constraints and callbacks pass through. Optional `bind:value` yields a number or undefined; FormData still yields strings. Use `min`, `max`, and `step` rather than character-length truncation.
 
+## InputCurrency
+
+```svelte
+<InputCurrency
+	label={amountLabel}
+	currencyLabel="USD"
+	name="amount"
+	defaultValue="12.50"
+	pattern={amountPattern}
+	required
+/>
+```
+
+Required `label` and `currencyLabel` are caller-owned strings. The currency label appears beside the native text input and is included in its accessible description. Caller-supplied `aria-describedby` IDs are preserved alongside the generated currency description ID, so FieldFeedback works normally. Use a short currency label such as USD, EUR or a translated abbreviation; no currency name or symbol is inferred.
+
+Optional `bind:value`, `value` and `defaultValue` stay strings. Native FormData submits only the amount draft under `name`; the displayed currency label is not a submitted field. Native reset restores the default. `inputmode` defaults to decimal and `autocomplete` to off; native text attributes/events, disabled/read-only state, class and style pass through. `type` is fixed to text. Customize `--dui-input-currency-gap` (default `0.5rem`); input and field typography use the existing tokens.
+
+InputCurrency does not parse, format, round, clamp, validate currencies, insert separators or convert money to floating-point/minor-unit values. Partial drafts and comma decimals remain exactly as entered. The application supplies locale/currency validation through `pattern` and its own validator, determines allowed decimal places and signs, handles integer conversion and owns keypad/device keyboard selection. There is no default money pattern or keypad workflow.
+
 ## InputDate
 
 ```svelte
@@ -269,9 +288,32 @@ The component owns presentation only. Callers own rows, formatting, numeric alig
 
 Customize `--dui-table-cell-padding-block`, `--dui-table-cell-padding-inline`, `--dui-table-header-background-color`, `--dui-table-header-color`, `--dui-table-row-border-width` (default `1px`), `--dui-table-row-border-color`, `--dui-table-min-width` (default `100%`) and `--dui-table-color`. Set a larger minimum width when columns should scroll rather than compress. Header overrides take precedence over theme defaults.
 
+## Navigation
+
+```svelte
+<Navigation label={navigationLabel}>
+	<li>
+		<a href="/" aria-current={pathname === '/' ? 'page' : undefined}
+			>{overviewLabel}</a
+		>
+	</li>
+	<li>
+		<a
+			href="/accounts"
+			aria-current={pathname === '/accounts' ? 'page' : undefined}
+			>{accountsLabel}</a
+		>
+	</li>
+</Navigation>
+```
+
+Required `label` names the native nav landmark. Children supply native `li` elements and links; Navigation owns the surrounding vertical list. Set `aria-current="page"` on the current link in the application. It receives font-weight emphasis without changing native link behavior. Native nav attributes/events, class and style pass through. Give multiple landmarks distinct translated labels.
+
+Routing, active-route matching, permissions, link grouping, workspace selection and collapsed/mobile shell behavior remain caller-owned. Navigation adds no menu roles, arrow-key handling, route interception or data model. Link spacing uses `gap`; list padding/margins are reset. Links have a 44px minimum height and visible focus. Customize `--dui-navigation-gap`, `--dui-navigation-link-min-height` and `--dui-navigation-current-font-weight`; colors inherit the existing link/theme styles.
+
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all seventeen public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all nineteen public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -284,7 +326,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputDate, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, Navigation, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

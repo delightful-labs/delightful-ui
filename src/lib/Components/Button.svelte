@@ -118,7 +118,7 @@
 	}
 
 	.button.destructive {
-		color: var(--dui-button-color-destructive, #fff);
+		color: var(--dui-button-color-destructive, var(--dui-color-on-error, #fff));
 		background-color: var(
 			--dui-button-background-color-destructive,
 			var(--dui-color-error, #b91c1c)

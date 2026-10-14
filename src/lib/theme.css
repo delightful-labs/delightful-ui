@@ -7,6 +7,7 @@
 		--dui-color-on-accent: #262626;
 		--dui-color-focus: var(--dui-color-foreground);
 		--dui-color-error: #b91c1c;
+		--dui-color-on-error: var(--dui-color-background);
 		--dui-font-family: 'Source Code Pro', monospace;
 		--dui-font-family-body: system-ui, sans-serif;
 		--dui-font-size-sm: 0.875rem;
@@ -23,10 +24,29 @@
 		accent-color: var(--dui-color-accent);
 	}
 
+	@media (prefers-color-scheme: dark) {
+		:root:not([data-dui-theme]) {
+			--dui-color-foreground: #fff;
+			--dui-color-background: #262626;
+			--dui-color-error: #ff8f8f;
+			--dui-button-color-destructive-hover: var(--dui-color-on-error);
+			--dui-button-background-color-destructive-hover: #ffb3b3;
+			--dui-button-border-color-destructive-hover: #ffb3b3;
+			--dui-button-color-primary: #262626;
+			--dui-button-background-color-primary: #fff;
+			color-scheme: dark;
+		}
+	}
+
 	:root[data-dui-theme='dark'] {
 		--dui-color-foreground: #fff;
 		--dui-color-background: #262626;
 		--dui-color-error: #ff8f8f;
+		--dui-button-color-destructive-hover: var(--dui-color-on-error);
+		--dui-button-background-color-destructive-hover: #ffb3b3;
+		--dui-button-border-color-destructive-hover: #ffb3b3;
+		--dui-button-color-primary: #262626;
+		--dui-button-background-color-primary: #fff;
 		color-scheme: dark;
 	}
 

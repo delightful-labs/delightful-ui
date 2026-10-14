@@ -7,6 +7,30 @@ async function openStory(page, story) {
 	return page.locator('#storybook-root button')
 }
 
+test('primary buttons use white surfaces and dark text in automatic and explicit dark themes', async ({
+	page
+}) => {
+	await page.emulateMedia({ colorScheme: 'dark' })
+	const button = await openStory(page, 'primary')
+	await expect(button).toHaveCSS('background-color', 'rgb(255, 255, 255)')
+	await expect(button).toHaveCSS('color', 'rgb(38, 38, 38)')
+	await page.emulateMedia({ colorScheme: 'light' })
+	await page.evaluate(() => {
+		document.documentElement.dataset.duiTheme = 'dark'
+	})
+	await expect(button).toHaveCSS('background-color', 'rgb(255, 255, 255)')
+	await expect(button).toHaveCSS('color', 'rgb(38, 38, 38)')
+	await button.hover()
+	await expect(button).toHaveCSS('background-color', 'rgb(148, 255, 71)')
+	await expect(button).toHaveCSS('color', 'rgb(0, 0, 0)')
+	await page.mouse.move(0, 0)
+	await page.evaluate(() => {
+		document.documentElement.dataset.duiTheme = 'light'
+	})
+	await expect(button).toHaveCSS('background-color', 'rgb(0, 0, 0)')
+	await expect(button).toHaveCSS('color', 'rgb(255, 255, 255)')
+})
+
 test('raised remains the default while flat hover and press use colors without movement', async ({
 	page
 }) => {

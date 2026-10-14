@@ -132,6 +132,26 @@ Chips and the entry controls share a wrapping row, with compact borderless remov
 
 Inside a form, each committed tag submits a separate field under `name`; read tags with `new FormData(form).getAll('tags')`. Draft text is excluded, and an empty array submits no fields. `disabled` prevents editing and submission; `readonly` prevents editing but submits existing tags. The component contains no nested form.
 
+## FieldFeedback
+
+```svelte
+<InputText
+	label={accountNameLabel}
+	name="name"
+	aria-describedby="account-name-feedback"
+	aria-invalid={Boolean(errorMessage)}
+/>
+<FieldFeedback
+	id="account-name-feedback"
+	instructions={accountNameInstructions}
+	{errorMessage}
+/>
+```
+
+Required caller-owned `id` links feedback to any native control through `aria-describedby`. Optional `instructions` and `errorMessage` render plain translated text; when both are supplied, both remain visible. Error text uses the shared error color. Empty or omitted messages render no text, and the empty container stays in the DOM but occupies no layout space. Each field needs a unique feedback ID. Combine this ID with other description IDs when needed.
+
+The application owns validation, issue mapping, `aria-invalid`, focus and announcements. FieldFeedback does not add a default live-region role, so it can describe a field without repeating aggregate form feedback. Native div attributes/callbacks, class and style pass through; supply a role explicitly only when the application needs it. Group the control and feedback with CSS grid/flex and `gap`. Customize `--dui-field-feedback-gap` (fallback `--dui-field-gap`, then `0.25rem`), `--dui-field-feedback-color` and `--dui-field-feedback-error-color`; typography uses the existing field tokens. Existing inputs need no new props to use this component.
+
 ## Select
 
 ```svelte
@@ -225,9 +245,31 @@ The application owns visibility, loading/save state, translations, retry actions
 
 Children supply visually hidden supplementary text. Native span attributes pass through, including `id` for accessible description references. Keep interactive controls outside this component.
 
+## Table
+
+```svelte
+<Table caption={accountsCaption}>
+	<thead
+		><tr
+			><th scope="col">{accountLabel}</th><th scope="col">{currencyLabel}</th
+			></tr
+		></thead
+	>
+	<tbody>
+		{#each accounts as account (account.id)}
+			<tr><th scope="row">{account.name}</th><td>{account.currency}</td></tr>
+		{/each}
+	</tbody>
+</Table>
+```
+
+Required `caption` is caller-translated visible text and names both the native table and its scrolling region. Supply native `thead`, `tbody`, optional `tfoot`, header scopes and row markup as children; Table supplies the caption, so do not add a second one. Native table attributes/events, class and style pass through to the table. `hidden` also hides the surrounding region. The focusable overflow region supports native keyboard scrolling on narrow screens without changing table semantics or rendering stacked cards.
+
+The component owns presentation only. Callers own rows, formatting, numeric alignment, row-action labels/handlers, sorting and empty/loading states. Columns and rows use native `border-spacing` rather than cell padding or margins; no grid layout replaces native table structure. Customize `--dui-table-column-gap` (default `1rem`), `--dui-table-row-gap` (default `0.5rem`), `--dui-table-min-width` (default `100%`) and `--dui-table-color`. Set a larger minimum width when columns should scroll rather than compress. Group multiple actions within a cell using flex/grid and `gap`.
+
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all fifteen public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all seventeen public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -240,7 +282,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputDate, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

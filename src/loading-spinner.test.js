@@ -4,11 +4,17 @@ import LoadingSpinner from './lib/Components/LoadingSpinner.svelte'
 import Demo from './routes/+page.svelte'
 
 describe('loading status server rendering', () => {
-	it('provides default status text and hides decorative rings', () => {
+	it('omits unrequested screen-reader text and hides decorative rings', () => {
 		const { body } = render(LoadingSpinner)
 		expect(body).toContain('role="status"')
-		expect(body).toContain('Loading')
+		expect(body).not.toContain('Loading')
+		expect(body).not.toContain('screen-reader-text')
 		expect([...body.matchAll(/aria-hidden="true"/g)]).toHaveLength(2)
+	})
+
+	it('omits the hidden text element for an explicitly empty label', () => {
+		const { body } = render(LoadingSpinner, { props: { text: '' } })
+		expect(body).not.toContain('screen-reader-text')
 	})
 
 	it('escapes status text and forwards caller attributes and classes', () => {

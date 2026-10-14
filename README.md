@@ -313,9 +313,34 @@ Required `label` names the native nav landmark. Children supply native `li` elem
 
 Routing, active-route matching, permissions, link grouping, workspace selection and collapsed/mobile shell behavior remain caller-owned. Navigation adds no menu roles, arrow-key handling, route interception or data model. Link spacing uses `gap`; list padding/margins are reset. Links have a 44px minimum height and visible focus. Customize `--dui-navigation-gap`, `--dui-navigation-link-min-height` and `--dui-navigation-current-font-weight`; colors inherit the existing link/theme styles.
 
+## Drawer
+
+```svelte
+<Button onclick={() => (menuOpen = true)}>{openMenuLabel}</Button>
+<Drawer heading={menuHeading} closeLabel={closeMenuLabel} bind:open={menuOpen}>
+	<Navigation label={navigationLabel}>
+		<li>
+			<a href="/accounts" onclick={() => (menuOpen = false)}>{accountsLabel}</a>
+		</li>
+	</Navigation>
+</Drawer>
+```
+
+`mode` defaults to `overlay`, composing native Dialog into a full-height side panel. Required `heading` and `closeLabel` are caller-owned; heading also accepts a snippet. `side` defaults to `left`, with `right` available. Optional `bind:open` controls visibility. The close button and Escape dismiss it. Overlay mode keeps keyboard focus inside, makes the background inert and restores focus through native dialog behavior. `closedby` defaults to `any` for browser-supported outside-click dismissal.
+
+Set `mode="inline"` for a collapsible sidebar in normal page layout. It renders a labelled `aside`, with no dialog/modal role, backdrop, background inertness or focus trap. Put it beside the page content in a flex/grid container to reserve actual layout space. Keep DOM order consistent with visual order: place a right sidebar after the content rather than reordering it with CSS. The application chooses responsive breakpoints; the stories stack content on narrow screens.
+
+For inline mode, give the toggle `aria-controls` referencing the drawer's `id` and `aria-expanded={menuOpen}`. Opening leaves focus on the toggle. Closing while focus is inside restores focus before hiding the panel; optional `triggerId` identifies a persistent return target, including initially open or programmatically opened sidebars. Otherwise the element focused when opening is used. Escape dismisses inline mode only when focus is inside. Outside clicks do not close it. Closed content is hidden and inert immediately, including during exit animation. Changing modes closes the drawer to avoid carrying focus across incompatible interaction contexts.
+
+Native attributes/events, class and style pass through to the active container; dialog-only `closedby` applies only in overlay mode. Triggers, Navigation and link/route-selection behavior remain caller-owned. For an inline sidebar, links need not collapse it. Use gap for sibling layout spacing; internal panel padding uses Dialog tokens.
+
+Overlay mode slides/fades; inline mode animates its reserved width. Both respect reduced motion, with immediate visibility changes when animation features are unavailable. Customize `--dui-drawer-width` (default `24rem`), `--dui-drawer-gap` and `--dui-drawer-duration` (default `200ms`). Colors, borders and padding use Dialog tokens; backdrop tokens apply only to overlay mode. No touch/swipe gesture or automatic responsive breakpoint is included.
+
+See the [accessibility specification](docs/finance-component-spec.md#drawer--implemented-awaiting-review) for each mode's behavior and pending verification.
+
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all nineteen public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all twenty public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -328,7 +353,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, Navigation, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, Navigation, Drawer, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

@@ -47,3 +47,23 @@ Storybook covers Finance-style sidebar links, horizontal links, horizontal wrapp
 ### Accessibility verification limits
 
 Treat the dropdown as disclosure navigation with ordinary lists and links, not an ARIA menu. See the [W3C disclosure-navigation example](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/) and [HTML popover guidance](https://html.spec.whatwg.org/multipage/popover.html). These browser checks cover Chromium behavior; Firefox/WebKit runs and manual VoiceOver/Safari and NVDA checks remain outstanding. Passing browser tests does not establish screen-reader compatibility or a full accessibility audit.
+
+## Drawer — implemented and tested
+
+Provide overlay (default) and inline modes with optional open binding, required translated heading/close label and left/right placement. Forward native attributes/events to the active container. Close on mode changes rather than preserving an open modal's focus state in a different interaction context.
+
+### Overlay accessibility and behavior
+
+Compose native Dialog: initial focus within the dialog, focus containment, background inertness, Escape and native focus restoration. Use closedby=any for supported backdrop dismissal and keep an explicit close button. Render the labelled full-height side panel in the top layer, with viewport bounds and scrollable long content. Route/link selection dismissal remains application-owned. Follow [W3C's modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+### Inline accessibility and behavior
+
+Render a labelled aside in normal flex/grid layout, reserving width alongside sibling page content. Do not apply a dialog/modal role, backdrop, background inertness or focus trap. Opening preserves toggle focus; Tab follows DOM order through the sidebar and content. The application supplies aria-controls/aria-expanded on its toggle. Optional triggerId supplies an explicit return target; otherwise capture the element focused on opening. Restore focus before hiding when closing while focus is within the sidebar; preserve external focus when it is already elsewhere. Escape is scoped to focus inside the sidebar; outside clicks do not dismiss it. Hidden content becomes hidden/inert immediately during exit animation. Follow [W3C's disclosure-navigation guidance](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/).
+
+The parent owns page layout, DOM order, responsive behavior and continued navigation state. Place right-side inline content after the main content in DOM order, without CSS order reversal. Demonstrate stacking at narrow widths; do not force page content into an unusable narrow column. Neither mode uses ARIA menu roles or custom link keyboard navigation.
+
+### Presentation and verification
+
+Use gap-based heading/control and sibling layouts, with internal Dialog padding. Overlay animates slide/fade and inline animates reserved width; both disable motion for reduced-motion preferences. Expose width/gap/duration tokens and reuse Dialog presentation tokens. No routing, swipe gestures or automatic breakpoints.
+
+Storybook covers overlay left/right and inline left/right alongside editable content. Static/compiler/package/Storybook checks support implementation review. Three SSR unit tests and seven Chromium browser cases pass, covering names, opening/closing, focused closure, external closure, hidden descendants, Escape, native modal background focus exclusion versus inline page interaction, mode switching, narrow/long content, reduced motion and geometry. Mode changes close the native dialog before removal so its invoker regains focus. Manual VoiceOver/Safari and NVDA checks remain necessary; Chromium tests cannot establish full assistive-technology compatibility.

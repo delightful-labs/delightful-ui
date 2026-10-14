@@ -7,6 +7,7 @@ import LoadingSpinner from './Components/LoadingSpinner.svelte'
 import StatusMessage from './Components/StatusMessage.svelte'
 import Table from './Components/Table.svelte'
 import Navigation from './Components/Navigation.svelte'
+import Drawer from './Components/Drawer.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
 import FieldFeedback from './Components/Inputs/FieldFeedback.svelte'
@@ -37,6 +38,7 @@ export {
 	StatusMessage,
 	Table,
 	Navigation,
+	Drawer,
 	ScreenReaderText
 }
 

@@ -25,11 +25,11 @@ Import the optional global theme once in your application layout:
 import 'delightful-ui/theme.css'
 ```
 
-The theme supplies green accents (`#94ff47`), light surfaces, shared spacing, and base typography/media/focus styles. Button hover uses green with dark text. Source Code Pro falls back to monospace; font files are not bundled. Without this import, components retain their own styling fallbacks.
+The theme supplies green accents (`#94ff47`), system-preference light/dark surfaces, shared spacing, and base typography/media/focus styles. Button hover uses green with dark text. Source Code Pro falls back to monospace; font files are not bundled. Without this import, components retain their own styling fallbacks.
 
 Field labels use the shared `--dui-font-size-sm` token (`0.875rem`, with the same fallback without the theme). Override `--dui-field-font-size` to customize label size independently of input text.
 
-For the dark theme, set `data-dui-theme="dark"` on the root `<html>` element; remove it or use `light` for light mode. The theme does not switch automatically. Override `--dui-*` properties on the root for application-wide theming, or `--dui-button-*` properties to customize Button.
+The theme follows the system color preference automatically. Set `data-dui-theme="dark"` or `data-dui-theme="light"` on the root `<html>` element to override it; remove the attribute to follow the system again. Override `--dui-*` properties on the root for application-wide theming, or `--dui-button-*` properties to customize Button.
 
 The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS can override its defaults. It is global when imported: it changes body margins, colors, fonts, box sizing, links, focus indicators, and native control fonts/accent colors. It contains no page layout, heading scale, or form-control replacement.
 
@@ -43,6 +43,8 @@ The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS ca
 Labels are caller-provided strings or child snippets. Button no longer accepts locale objects or reads UIProvider; absent content has no generic English fallback. Provide an accessible label for every button.
 
 Field labels render exactly as supplied. Native `required` validation remains; supply your own translated visible marker in the label when needed. Shared `--dui-color-error` adapts invalid styling to the explicit light/dark themes.
+
+Error text and borders use dark red on light surfaces and light red on dark surfaces. Destructive buttons pair this red with `--dui-color-on-error` (white in light mode, dark text in dark mode); dark-mode hover uses a lighter red with dark text. Custom error colors or surfaces should preserve at least 4.5:1 text contrast and 3:1 contrast for error borders.
 
 Button defaults to `variant="raised"`. Use `variant="flat"` for square bordered controls with no default shadow or pressed movement. Flat pressed colors can be customized with `--dui-button-color-active` and `--dui-button-background-color-active`.
 

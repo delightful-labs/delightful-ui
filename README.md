@@ -265,7 +265,9 @@ Children supply visually hidden supplementary text. Native span attributes pass 
 
 Required `caption` is caller-translated visible text and names both the native table and its scrolling region. Supply native `thead`, `tbody`, optional `tfoot`, header scopes and row markup as children; Table supplies the caption, so do not add a second one. Native table attributes/events, class and style pass through to the table. `hidden` also hides the surrounding region. The focusable overflow region supports native keyboard scrolling on narrow screens without changing table semantics or rendering stacked cards.
 
-The component owns presentation only. Callers own rows, formatting, numeric alignment, row-action labels/handlers, sorting and empty/loading states. Columns and rows use native `border-spacing` rather than cell padding or margins; no grid layout replaces native table structure. Customize `--dui-table-column-gap` (default `1rem`), `--dui-table-row-gap` (default `0.5rem`), `--dui-table-min-width` (default `100%`) and `--dui-table-color`. Set a larger minimum width when columns should scroll rather than compress. Group multiple actions within a cell using flex/grid and `gap`.
+The component owns presentation only. Callers own rows, formatting, numeric alignment, row-action labels/handlers, sorting and empty/loading states. The header is black with white text; `data-dui-theme="dark"` reverses it to white with black text. Thin lines separate body rows and underline the header. Collapsed native borders keep the header band and separators continuous. Cells use internal padding (default `0.5rem` on each axis); layout spacing between action buttons still uses flex/grid `gap`.
+
+Customize `--dui-table-cell-padding-block`, `--dui-table-cell-padding-inline`, `--dui-table-header-background-color`, `--dui-table-header-color`, `--dui-table-row-border-width` (default `1px`), `--dui-table-row-border-color`, `--dui-table-min-width` (default `100%`) and `--dui-table-color`. Set a larger minimum width when columns should scroll rather than compress. Header overrides take precedence over theme defaults.
 
 ## Storybook
 

@@ -1,8 +1,17 @@
 import { expect, test } from '@playwright/test'
 
+/** @param {import('@playwright/test').Page} page */
 const trigger = (page) =>
 	page.getByRole('button', { name: 'About amounts', exact: true })
+/** @param {import('@playwright/test').Page} page */
 const panel = (page) => page.locator('#amount-info')
+
+/** @param {import('@playwright/test').Locator} locator */
+async function bounds(locator) {
+	const box = await locator.boundingBox()
+	if (!box) throw new Error('Expected visible popover or trigger geometry')
+	return box
+}
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('/')
@@ -53,21 +62,21 @@ test('anchored geometry stays bounded and follows scroll and resize', async ({
 		await page.setViewportSize({ width, height: 800 })
 		await trigger(page).click()
 		await expect(panel(page)).toBeVisible()
-		const anchor = await trigger(page).boundingBox()
-		const box = await panel(page).boundingBox()
+		const anchor = await bounds(trigger(page))
+		const box = await bounds(panel(page))
 		expect(box.x).toBeGreaterThanOrEqual(0)
 		expect(box.x + box.width).toBeLessThanOrEqual(width)
 		expect(box.y).toBeGreaterThanOrEqual(anchor.y + anchor.height)
 		await page.evaluate(() => window.scrollBy(0, 20))
 		await expect
 			.poll(async () => {
-				const moved = await panel(page).boundingBox()
-				const movedAnchor = await trigger(page).boundingBox()
+				const moved = await bounds(panel(page))
+				const movedAnchor = await bounds(trigger(page))
 				return moved.y - movedAnchor.y
 			})
 			.toBeCloseTo(box.y - anchor.y, 0)
 		await page.setViewportSize({ width: width - 30, height: 700 })
-		const resized = await panel(page).boundingBox()
+		const resized = await bounds(panel(page))
 		expect(resized.x).toBeGreaterThanOrEqual(0)
 		expect(resized.x + resized.width).toBeLessThanOrEqual(width - 30)
 		await page.keyboard.press('Escape')
@@ -82,8 +91,8 @@ test('flips above a trigger near the viewport bottom', async ({ page }) => {
 		element.style.left = '50%'
 	})
 	await trigger(page).click()
-	const anchor = await trigger(page).boundingBox()
-	const box = await panel(page).boundingBox()
+	const anchor = await bounds(trigger(page))
+	const box = await bounds(panel(page))
 	expect(box.y).toBeGreaterThanOrEqual(0)
 	expect(box.y + box.height).toBeLessThanOrEqual(anchor.y)
 })
@@ -96,8 +105,9 @@ test('native centered placement works without anchor styles', async ({
 			'#amount-info { position-area: none; position-anchor: none; inset: 0; margin: auto; }'
 	})
 	await trigger(page).click()
-	const box = await panel(page).boundingBox()
+	const box = await bounds(panel(page))
 	const viewport = page.viewportSize()
+	if (!viewport) throw new Error('Expected a configured viewport')
 	expect(box.x + box.width / 2).toBeCloseTo(viewport.width / 2, 0)
 	expect(box.y + box.height / 2).toBeCloseTo(viewport.height / 2, 0)
 })

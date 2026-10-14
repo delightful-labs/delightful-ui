@@ -4,6 +4,7 @@ import Details from './Components/Details.svelte'
 import Dialog from './Components/Dialog.svelte'
 import Popover from './Components/Popover.svelte'
 import LoadingSpinner from './Components/LoadingSpinner.svelte'
+import StatusMessage from './Components/StatusMessage.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
 import InputNumber from './Components/Inputs/InputNumber.svelte'
@@ -27,6 +28,7 @@ export {
 	Textarea,
 	Checkbox,
 	LoadingSpinner,
+	StatusMessage,
 	ScreenReaderText
 }
 

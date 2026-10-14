@@ -201,7 +201,21 @@ Initialize dialogOpen as a Svelte boolean state. Dialog uses native modal behavi
 <LoadingSpinner text="Saving changes" />
 ```
 
-The hidden status text defaults to Loading. Native div attributes and callbacks pass through. Customize `--dui-loading-spinner-size`, `--dui-loading-spinner-color`, and `--dui-loading-spinner-border-width`; defaults retain the 80px current-color ripple. Reduced-motion mode shows one static ring.
+Screen-reader text renders only when a nonempty `text` is supplied; there is no default message. Supply translated text for standalone status spinners. For decorative use alongside an existing message, omit `text` and set `role="presentation"` and `aria-hidden="true"` (or hide its wrapper). Native div attributes and callbacks pass through. Customize `--dui-loading-spinner-size`, `--dui-loading-spinner-color`, and `--dui-loading-spinner-border-width`; defaults retain the 80px current-color ripple. Reduced-motion mode shows one static ring.
+
+## StatusMessage
+
+See the [Finance-driven component specification](docs/finance-component-spec.md) for requirements and proposed follow-up components.
+
+```svelte
+<StatusMessage variant="loading" text={loadingMessage} />
+<StatusMessage variant="success" text={savedMessage} />
+<StatusMessage variant="error" text={saveError} />
+```
+
+Required `text` is caller-owned and visible. `variant` defaults to `info`; `loading` adds a compact decorative LoadingSpinner, while `success` and `info` show text alone. Errors use `role="alert"` and the shared error color; other variants use `role="status"`. The spinner is excluded from the accessibility tree, leaving one live region. Native div attributes and callbacks, class, and style pass through. Override `role` or `aria-live` when the application supplies announcement behavior; avoid nesting inside another live region. For announcements of updates, keep the component mounted and update its text/variant rather than relying on initially rendered status text being announced.
+
+The application owns visibility, loading/save state, translations, retry actions, and error mapping. The component accepts plain text and adds no dismissal, timer, form logic, or generic fallback messages. Spacing uses `gap`, and long text wraps. Customize `--dui-status-message-gap`, `--dui-status-message-color`, `--dui-status-message-error-color`, `--dui-status-message-spinner-size` (default `1.5rem`), and `--dui-status-message-spinner-border-width` (default `2px`). Loading animation and reduced-motion behavior come from LoadingSpinner.
 
 ## ScreenReaderText
 
@@ -213,7 +227,7 @@ Children supply visually hidden supplementary text. Native span attributes pass 
 
 ## Storybook
 
-Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all fourteen public components with the optional theme applied.
+Storybook uses the latest stable compatible toolchain verified for this migration: Storybook 10.6.2 and Svelte CSF addon 5.1.5. It runs independently of the SvelteKit demo using the Svelte/Vite framework. Stories cover all fifteen public components with the optional theme applied.
 
 ```sh
 pnpm storybook
@@ -226,7 +240,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, TagInput, LoadingSpinner, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputDate, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

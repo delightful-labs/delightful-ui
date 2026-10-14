@@ -7,7 +7,7 @@
 	}
 
 	let {
-		text = 'Loading',
+		text,
 		role = 'status',
 		class: className,
 		...attributes
@@ -15,7 +15,9 @@
 </script>
 
 <div {...attributes} {role} class={['spinner', className]}>
-	<ScreenReaderText>{text}</ScreenReaderText>
+	{#if text}
+		<ScreenReaderText>{text}</ScreenReaderText>
+	{/if}
 	<div class="ring" aria-hidden="true"></div>
 	<div class="ring delayed" aria-hidden="true"></div>
 </div>

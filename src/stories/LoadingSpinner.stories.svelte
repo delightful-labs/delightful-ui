@@ -5,11 +5,17 @@
 	const { Story } = defineMeta({
 		title: 'Feedback/LoadingSpinner',
 		component: LoadingSpinner,
-		tags: ['autodocs']
+		tags: ['autodocs'],
+		args: { text: 'Loading' }
 	})
 </script>
 
 <Story name="Default" />
+<Story name="Decorative">
+	{#snippet template()}
+		<LoadingSpinner role="presentation" aria-hidden="true" />
+	{/snippet}
+</Story>
 <Story
 	name="Compact"
 	args={{

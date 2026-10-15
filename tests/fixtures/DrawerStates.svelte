@@ -2,15 +2,14 @@
 	import Drawer from '#lib/Components/Drawer.svelte'
 	let {
 		initialOpen = false,
-		initialMode = 'inline',
+		showCloseButton = true,
 		longContent = false
 	}: {
 		initialOpen?: boolean
-		initialMode?: 'inline' | 'overlay'
+		showCloseButton?: boolean
 		longContent?: boolean
 	} = $props()
 	let open = $state((() => initialOpen)())
-	let mode = $state<'inline' | 'overlay'>((() => initialMode)())
 </script>
 
 <button
@@ -19,18 +18,13 @@
 	aria-expanded={open}
 	onclick={() => (open = !open)}>Toggle drawer</button
 >
-<label for="drawer-mode">Drawer mode</label>
-<select id="drawer-mode" bind:value={mode}>
-	<option value="inline">Inline</option>
-	<option value="overlay">Overlay</option>
-</select>
 <div class="layout">
 	<Drawer
 		heading="Fixture menu"
 		closeLabel="Close menu"
 		id="drawer-panel"
-		triggerId="drawer-toggle"
-		{mode}
+		{showCloseButton}
+		style="--dui-drawer-width: 16rem; --dui-drawer-height: 24rem"
 		bind:open
 	>
 		<div class="links">

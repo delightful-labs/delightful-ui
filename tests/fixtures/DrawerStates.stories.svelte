@@ -9,7 +9,5 @@
 
 <Story name="Default" />
 <Story name="Initially open" args={{ initialOpen: true }} />
-<Story
-	name="Long overlay"
-	args={{ initialMode: 'overlay', longContent: true }}
-/>
+<Story name="Long content" args={{ longContent: true }} />
+<Story name="Without close control" args={{ showCloseButton: false }} />

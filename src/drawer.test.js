@@ -4,51 +4,66 @@ import { Drawer } from './lib/index.js'
 
 const labels = { heading: 'Main & settings', closeLabel: 'Close menu' }
 
-test('overlay renders a labelled native dialog and explicit close control', () => {
-	const { body } = render(Drawer, { props: { ...labels, side: 'right' } })
-	expect(body).toContain('<dialog')
-	expect(body).toContain('data-side="right"')
-	expect(body).toContain('closedby="any"')
-	expect(body).toContain('Main &amp; settings')
-	expect(body).toMatch(
-		/<span class="screen-reader-text(?:\s[^>]*)?>[\s\S]*?Close menu[\s\S]*?<\/span>/
-	)
-	expect(body).not.toContain('aria-label="Close menu"')
-	expect(body).not.toContain('<aside')
-})
-
-test('closed inline sidebar is hidden and inert without modal semantics', () => {
-	const { body } = render(Drawer, {
-		props: { ...labels, mode: 'inline', id: 'sidebar' }
-	})
+test('closed drawer is an inert, accessible-hidden aside without modal semantics', () => {
+	const { body } = render(Drawer, { props: { ...labels, id: 'sidebar' } })
 	expect(body).toContain('<aside')
 	expect(body).toContain('id="sidebar"')
-	expect(body).toMatch(/<aside\b[^>]*\bhidden(?:=""|\s|>)/)
+	expect(body).toContain('data-open="false"')
+	expect(body).toContain('aria-hidden="true"')
 	expect(body).toMatch(/<aside\b[^>]*\binert(?:=""|\s|>)/)
+	// The DOM stays mounted so closing can animate; inert/aria-hidden apply immediately.
+	expect(body).not.toMatch(/<aside\b[^>]*\bhidden(?:=""|\s|>)/)
 	expect(body).not.toContain('<dialog')
 	expect(body).not.toContain('aria-modal')
+	expect(body).not.toContain('closedby=')
+	expect(body).toContain('Main &amp; settings')
 })
 
-test('initially open inline sidebar has a stable heading association and native attributes', () => {
+test('open drawer preserves heading association, side and native attributes', () => {
 	const { body } = render(Drawer, {
 		props: {
 			...labels,
-			mode: 'inline',
 			open: true,
+			side: 'right',
 			id: 'sidebar',
 			class: 'custom',
-			triggerId: 'toggle',
+			title: 'Navigation panel',
 			headingLevel: 'h3'
 		}
 	})
 	const id = body.match(/<h3\b[^>]*id="([^"]+)"/)?.[1]
 	expect(id).toBeTruthy()
 	expect(body).toContain(`aria-labelledby="${id}"`)
+	expect(body).toContain('data-side="right"')
+	expect(body).toContain('data-open="true"')
+	expect(body).toContain('aria-hidden="false"')
+	expect(body).toContain('title="Navigation panel"')
 	expect(body).toContain('custom')
-	expect(body).not.toMatch(/<aside\b[^>]*\b(?:hidden|inert)(?:=""|\s|>)/)
+	expect(body).not.toMatch(/<aside\b[^>]*\binert(?:=""|\s|>)/)
 	expect(body).toMatch(
 		/<span class="screen-reader-text(?:\s[^>]*)?>[\s\S]*?Close menu[\s\S]*?<\/span>/
 	)
 	expect(body).not.toContain('aria-label="Close menu"')
-	expect(body).not.toContain('triggerId=')
+})
+
+test('the close control can be omitted without losing the named aside', () => {
+	const { body } = render(Drawer, {
+		props: { ...labels, open: true, showCloseButton: false }
+	})
+	expect(body).toContain('aria-labelledby=')
+	expect(body).toContain('Main &amp; settings')
+	expect(body).toContain('data-close-button="false"')
+	expect(body).not.toContain('<button')
+})
+
+test('a visually hidden heading still names the drawer', () => {
+	const { body } = render(Drawer, {
+		props: { ...labels, open: true, headingHidden: true }
+	})
+	const id = body.match(/<h2\b[^>]*id="([^"]+)"/)?.[1]
+	expect(id).toBeTruthy()
+	expect(body).toContain(`aria-labelledby="${id}"`)
+	expect(body).toContain('heading-hidden')
+	expect(body).toContain('Main &amp; settings')
+	expect(body).toContain('data-side="left"')
 })

@@ -5,6 +5,7 @@ import Dialog from './Components/Dialog.svelte'
 import Popover from './Components/Popover.svelte'
 import LoadingSpinner from './Components/LoadingSpinner.svelte'
 import StatusMessage from './Components/StatusMessage.svelte'
+import LoadingScreen from './Components/LoadingScreen.svelte'
 import Table from './Components/Table.svelte'
 import Navigation from './Components/Navigation.svelte'
 import Drawer from './Components/Drawer.svelte'
@@ -38,6 +39,7 @@ export {
 	Checkbox,
 	LoadingSpinner,
 	StatusMessage,
+	LoadingScreen,
 	Table,
 	Navigation,
 	Drawer,

@@ -254,6 +254,18 @@ Initialize dialogOpen as a Svelte boolean state. Dialog uses native modal behavi
 
 Screen-reader text renders only when a nonempty `text` is supplied; there is no default message. Supply translated text for standalone status spinners. For decorative use alongside an existing message, omit `text` and set `role="presentation"` and `aria-hidden="true"` (or hide its wrapper). Native div attributes and callbacks pass through. Customize `--dui-loading-spinner-size`, `--dui-loading-spinner-color`, and `--dui-loading-spinner-border-width`; defaults retain the 80px current-color ripple. Reduced-motion mode shows one static ring.
 
+## LoadingScreen
+
+Center a single translated startup message horizontally and vertically within a full viewport. Keep the page's main landmark in the caller.
+
+```svelte
+<main>
+	<LoadingScreen text={loadingMessage} />
+</main>
+```
+
+Use `variant="error"` for a failed startup without a spinner. The message uses StatusMessage's status/alert semantics; the spinner is decorative. Native div attributes, class and style are forwarded. Set `--dui-loading-screen-min-height` for a contained area; content grows naturally for long text and small viewports. Width and internal padding have corresponding `--dui-loading-screen-*` tokens. It does not add a main landmark, focus trap, autofocus, overlay or state management.
+
 ## StatusMessage
 
 See the [Finance-driven component specification](docs/finance-component-spec.md) for requirements and proposed follow-up components.
@@ -363,7 +375,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, Navigation, Drawer, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

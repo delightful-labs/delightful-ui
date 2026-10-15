@@ -5,6 +5,7 @@
 	type Props = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
 		sticky?: boolean
 		children?: Snippet
+		class?: string
 	}
 
 	let {
@@ -20,6 +21,7 @@
 	class={['top-navigation', className]}
 	data-sticky={sticky}
 	data-top-navigation
+	data-top-navigation-root
 >
 	{@render children?.()}
 </header>

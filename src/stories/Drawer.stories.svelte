@@ -3,8 +3,6 @@
 	import Drawer from '#lib/Components/Drawer.svelte'
 	import Navigation from '#lib/Components/Navigation.svelte'
 	import Button from '#lib/Components/Button.svelte'
-	import TopNavigation from '#lib/Components/TopNavigation.svelte'
-	import ScreenReaderText from '#lib/Components/ScreenReaderText.svelte'
 
 	const { Story } = defineMeta({
 		title: 'Layout/Drawer',
@@ -14,7 +12,6 @@
 		argTypes: {
 			open: { control: false },
 			side: { control: 'select', options: ['left', 'right'] },
-			mode: { control: 'select', options: ['overlay', 'inline'] },
 			headingHidden: { control: 'boolean' }
 		}
 	})
@@ -23,83 +20,21 @@
 <script lang="ts">
 	const generatedId = $props.id()
 	const sidebarId = `${generatedId}-sidebar`
-	const toggleId = `${generatedId}-toggle`
 	let open = $state(false)
 </script>
 
-<Story name="Left">
-	{#snippet template(args)}
-		<TopNavigation sticky>
-			<strong>Delightful Finance</strong>
-			<span data-top-navigation-spacer></span>
-			<Button
-				id={toggleId}
-				aria-controls={sidebarId}
-				aria-expanded={open}
-				onclick={() => (open = !open)}
-			>
-				{#if open}<ScreenReaderText>Close menu</ScreenReaderText
-					>{:else}<ScreenReaderText>Open menu</ScreenReaderText>{/if}
-			</Button>
-		</TopNavigation>
-		<Drawer {...args} id={sidebarId} triggerId={toggleId} bind:open>
-			<Navigation label="Main navigation">
-				<li>
-					<a href="#overview" aria-current="page" onclick={() => (open = false)}
-						>Overview</a
-					>
-				</li>
-				<li><a href="#accounts" onclick={() => (open = false)}>Accounts</a></li>
-				<li><a href="#expenses" onclick={() => (open = false)}>Expenses</a></li>
-				<li><a href="#income" onclick={() => (open = false)}>Income</a></li>
-				<li><a href="#settings" onclick={() => (open = false)}>Settings</a></li>
-			</Navigation>
-		</Drawer>
-	{/snippet}
-</Story>
-<Story name="Right" args={{ side: 'right' }}>
-	{#snippet template(args)}
-		<TopNavigation sticky>
-			<strong>Delightful Finance</strong>
-			<span data-top-navigation-spacer></span>
-			<Button
-				id={toggleId}
-				aria-controls={sidebarId}
-				aria-expanded={open}
-				onclick={() => (open = !open)}
-			>
-				{#if open}<ScreenReaderText>Close menu</ScreenReaderText
-					>{:else}<ScreenReaderText>Open menu</ScreenReaderText>{/if}
-			</Button>
-		</TopNavigation>
-		<Drawer {...args} id={sidebarId} triggerId={toggleId} bind:open>
-			<Navigation label="Main navigation">
-				<li>
-					<a href="#overview" aria-current="page" onclick={() => (open = false)}
-						>Overview</a
-					>
-				</li>
-				<li><a href="#accounts" onclick={() => (open = false)}>Accounts</a></li>
-				<li><a href="#settings" onclick={() => (open = false)}>Settings</a></li>
-			</Navigation>
-		</Drawer>
-	{/snippet}
-</Story>
-
-<Story
-	name="Inline sidebar"
-	args={{ mode: 'inline', style: '--dui-drawer-width: 18rem;' }}
->
+<Story name="Inline sidebar" args={{ style: '--dui-drawer-width: 18rem;' }}>
 	{#snippet template(args)}
 		<div class="inline-example">
 			<Button
-				id={toggleId}
 				aria-controls={sidebarId}
 				aria-expanded={open}
-				onclick={() => (open = !open)}>Toggle sidebar</Button
+				onclick={() => (open = !open)}
 			>
+				Toggle sidebar
+			</Button>
 			<div class="inline-layout">
-				<Drawer {...args} id={sidebarId} triggerId={toggleId} bind:open>
+				<Drawer {...args} id={sidebarId} bind:open>
 					<Navigation label="Main navigation">
 						<li><a href="#overview" aria-current="page">Overview</a></li>
 						<li><a href="#accounts">Accounts</a></li>
@@ -109,8 +44,7 @@
 				<section class="example-content" aria-label="Page content">
 					<h2>Page content</h2>
 					<p>
-						The sidebar reserves layout space while this content remains
-						interactive.
+						The sidebar reserves layout space while this content remains interactive.
 					</p>
 					<label for={`${generatedId}-notes`}>Notes</label>
 					<textarea id={`${generatedId}-notes`} rows={4}></textarea>
@@ -120,18 +54,20 @@
 		</div>
 	{/snippet}
 </Story>
+
 <Story
 	name="Inline right sidebar"
-	args={{ mode: 'inline', side: 'right', style: '--dui-drawer-width: 18rem;' }}
+	args={{ side: 'right', style: '--dui-drawer-width: 18rem;' }}
 >
 	{#snippet template(args)}
 		<div class="inline-example">
 			<Button
-				id={toggleId}
 				aria-controls={sidebarId}
 				aria-expanded={open}
-				onclick={() => (open = !open)}>Toggle sidebar</Button
+				onclick={() => (open = !open)}
 			>
+				Toggle sidebar
+			</Button>
 			<div class="inline-layout">
 				<section class="example-content" aria-label="Page content">
 					<h2>Page content</h2>
@@ -140,7 +76,7 @@
 					</p>
 					<a href="#continue">Continue working</a>
 				</section>
-				<Drawer {...args} id={sidebarId} triggerId={toggleId} bind:open>
+				<Drawer {...args} id={sidebarId} bind:open>
 					<Navigation label="Main navigation">
 						<li><a href="#accounts">Accounts</a></li>
 						<li><a href="#settings">Settings</a></li>

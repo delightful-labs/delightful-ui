@@ -123,6 +123,16 @@ InputCurrency does not parse, format, round, clamp, validate currencies, insert 
 
 Values stay as date-only strings; the library performs no Date or timezone conversion. Native `min`, `max`, and `step` constraints pass through. `bind:value` is optional, and `defaultValue` supplies initial/reset text.
 
+## InputImage
+
+```svelte
+<InputImage label="Image" name="image" removeLabel="Remove image" bind:value />
+```
+
+Choose a single local image with a native file picker. Optional `bind:value` holds a `File` or `null` (the default); parent updates also update the native file input. The Browse control uses the flat button styling and shared `--dui-button-*` tokens, without an outer input border. Its native label follows the browser locale. The selected filename wraps onto multiple lines when needed. The selected image has a decorative preview and a removal button that returns focus to the input. Replacing, clearing, or destroying the component releases its preview URL. A failed preview leaves the selected file available for submission.
+
+Supply translated `label` and `removeLabel` strings. Native attributes and callbacks pass through, including `name`, `id`, `required`, `disabled`, `capture`, and accessibility attributes. `accept` defaults to `image/*` and is a picker hint, not file validation. `type` is fixed to file and selection is single-file. Native form reset clears the image; disabled fields are omitted from submission. Read the selected file with `new FormData(form).get('image')`; use multipart encoding for native file uploads. The application owns uploading and validation.
+
 ## TagInput
 
 ```svelte
@@ -353,7 +363,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, Navigation, Drawer, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, Table, Navigation, Drawer, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

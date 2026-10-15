@@ -16,6 +16,7 @@ import InputCurrency from './Components/Inputs/InputCurrency.svelte'
 import Select from './Components/Inputs/Select.svelte'
 import Textarea from './Components/Inputs/Textarea.svelte'
 import Checkbox from './Components/Inputs/Checkbox.svelte'
+import InputImage from './Components/Inputs/InputImage.svelte'
 import InputDate from './Components/Inputs/InputDate.svelte'
 import TagInput from './Components/Inputs/TagInput.svelte'
 
@@ -30,6 +31,7 @@ export {
 	InputNumber,
 	InputCurrency,
 	InputDate,
+	InputImage,
 	TagInput,
 	Select,
 	Textarea,

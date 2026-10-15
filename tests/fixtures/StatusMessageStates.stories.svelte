@@ -8,3 +8,5 @@
 </script>
 
 <Story name="Default" />
+
+<Story name="Compact" args={{ compact: true }} />

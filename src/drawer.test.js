@@ -10,7 +10,10 @@ test('overlay renders a labelled native dialog and explicit close control', () =
 	expect(body).toContain('data-side="right"')
 	expect(body).toContain('closedby="any"')
 	expect(body).toContain('Main &amp; settings')
-	expect(body).toContain('Close menu')
+	expect(body).toMatch(
+		/<span class="screen-reader-text(?:\s[^>]*)?>[\s\S]*?Close menu[\s\S]*?<\/span>/
+	)
+	expect(body).not.toContain('aria-label="Close menu"')
 	expect(body).not.toContain('<aside')
 })
 
@@ -43,5 +46,9 @@ test('initially open inline sidebar has a stable heading association and native 
 	expect(body).toContain(`aria-labelledby="${id}"`)
 	expect(body).toContain('custom')
 	expect(body).not.toMatch(/<aside\b[^>]*\b(?:hidden|inert)(?:=""|\s|>)/)
+	expect(body).toMatch(
+		/<span class="screen-reader-text(?:\s[^>]*)?>[\s\S]*?Close menu[\s\S]*?<\/span>/
+	)
+	expect(body).not.toContain('aria-label="Close menu"')
 	expect(body).not.toContain('triggerId=')
 })

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { tick, untrack, type Snippet } from 'svelte'
+	import { tick, type Snippet } from 'svelte'
 	import type { HTMLAttributes, HTMLDialogAttributes } from 'svelte/elements'
 	import Dialog from './Dialog.svelte'
 	import Button from './Button.svelte'
+	import ScreenReaderText from './ScreenReaderText.svelte'
 
 	type Props = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
 		heading: string | Snippet
@@ -39,7 +40,7 @@
 		...attributes
 	}: Props = $props()
 
-	let present = $state(untrack(() => open))
+	let present = $state(open)
 
 	function restoreInlineFocus() {
 		if (!inlinePanel?.contains(document.activeElement)) return
@@ -146,11 +147,10 @@
 		aria-hidden={!open}
 	>
 		<div class="drawer-close">
-			<Button
-				type="button"
-				appearance="flat"
-				aria-label={closeLabel}
-				onclick={() => (open = false)}><span aria-hidden="true">×</span></Button
+			<Button type="button" appearance="flat" onclick={() => (open = false)}
+				><span aria-hidden="true">×</span><ScreenReaderText
+					>{closeLabel}</ScreenReaderText
+				></Button
 			>
 		</div>
 		<div class="drawer-body">{@render children?.()}</div>
@@ -176,12 +176,10 @@
 				{#if typeof heading === 'string'}{heading}{:else}{@render heading()}{/if}
 			</svelte:element>
 			<div class="drawer-close">
-				<Button
-					type="button"
-					appearance="flat"
-					aria-label={closeLabel}
-					onclick={() => (open = false)}
-					><span aria-hidden="true">×</span></Button
+				<Button type="button" appearance="flat" onclick={() => (open = false)}
+					><span aria-hidden="true">×</span><ScreenReaderText
+						>{closeLabel}</ScreenReaderText
+					></Button
 				>
 			</div>
 			<div class="drawer-body">{@render children?.()}</div>

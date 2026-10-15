@@ -3,6 +3,8 @@
 	import Drawer from '#lib/Components/Drawer.svelte'
 	import Navigation from '#lib/Components/Navigation.svelte'
 	import Button from '#lib/Components/Button.svelte'
+	import TopNavigation from '#lib/Components/TopNavigation.svelte'
+	import ScreenReaderText from '#lib/Components/ScreenReaderText.svelte'
 
 	const { Story } = defineMeta({
 		title: 'Layout/Drawer',
@@ -27,8 +29,20 @@
 
 <Story name="Left">
 	{#snippet template(args)}
-		<Button onclick={() => (open = true)}>Open menu</Button>
-		<Drawer {...args} bind:open>
+		<TopNavigation sticky>
+			<strong>Delightful Finance</strong>
+			<span data-top-navigation-spacer></span>
+			<Button
+				id={toggleId}
+				aria-controls={sidebarId}
+				aria-expanded={open}
+				onclick={() => (open = !open)}
+			>
+				{#if open}<ScreenReaderText>Close menu</ScreenReaderText
+					>{:else}<ScreenReaderText>Open menu</ScreenReaderText>{/if}
+			</Button>
+		</TopNavigation>
+		<Drawer {...args} id={sidebarId} triggerId={toggleId} bind:open>
 			<Navigation label="Main navigation">
 				<li>
 					<a href="#overview" aria-current="page" onclick={() => (open = false)}
@@ -45,8 +59,20 @@
 </Story>
 <Story name="Right" args={{ side: 'right' }}>
 	{#snippet template(args)}
-		<Button onclick={() => (open = true)}>Open menu</Button>
-		<Drawer {...args} bind:open>
+		<TopNavigation sticky>
+			<strong>Delightful Finance</strong>
+			<span data-top-navigation-spacer></span>
+			<Button
+				id={toggleId}
+				aria-controls={sidebarId}
+				aria-expanded={open}
+				onclick={() => (open = !open)}
+			>
+				{#if open}<ScreenReaderText>Close menu</ScreenReaderText
+					>{:else}<ScreenReaderText>Open menu</ScreenReaderText>{/if}
+			</Button>
+		</TopNavigation>
+		<Drawer {...args} id={sidebarId} triggerId={toggleId} bind:open>
 			<Navigation label="Main navigation">
 				<li>
 					<a href="#overview" aria-current="page" onclick={() => (open = false)}

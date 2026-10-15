@@ -10,14 +10,19 @@ for (const side of ['left', 'right']) {
 	}) => {
 		await page.setViewportSize({ width: 1100, height: 700 })
 		await page.goto(`/iframe.html?id=layout-drawer--${side}&viewMode=story`)
-		const trigger = page.getByRole('button', { name: 'Open menu' })
-		await trigger.click()
+		const trigger = page.getByRole('button', { name: 'Open menu', exact: true })
 		const dialog = page.getByRole('dialog', { name: 'Main menu', exact: true })
-		const close = page.getByRole('button', { name: 'Close menu' })
+		const close = dialog.getByRole('button', {
+			name: 'Close menu',
+			exact: true
+		})
+		await trigger.click()
 		await expect(dialog).toBeVisible()
 		expect(await dialog.evaluate((el) => el.matches(':modal'))).toBe(true)
 		await expect(close).toBeFocused()
-		await trigger.evaluate((el) => el.focus())
+		await page
+			.locator('button[aria-controls$="-sidebar"]')
+			.evaluate((el) => el.focus())
 		await expect(close).toBeFocused()
 		await close.press('Tab')
 		await expect(
@@ -146,15 +151,16 @@ test('narrow inline layout stacks in DOM order and overlay content scrolls with 
 	)
 	await page.getByRole('button', { name: 'Toggle drawer' }).click()
 	const dialog = page.getByRole('dialog', { name: 'Fixture menu' })
+	const body = dialog.locator('.drawer-body')
 	await expect(dialog).toHaveCSS('transition-duration', '0s')
-	expect(await dialog.evaluate((el) => el.scrollHeight > el.clientHeight)).toBe(
+	expect(await body.evaluate((el) => el.scrollHeight > el.clientHeight)).toBe(
 		true
 	)
 	await dialog.getByRole('link', { name: 'Section 39', exact: true }).focus()
 	await expect(
 		dialog.getByRole('link', { name: 'Section 39', exact: true })
 	).toBeFocused()
-	expect(await dialog.evaluate((el) => el.scrollTop)).toBeGreaterThan(0)
+	expect(await body.evaluate((el) => el.scrollTop)).toBeGreaterThan(0)
 })
 
 test('inline descendants become inert immediately while exit animation reserves space', async ({

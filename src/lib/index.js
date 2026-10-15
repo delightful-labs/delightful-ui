@@ -8,6 +8,7 @@ import StatusMessage from './Components/StatusMessage.svelte'
 import LoadingScreen from './Components/LoadingScreen.svelte'
 import Table from './Components/Table.svelte'
 import Navigation from './Components/Navigation.svelte'
+import TopNavigation from './Components/TopNavigation.svelte'
 import Drawer from './Components/Drawer.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
@@ -42,6 +43,7 @@ export {
 	LoadingScreen,
 	Table,
 	Navigation,
+	TopNavigation,
 	Drawer,
 	ScreenReaderText
 }

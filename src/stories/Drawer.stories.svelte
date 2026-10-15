@@ -12,7 +12,8 @@
 		argTypes: {
 			open: { control: false },
 			side: { control: 'select', options: ['left', 'right'] },
-			mode: { control: 'select', options: ['overlay', 'inline'] }
+			mode: { control: 'select', options: ['overlay', 'inline'] },
+			headingHidden: { control: 'boolean' }
 		}
 	})
 </script>
@@ -121,6 +122,25 @@
 				</Drawer>
 			</div>
 		</div>
+	{/snippet}
+</Story>
+
+<Story
+	name="Compact navigation"
+	args={{
+		headingHidden: true,
+		heading: 'Main navigation',
+		style: '--dui-drawer-width: 18rem;'
+	}}
+>
+	{#snippet template(args)}
+		<Button onclick={() => (open = true)}>Open navigation</Button>
+		<Drawer {...args} bind:open>
+			<Navigation label="Main navigation">
+				<li><a href="#overview" onclick={() => (open = false)}>Overview</a></li>
+				<li><a href="#accounts" onclick={() => (open = false)}>Accounts</a></li>
+			</Navigation>
+		</Drawer>
 	{/snippet}
 </Story>
 

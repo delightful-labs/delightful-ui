@@ -1,9 +1,14 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte'
+	import ChevronRight from 'tdesign-icons-svg/src/chevron-right.svg?component'
+	import ChevronDown from 'tdesign-icons-svg/src/chevron-down.svg?component'
 	import type { HTMLDetailsAttributes } from 'svelte/elements'
 
 	type Props = Omit<HTMLDetailsAttributes, 'open'> & {
 		summary: string | Snippet
+		/** Decorative replacement for the disclosure icon; receives the expanded state. */
+		caret?: Snippet<[boolean]>
+		caretPosition?: 'left' | 'right'
 		open?: boolean
 		position?: 'inline' | 'absolute'
 		align?: 'start' | 'end'
@@ -11,6 +16,8 @@
 
 	let {
 		summary,
+		caret,
+		caretPosition = 'left',
 		open = $bindable(false),
 		position = 'inline',
 		align = 'start',
@@ -57,12 +64,27 @@
 		}
 	}}
 >
-	<summary bind:this={summaryElement}>
-		{#if typeof summary === 'string'}
-			{summary}
-		{:else}
-			{@render summary()}
-		{/if}
+	<summary bind:this={summaryElement} data-caret-position={caretPosition}>
+		<span class="details-caret" aria-hidden="true">
+			{#if caret}
+				{@render caret(open)}
+			{:else}
+				{@const CaretIcon = open ? ChevronDown : ChevronRight}
+				<CaretIcon
+					viewBox="0 0 24 24"
+					width="1em"
+					height="1em"
+					focusable="false"
+				/>
+			{/if}
+		</span>
+		<span class="summary-text">
+			{#if typeof summary === 'string'}
+				{summary}
+			{:else}
+				{@render summary()}
+			{/if}
+		</span>
 	</summary>
 	<div class="details-content">
 		{@render children?.()}
@@ -96,8 +118,31 @@
 			var(--dui-font-family, inherit)
 		);
 		font-size: var(--dui-details-summary-font-size, inherit);
-		list-style-position: inside;
+		display: flex;
+		align-items: center;
+		gap: var(--dui-details-caret-gap, 0.5rem);
+		list-style: none;
+		-webkit-user-select: none;
+		user-select: none;
 		cursor: pointer;
+	}
+
+	summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.details-caret {
+		display: inline-flex;
+		flex: 0 0 auto;
+	}
+
+	.summary-text {
+		min-width: 0;
+		flex: 1;
+	}
+
+	summary[data-caret-position='right'] .details-caret {
+		order: 1;
 	}
 
 	summary:hover {

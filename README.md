@@ -236,6 +236,17 @@ The native control submits its value only when checked and enabled. `bind:checke
 </Details>
 ```
 
+Summary text is not selectable. The disclosure icon defaults to the left; use `caretPosition="right"` to place it on the right. Supply a decorative `caret` snippet to replace the icon; it receives the current open state:
+
+```svelte
+<Details summary="Options" caretPosition="right">
+	{#snippet caret(open)}
+		<span>{open ? '−' : '+'}</span>
+	{/snippet}
+	<p>Additional information.</p>
+</Details>
+```
+
 Inline is the default. Absolute mode anchors a bounded panel to its summary and supports outside-pointer and Escape dismissal. Use native attributes/callbacks and optional `bind:open`.
 
 ## Popover

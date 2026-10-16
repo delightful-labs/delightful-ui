@@ -20,3 +20,19 @@
 		<Details {...args}><a href="#options">View options</a></Details>
 	{/snippet}
 </Story>
+
+<Story name="Right caret" args={{ caretPosition: 'right' }}>
+	{#snippet template(args)}
+		<Details {...args}><p>Additional information.</p></Details>
+	{/snippet}
+</Story>
+<Story name="Custom caret">
+	{#snippet template(args)}
+		<Details {...args}>
+			{#snippet caret(open)}
+				<span>{open ? '−' : '+'}</span>
+			{/snippet}
+			<p>Additional information.</p>
+		</Details>
+	{/snippet}
+</Story>

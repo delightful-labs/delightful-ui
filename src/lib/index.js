@@ -1,4 +1,5 @@
 import Button from './Components/Button.svelte'
+import Icon from './Components/Icon.svelte'
 import NumberKeypad from './Components/NumberKeypad.svelte'
 import Details from './Components/Details.svelte'
 import Dialog from './Components/Dialog.svelte'
@@ -25,6 +26,7 @@ import TagInput from './Components/Inputs/TagInput.svelte'
 
 export {
 	Button,
+	Icon,
 	NumberKeypad,
 	Details,
 	Dialog,

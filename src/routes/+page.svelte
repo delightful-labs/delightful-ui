@@ -2,6 +2,7 @@
 	import '#lib/theme.css'
 	import {
 		Button,
+		Icon,
 		Details,
 		Dialog,
 		Popover,
@@ -58,6 +59,12 @@
 		<h2 id="button-heading">Button</h2>
 		<div class="controls">
 			<Button>Save</Button>
+			<Button>
+				<Icon style="width: 1em; height: 1em; vertical-align: -0.125em;">
+					<path d="M5 12h14M13 6l6 6-6 6" />
+				</Icon>
+				Continue
+			</Button>
 			<Button disabled>Save</Button>
 			<Button text="Text label" />
 		</div>

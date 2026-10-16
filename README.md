@@ -40,7 +40,25 @@ The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS ca
 <Button text={cancelLabel} />
 ```
 
-Labels are caller-provided strings or child snippets. Button no longer accepts locale objects or reads UIProvider; absent content has no generic English fallback. Provide an accessible label for every button.
+Labels are caller-provided strings or child snippets. Button no longer accepts locale objects or reads UIProvider; absent content has no generic English fallback. Provide an accessible label for every button. To use an SVG icon, place its path inside `Icon`; icons are decorative by default and hidden from assistive technology. If the SVG itself conveys meaning, provide `label` for an `aria-label`, `title` for a native SVG `<title>`, or `aria-labelledby` referencing visible text. For an icon-only button, label the button with its action and leave the icon decorative.
+
+```svelte
+<Button>
+	<Icon style="width: 1em; height: 1em; vertical-align: -0.125em;">
+		<path d="M5 12h14M13 6l6 6-6 6" />
+	</Icon>
+	Continue
+</Button>
+```
+
+Use a 24×24 viewBox unless the source SVG specifies otherwise. The consuming app supplies the SVG paths; `Icon` provides shared SVG defaults and accessibility behavior.
+
+```svelte
+<Icon label="Warning">
+  <path d="M12 3 2 21h20L12 3Z" />
+  <path d="M12 9v4m0 4h.01" />
+</Icon>
+```
 
 Field labels render exactly as supplied. Native `required` validation remains; supply your own translated visible marker in the label when needed. Shared `--dui-color-error` adapts invalid styling to the explicit light/dark themes.
 

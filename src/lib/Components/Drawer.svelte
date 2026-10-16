@@ -2,6 +2,7 @@
 	import { tick, type Snippet } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
 	import Button from './Button.svelte'
+	import CloseIcon from 'tdesign-icons-svg/src/close.svg?component'
 	import ScreenReaderText from './ScreenReaderText.svelte'
 
 	type Props = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
@@ -89,9 +90,12 @@
 		{#if showCloseButton}
 			<div class="drawer-close">
 				<Button type="button" appearance="flat" onclick={() => (open = false)}>
-					<span aria-hidden="true">×</span><ScreenReaderText
-						>{closeLabel}</ScreenReaderText
-					>
+					<CloseIcon
+						aria-hidden="true"
+						focusable="false"
+						width="1em"
+						height="1em"
+					/><ScreenReaderText>{closeLabel}</ScreenReaderText>
 				</Button>
 			</div>
 		{/if}

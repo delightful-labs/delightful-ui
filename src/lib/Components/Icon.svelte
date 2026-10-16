@@ -3,6 +3,7 @@
 	import type { SVGAttributes } from 'svelte/elements'
 
 	type Props = SVGAttributes<SVGSVGElement> & {
+		title?: string
 		label?: string
 		decorative?: boolean
 		children?: Snippet

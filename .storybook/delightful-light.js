@@ -13,6 +13,8 @@ const theme = {
 	// UI
 	appBg: '#262626',
 	appContentBg: '#262626',
+	appHoverBg: '#333',
+	appPreviewBg: '#262626',
 	appBorderColor: '#fff',
 	appBorderRadius: 0,
 

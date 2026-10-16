@@ -22,6 +22,7 @@
 		--dui-button-background-color-hover: var(--dui-color-accent);
 		color-scheme: light;
 		accent-color: var(--dui-color-accent);
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	@media (prefers-color-scheme: dark) {

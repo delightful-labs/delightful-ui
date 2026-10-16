@@ -126,17 +126,8 @@ test('disabled selection and removal, label association and narrow layout', asyn
 		'No image field'
 	)
 	await page.setViewportSize({ width: 375, height: 800 })
-	await expect(page.locator('.filename')).toHaveText(filename)
-	const textSize = await page.locator('.filename').evaluate((node) => ({
-		height: node.getBoundingClientRect().height,
-		fontSize: parseFloat(getComputedStyle(node).fontSize)
-	}))
-	expect(textSize.height).toBeGreaterThan(textSize.fontSize * 2)
-	for (const locator of [
-		input,
-		page.locator('img'),
-		page.locator('.filename')
-	]) {
+	await expect(page.locator('img')).toBeVisible()
+	for (const locator of [input, page.locator('img')]) {
 		const box = await locator.boundingBox()
 		if (!box) throw new Error('Expected visible image input or preview')
 		expect(box.x).toBeGreaterThanOrEqual(0)

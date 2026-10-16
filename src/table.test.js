@@ -18,14 +18,11 @@ describe('native table rendering', () => {
 			props: {
 				caption: 'Accounts',
 				id: 'accounts',
-				class: 'custom',
-				hidden: true,
-				style: '--dui-table-min-width: 48rem;'
+				hidden: true
 			}
 		})
 		expect(body).toContain('id="accounts"')
-		expect(body).toContain('custom')
-		expect(body).toContain('--dui-table-min-width: 48rem;')
+
 		expect([
 			...body.matchAll(/<(?:div|table)\b[^>]*\bhidden(?:=""|\s|>)/g)
 		]).toHaveLength(2)

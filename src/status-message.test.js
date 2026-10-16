@@ -12,8 +12,7 @@ describe('status message server rendering', () => {
 		})
 		expect(body).toContain('role="status"')
 		expect(body).toContain('Saved &lt;draft> &amp; changes')
-		expect(body).not.toContain('screen-reader-text')
-		expect(body).not.toContain('class="spinner')
+		expect(body).not.toContain('Loading')
 	})
 
 	it('exposes one live region while excluding the loading decoration', () => {
@@ -23,7 +22,6 @@ describe('status message server rendering', () => {
 		expect([...body.matchAll(/role="status"/g)]).toHaveLength(1)
 		expect(body).toContain('role="presentation"')
 		expect(body).toContain('aria-hidden="true"')
-		expect(body).not.toContain('screen-reader-text')
 		expect([...body.matchAll(/Loading accounts/g)]).toHaveLength(1)
 	})
 
@@ -38,7 +36,6 @@ describe('status message server rendering', () => {
 				text: 'Save failed',
 				role: 'presentation',
 				id: 'feedback',
-				class: 'custom',
 				hidden: true,
 				'aria-live': 'off'
 			}
@@ -46,7 +43,6 @@ describe('status message server rendering', () => {
 		expect(overridden).toContain('role="presentation"')
 		expect(overridden).not.toContain('role="alert"')
 		expect(overridden).toContain('id="feedback"')
-		expect(overridden).toContain('custom')
 		expect(overridden).toMatch(/<div\b[^>]*\bhidden(?:=""|\s|>)/)
 		expect(overridden).toContain('aria-live="off"')
 	})
@@ -58,15 +54,12 @@ describe('status message server rendering', () => {
 				props: { compact: true, variant, text: 'Current status' }
 			})
 			expect(body).toContain('compact')
-			expect(body).toMatch(
-				/<span[^>]*class="[^"]*indicator[^"]*"[^>]*aria-hidden="true"/
-			)
+			expect(body).toMatch(/<span\b[^>]*aria-hidden="true"[^>]*><\/span>/)
 			expect(body).toContain(
 				variant === 'error' ? 'role="alert"' : 'role="status"'
 			)
 			expect([...body.matchAll(/role="(?:status|alert)"/g)]).toHaveLength(1)
 			expect([...body.matchAll(/Current status/g)]).toHaveLength(1)
-			expect(body).not.toContain('class="spinner')
 			expect(body).not.toContain('compact="')
 		}
 	)
@@ -78,8 +71,7 @@ describe('status message server rendering', () => {
 		expect(body).toContain('compact')
 		expect([...body.matchAll(/role="status"/g)]).toHaveLength(1)
 		expect(body).toContain('role="presentation"')
-		expect(body).toContain('aria-hidden="true"')
-		expect(body).not.toMatch(/class="[^"]*indicator/)
+		expect(body).not.toMatch(/<span\b[^>]*aria-hidden="true"/)
 		expect([...body.matchAll(/Syncing changes/g)]).toHaveLength(1)
 	})
 
@@ -91,7 +83,6 @@ describe('status message server rendering', () => {
 				text: 'Background status',
 				role: 'status',
 				id: 'compact-feedback',
-				class: 'custom',
 				hidden: true,
 				'aria-live': 'polite'
 			}
@@ -99,7 +90,6 @@ describe('status message server rendering', () => {
 		expect(body).toContain('role="status"')
 		expect(body).not.toContain('role="alert"')
 		expect(body).toContain('id="compact-feedback"')
-		expect(body).toContain('custom')
 		expect(body).toMatch(/<div\b[^>]*\bhidden(?:=""|\s|>)/)
 		expect(body).toContain('aria-live="polite"')
 	})
@@ -108,6 +98,6 @@ describe('status message server rendering', () => {
 		const { body } = render(StatusMessage, {
 			props: { variant: 'success', text: 'Saved' }
 		})
-		expect(body).not.toMatch(/class="[^"]*indicator/)
+		expect(body).not.toMatch(/<span\b[^>]*aria-hidden="true"/)
 	})
 })

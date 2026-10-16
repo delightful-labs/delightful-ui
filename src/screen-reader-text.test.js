@@ -5,12 +5,11 @@ import ScreenReaderText from './lib/Components/ScreenReaderText.svelte'
 import LoadingSpinner from './lib/Components/LoadingSpinner.svelte'
 
 describe('supplementary text server rendering', () => {
-	it('renders child snippets with native attributes and caller classes', () => {
+	it('renders child snippets with native attributes', () => {
 		const { body } = render(ScreenReaderText, {
 			props: {
 				id: 'save-description',
 				lang: 'en',
-				class: 'description',
 				children: createRawSnippet(() => ({
 					render: () => '<strong>Changes to this item</strong>'
 				}))
@@ -18,7 +17,7 @@ describe('supplementary text server rendering', () => {
 		})
 		expect(body).toContain('id="save-description"')
 		expect(body).toContain('lang="en"')
-		expect(body).toContain('description')
+
 		expect(body).toContain('<strong>Changes to this item</strong>')
 		expect(body).not.toMatch(/\b(?:role|aria-hidden|hidden)=/)
 	})

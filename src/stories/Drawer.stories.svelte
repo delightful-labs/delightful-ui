@@ -44,7 +44,8 @@
 				<section class="example-content" aria-label="Page content">
 					<h2>Page content</h2>
 					<p>
-						The sidebar reserves layout space while this content remains interactive.
+						The sidebar reserves layout space while this content remains
+						interactive.
 					</p>
 					<label for={`${generatedId}-notes`}>Notes</label>
 					<textarea id={`${generatedId}-notes`} rows={4}></textarea>

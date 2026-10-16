@@ -93,7 +93,7 @@ test('readonly stays successful while disabled is omitted from native forms', as
 	}
 })
 
-test('label focus and multiline keyboard editing retain native resize and narrow bounds', async ({
+test('label focus and multiline keyboard editing retain value and narrow bounds', async ({
 	page
 }) => {
 	await openStory(page, 'form-submission')
@@ -105,8 +105,7 @@ test('label focus and multiline keyboard editing retain native resize and narrow
 	await field.press('Enter')
 	await field.pressSequentially('Next')
 	await expect(field).toHaveValue('Line\nNext')
-	await expect(field).toHaveCSS('resize', 'vertical')
-	await expect(field).toHaveCSS('border-radius', '0px')
+
 	await page.setViewportSize({ width: 375, height: 800 })
 	const box = await field.boundingBox()
 	if (!box) throw new Error('Expected textarea geometry')

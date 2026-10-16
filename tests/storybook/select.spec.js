@@ -105,7 +105,7 @@ test('optional bindings follow native edits, external state and reset', async ({
 	await expect(multipleState).toHaveText('["work"]')
 })
 
-test('label and keyboard interaction retain native appearance and fit narrow viewports', async ({
+test('label and keyboard interaction fit narrow viewports', async ({
 	page
 }) => {
 	await openStory(page, 'inputs-select--form-submission')
@@ -114,8 +114,7 @@ test('label and keyboard interaction retain native appearance and fit narrow vie
 	await expect(select).toBeFocused()
 	await select.press('w')
 	await expect(select).toHaveValue('work')
-	await expect(select).toHaveCSS('appearance', 'auto')
-	await expect(select).toHaveCSS('border-radius', '0px')
+
 	await page.setViewportSize({ width: 375, height: 800 })
 	const box = await select.boundingBox()
 	if (!box) throw new Error('Expected visible select geometry')

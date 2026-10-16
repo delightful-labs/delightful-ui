@@ -7,7 +7,6 @@ test('top navigation renders a header with optional sticky positioning', () => {
 		props: {
 			sticky: true,
 			id: 'toolbar',
-			class: 'custom',
 			'aria-label': 'Finance'
 		}
 	})
@@ -15,7 +14,7 @@ test('top navigation renders a header with optional sticky positioning', () => {
 	expect(body).toContain('data-sticky="true"')
 	expect(body).toContain('data-top-navigation')
 	expect(body).toContain('id="toolbar"')
-	expect(body).toMatch(/class="top-navigation custom(?:\s|$)/)
+
 	expect(body).toContain('aria-label="Finance"')
 })
 

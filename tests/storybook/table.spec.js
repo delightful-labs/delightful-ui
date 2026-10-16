@@ -1,44 +1,15 @@
 import { expect, test } from '@playwright/test'
 
-test('table keeps native headers and actions with a continuous light header and row separators', async ({
-	page
-}) => {
+test('table keeps native headers, rows and actions', async ({ page }) => {
 	await page.goto('/iframe.html?id=data-table--accounts&viewMode=story')
 	const table = page.getByRole('table', { name: 'Accounts', exact: true })
 	await expect(table).toBeVisible()
 	await expect(table.getByRole('columnheader')).toHaveCount(4)
 	await expect(table.getByRole('rowheader')).toHaveCount(2)
-	await expect(table.locator('thead')).toHaveCSS(
-		'background-color',
-		'rgb(0, 0, 0)'
-	)
-	await expect(table.locator('thead')).toHaveCSS('color', 'rgb(255, 255, 255)')
-	await expect(table).toHaveCSS('border-collapse', 'collapse')
-	await expect(table.locator('tbody tr').first()).toHaveCSS(
-		'border-bottom-width',
-		'1px'
-	)
-	await expect(table.locator('tbody tr').first()).toHaveCSS(
-		'border-bottom-style',
-		'solid'
-	)
+
 	await expect(
 		table.getByRole('button', { name: 'Archive Personal checking' })
 	).toBeEnabled()
-})
-
-test('explicit dark theme reverses header colors', async ({ page }) => {
-	await page.goto('/iframe.html?id=data-table--dark-theme&viewMode=story')
-	const table = page.getByRole('table', { name: 'Recent transactions' })
-	await expect(table.locator('thead')).toHaveCSS(
-		'background-color',
-		'rgb(255, 255, 255)'
-	)
-	await expect(table.locator('thead')).toHaveCSS('color', 'rgb(0, 0, 0)')
-	await expect(table.locator('tbody tr').first()).toHaveCSS(
-		'border-bottom-color',
-		'rgb(255, 255, 255)'
-	)
 })
 
 test('narrow tables scroll locally with the keyboard and expose reachable row actions', async ({

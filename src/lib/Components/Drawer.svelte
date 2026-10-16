@@ -89,7 +89,9 @@
 		{#if showCloseButton}
 			<div class="drawer-close">
 				<Button type="button" appearance="flat" onclick={() => (open = false)}>
-					<span aria-hidden="true">×</span><ScreenReaderText>{closeLabel}</ScreenReaderText>
+					<span aria-hidden="true">×</span><ScreenReaderText
+						>{closeLabel}</ScreenReaderText
+					>
 				</Button>
 			</div>
 		{/if}

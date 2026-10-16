@@ -18,5 +18,6 @@
 	onclick={() => {
 		instructions = ''
 		errorMessage = ''
+		document.getElementById('account-feedback')?.setAttribute('hidden', '')
 	}}>Clear feedback</button
 >

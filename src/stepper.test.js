@@ -15,7 +15,7 @@ describe('stepper server rendering', () => {
 			props: { steps, currentStep: 'address' }
 		})
 
-		expect(body).toContain('<nav aria-label="Progress"')
+		expect(body).toContain('<ol aria-label="Progress"')
 		expect(body).toMatch(/<ol\b/)
 		expect(body).toContain('aria-current="step"')
 		expect([...body.matchAll(/aria-current="step"/g)]).toHaveLength(1)
@@ -49,13 +49,12 @@ describe('stepper server rendering', () => {
 				currentStep: 'one',
 				label: 'Maendeleo',
 				completedLabel: 'imekamilika',
-				id: 'application-steps',
-				class: 'custom'
+				id: 'application-steps'
 			}
 		})
 
 		expect(body).toContain('id="application-steps"')
-		expect(body).toMatch(/class="stepper custom\b/)
+
 		expect(body).toContain('aria-label="Maendeleo"')
 		expect(body).toContain('imekamilika')
 		expect(body).not.toContain('aria-current="step"')

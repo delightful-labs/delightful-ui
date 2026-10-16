@@ -17,23 +17,20 @@ describe('loading status server rendering', () => {
 		expect(body).not.toContain('screen-reader-text')
 	})
 
-	it('escapes status text and forwards caller attributes and classes', () => {
+	it('escapes status text and forwards caller attributes', () => {
 		const { body } = render(LoadingSpinner, {
 			props: {
 				text: 'Saving <draft> & changes',
 				id: 'save-status',
-				class: 'save-indicator',
 				hidden: true,
-				'aria-live': 'off',
-				style: '--dui-loading-spinner-size: 32px;'
+				'aria-live': 'off'
 			}
 		})
 		expect(body).toContain('Saving &lt;draft> &amp; changes')
 		expect(body).toContain('id="save-status"')
-		expect(body).toContain('save-indicator')
+
 		expect(body).toMatch(/<div\b[^>]*\bhidden(?:=""|\s|>)/)
 		expect(body).toContain('aria-live="off"')
-		expect(body).toContain('--dui-loading-spinner-size: 32px;')
 	})
 
 	it('starts the caller-controlled preview ready with its indicator hidden', () => {

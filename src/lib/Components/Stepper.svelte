@@ -27,7 +27,6 @@
 	}: Props = $props()
 </script>
 
-
 <ol {...attributes} aria-label={label} class={['stepper', className]}>
 	{#each steps as step, index (step.id)}
 		{@const status =
@@ -48,7 +47,6 @@
 		</li>
 	{/each}
 </ol>
-
 
 <style>
 	.stepper {

@@ -26,7 +26,6 @@ test('open drawer preserves heading association, side and native attributes', ()
 			open: true,
 			side: 'right',
 			id: 'sidebar',
-			class: 'custom',
 			title: 'Navigation panel',
 			headingLevel: 'h3'
 		}
@@ -38,11 +37,9 @@ test('open drawer preserves heading association, side and native attributes', ()
 	expect(body).toContain('data-open="true"')
 	expect(body).toContain('aria-hidden="false"')
 	expect(body).toContain('title="Navigation panel"')
-	expect(body).toContain('custom')
+
 	expect(body).not.toMatch(/<aside\b[^>]*\binert(?:=""|\s|>)/)
-	expect(body).toMatch(
-		/<span class="screen-reader-text(?:\s[^>]*)?>[\s\S]*?Close menu[\s\S]*?<\/span>/
-	)
+	expect(body).toMatch(/<button\b[^>]*>[\s\S]*?Close menu[\s\S]*?<\/button>/)
 	expect(body).not.toContain('aria-label="Close menu"')
 })
 

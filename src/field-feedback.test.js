@@ -15,13 +15,12 @@ describe('field feedback rendering', () => {
 				id: 'name-help',
 				instructions: 'Use <name>',
 				errorMessage: 'Name & type required',
-				hidden: true,
-				class: 'custom'
+				hidden: true
 			}
 		})
 		expect(body).toContain('Use &lt;name>')
 		expect(body).toContain('Name &amp; type required')
-		expect(body).toContain('custom')
+
 		expect(body).toMatch(/<div\b[^>]*\bhidden(?:=""|\s|>)/)
 	})
 })

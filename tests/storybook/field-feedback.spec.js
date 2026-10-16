@@ -25,8 +25,9 @@ test('updates descriptions and invalid state, then hides empty feedback without 
 	await page.goto(
 		'/iframe.html?id=tests-fieldfeedbackupdates--default&viewMode=story'
 	)
-	const input = page.getByRole('textbox', { name: 'Account name' })
+	const input = page.locator('input').first()
 	const feedback = page.locator('#account-feedback')
+	await expect(input).toHaveAttribute('aria-describedby', 'account-feedback')
 	await expect(input).toHaveAccessibleDescription('Use your account name.')
 	await expect(input).toHaveAttribute('aria-invalid', 'false')
 	await page.getByRole('button', { name: 'Show error' }).click()

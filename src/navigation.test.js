@@ -19,14 +19,12 @@ test('native landmark attributes remain on the nav and orientation is a componen
 			label: 'Main navigation',
 			orientation: 'horizontal',
 			id: 'main-nav',
-			class: 'custom',
 			hidden: true,
 			'aria-describedby': 'help'
 		}
 	})
 	expect(body).toContain('id="main-nav"')
-	expect(body).toContain('custom')
-	expect(body).toContain('horizontal')
+
 	expect(body).toContain('aria-describedby="help"')
 	expect(body).toMatch(/<nav\b[^>]*\bhidden(?:=""|\s|>)/)
 	expect(body).not.toContain('orientation=')

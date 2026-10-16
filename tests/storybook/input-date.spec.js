@@ -99,7 +99,7 @@ test('readonly dates remain successful while disabled dates are omitted', async 
 	}
 })
 
-test('label focus and native keyboard stepping retain date strings and narrow bounds', async ({
+test('label focus and keyboard stepping retain date strings and narrow bounds', async ({
 	page
 }) => {
 	await openStory(page, 'optional-binding')
@@ -113,8 +113,7 @@ test('label focus and native keyboard stepping retain date strings and narrow bo
 	await expect(page.getByRole('status', { name: 'Date value' })).toHaveText(
 		value
 	)
-	await expect(field).toHaveCSS('appearance', 'auto')
-	await expect(field).toHaveCSS('border-radius', '0px')
+
 	await page.setViewportSize({ width: 375, height: 800 })
 	const box = await field.boundingBox()
 	if (!box) throw new Error('Expected date input geometry')

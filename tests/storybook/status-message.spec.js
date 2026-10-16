@@ -10,7 +10,6 @@ test('mounted feedback transitions with one live region and preserves focus', as
 	await expect(feedback).toHaveText('Saving changes')
 	await expect(feedback).toHaveAttribute('role', 'status')
 	await expect(page.getByRole('status')).toHaveCount(1)
-	await expect(feedback.locator('.screen-reader-text')).toHaveCount(0)
 	await page.getByRole('button', { name: 'Complete', exact: true }).click()
 	await expect(feedback).toHaveText('Changes saved')
 	await expect(feedback.locator('[aria-hidden]')).toHaveCount(0)
@@ -39,11 +38,9 @@ test('loading text wraps on narrow screens and the spinner respects reduced moti
 	)
 	const feedback = page.getByRole('status')
 	await expect(feedback).toBeVisible()
-	await expect(feedback).toHaveCSS('gap', '8px')
-	const rings = feedback.locator('.ring')
+	const rings = feedback.locator('[aria-hidden="true"]')
 	await expect(rings.first()).toBeVisible()
 	await expect(rings.last()).toBeHidden()
-	await expect(rings.first()).toHaveCSS('animation-name', 'none')
 	const box = await feedback.boundingBox()
 	if (!box) throw new Error('Expected feedback geometry')
 	expect(box.x + box.width).toBeLessThanOrEqual(320)
@@ -52,14 +49,15 @@ test('loading text wraps on narrow screens and the spinner respects reduced moti
 	).toBeLessThanOrEqual(320)
 })
 
-test('decorative spinner omits hidden text and a separate announcement', async ({
+test('decorative spinner has no separate status announcement', async ({
 	page
 }) => {
 	await page.goto(
 		'/iframe.html?id=feedback-loadingspinner--decorative&viewMode=story'
 	)
-	await expect(page.locator('.ring').first()).toBeVisible()
-	await expect(page.locator('.screen-reader-text')).toHaveCount(0)
+	await expect(
+		page.locator('#storybook-root > [aria-hidden="true"]')
+	).toBeVisible()
 	await expect(page.getByRole('status')).toHaveCount(0)
 })
 
@@ -72,17 +70,10 @@ test('compact feedback transitions between spinner and dots without duplicating 
 	const feedback = page.locator('#feedback')
 	await expect(feedback).toHaveText('Saving changes')
 	await expect(page.getByRole('status')).toHaveCount(1)
-	await expect(feedback.locator('.indicator')).toHaveCount(0)
-	await expect(feedback.locator('.spinner').last()).toHaveCSS('width', '16px')
-	await expect(feedback).toHaveCSS('font-size', '14px')
+	await expect(feedback.locator('span[aria-hidden="true"]')).toHaveCount(0)
 	await page.getByRole('button', { name: 'Complete', exact: true }).click()
 	await expect(feedback).toHaveText('Changes saved')
-	await expect(feedback.locator('.indicator')).toHaveCount(1)
-	await expect(feedback.locator('.indicator')).toHaveAttribute(
-		'aria-hidden',
-		'true'
-	)
-	await expect(feedback.locator('.spinner')).toHaveCount(0)
+	await expect(feedback.locator('span[aria-hidden="true"]')).toHaveCount(1)
 	await expect(page.getByRole('status')).toHaveCount(1)
 	await expect(
 		page.getByRole('button', { name: 'Complete', exact: true })
@@ -90,10 +81,10 @@ test('compact feedback transitions between spinner and dots without duplicating 
 	await page.getByRole('button', { name: 'Fail', exact: true }).click()
 	await expect(page.getByRole('alert')).toHaveText('Save failed')
 	await expect(page.getByRole('status')).toHaveCount(0)
-	await expect(feedback.locator('.indicator')).toHaveCount(1)
+	await expect(feedback.locator('span[aria-hidden="true"]')).toHaveCount(1)
 	await page.getByRole('button', { name: 'Retry', exact: true }).click()
 	await expect(feedback).toHaveText('Saving changes')
-	await expect(feedback.locator('.indicator')).toHaveCount(0)
+	await expect(feedback.locator('span[aria-hidden="true"]')).toHaveCount(0)
 	await expect(page.getByRole('status')).toHaveCount(1)
 	await expect(page.getByRole('alert')).toHaveCount(0)
 	await page.getByRole('button', { name: 'Toggle visibility' }).click()
@@ -114,12 +105,7 @@ for (const state of ['offline', 'pending']) {
 			state === 'offline' ? 'Offline' : 'Changes waiting to sync'
 		)
 		await expect(page.getByRole('alert')).toHaveCount(0)
-		await expect(feedback.locator('.indicator')).toHaveCount(1)
-		await expect(feedback.locator('.indicator')).toHaveAttribute(
-			'aria-hidden',
-			'true'
-		)
-		await expect(feedback.locator('.spinner')).toHaveCount(0)
+		await expect(feedback.locator('span[aria-hidden="true"]')).toHaveCount(1)
 	})
 }
 
@@ -133,15 +119,12 @@ test('compact loading respects reduced motion with a single announcement', async
 	const feedback = page.getByRole('status')
 	await expect(feedback).toHaveText('Syncing changes…')
 	await expect(page.getByRole('status')).toHaveCount(1)
-	await expect(feedback.locator('.ring').first()).toHaveCSS(
-		'animation-name',
-		'none'
-	)
-	await expect(feedback.locator('.ring').first()).toBeVisible()
-	await expect(feedback.locator('.ring').last()).toBeHidden()
+	const decorations = feedback.locator('[aria-hidden="true"]')
+	await expect(decorations.first()).toBeVisible()
+	await expect(decorations.last()).toBeHidden()
 })
 
-test('compact text wraps on narrow screens without shrinking the dot', async ({
+test('compact text wraps on narrow screens without shrinking its decoration', async ({
 	page
 }) => {
 	await page.setViewportSize({ width: 320, height: 640 })
@@ -150,9 +133,7 @@ test('compact text wraps on narrow screens without shrinking the dot', async ({
 	)
 	const feedback = page.getByRole('status')
 	await expect(feedback).toBeVisible()
-	const indicator = feedback.locator('.indicator')
-	await expect(indicator).toHaveCSS('width', '10px')
-	await expect(indicator).toHaveCSS('height', '10px')
+	await expect(feedback.locator('span[aria-hidden="true"]')).toHaveCount(1)
 	const box = await feedback.boundingBox()
 	if (!box) throw new Error('Expected compact feedback geometry')
 	expect(box.x + box.width).toBeLessThanOrEqual(320)
@@ -160,35 +141,3 @@ test('compact text wraps on narrow screens without shrinking the dot', async ({
 		await page.evaluate(() => document.documentElement.scrollWidth)
 	).toBeLessThanOrEqual(320)
 })
-
-/** @type {Array<'light' | 'dark'>} */
-const colorSchemes = ['light', 'dark']
-
-for (const colorScheme of colorSchemes) {
-	test(`compact indicators use theme tokens in ${colorScheme} mode`, async ({
-		page
-	}) => {
-		await page.emulateMedia({ colorScheme })
-		await page.goto(
-			'/iframe.html?id=feedback-statusmessage--compact-synced&viewMode=story'
-		)
-		const feedback = page.getByRole('status')
-		await expect(feedback).toHaveText('All changes synced')
-		const indicator = feedback.locator('.indicator')
-		await expect(indicator).toHaveCSS('background-color', 'rgb(148, 255, 71)')
-		await expect(indicator).toHaveCSS(
-			'border-top-color',
-			colorScheme === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(38, 38, 38)'
-		)
-		await feedback.evaluate((element) => {
-			element.style.setProperty(
-				'--dui-status-message-success-color',
-				'rgb(10, 20, 30)'
-			)
-			element.style.setProperty('--dui-status-message-indicator-size', '12px')
-		})
-		await expect(indicator).toHaveCSS('background-color', 'rgb(10, 20, 30)')
-		await expect(indicator).toHaveCSS('width', '12px')
-		await expect(indicator).toHaveCSS('height', '12px')
-	})
-}

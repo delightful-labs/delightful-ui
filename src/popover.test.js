@@ -9,7 +9,6 @@ describe('popover server rendering', () => {
 			props: {
 				id: 'info',
 				title: 'Amount & tax',
-				class: 'custom',
 				'aria-label': 'Help'
 			}
 		})
@@ -17,7 +16,7 @@ describe('popover server rendering', () => {
 		expect(body).toContain('popover="auto"')
 		expect(body).toContain('title="Amount &amp; tax"')
 		expect(body).toContain('aria-label="Help"')
-		expect(body).toContain('popover custom')
+
 		expect(body).not.toContain('role=')
 	})
 

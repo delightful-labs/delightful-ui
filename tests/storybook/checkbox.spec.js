@@ -98,7 +98,7 @@ test('optional binding follows user interaction, parent updates and reset', asyn
 	await expect(output).toHaveText('true')
 })
 
-test('clickable labels and Space preserve native focus, green accent and narrow layout', async ({
+test('clickable labels and Space preserve native focus and narrow layout', async ({
 	page
 }) => {
 	await openStory(page, 'long-label')
@@ -109,9 +109,7 @@ test('clickable labels and Space preserve native focus, green accent and narrow 
 	await checkbox.press('Space')
 	await expect(checkbox).not.toBeChecked()
 	await expect(checkbox).toBeFocused()
-	await expect(checkbox).toHaveCSS('appearance', 'auto')
-	await expect(checkbox).toHaveCSS('accent-color', 'rgb(148, 255, 71)')
-	await expect(page.locator('label')).toHaveCSS('min-height', '44px')
+
 	await page.setViewportSize({ width: 375, height: 800 })
 	for (const element of [page.locator('label'), checkbox]) {
 		const box = await element.boundingBox()

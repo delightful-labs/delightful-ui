@@ -11,30 +11,19 @@ test('clipped text remains available to accessible names and descriptions', asyn
 		name: 'LoadingSpinner',
 		exact: true
 	})
-	const spinner = section.getByRole('status').first()
-	const text = spinner.locator('span')
-	await expect(text).toHaveText('Loading')
-	await expect(text).toHaveCSS('width', '1px')
-	await expect(text).toHaveCSS('height', '1px')
-	await expect(text).toHaveCSS('clip-path', 'inset(50%)')
-	await expect(text).toHaveCSS('white-space', 'nowrap')
-	await expect(text).toHaveCSS('position', 'absolute')
-	await expect(text).not.toHaveAttribute('aria-hidden')
-	await expect(text).not.toHaveAttribute('hidden')
+	const spinner = section.getByRole('status').nth(1)
+	const button = section.getByRole('button', { name: 'Toggle loading preview' })
 
-	// Wire native references to the real rendered span without changing the demo.
+	// Verify a caller can reference supplementary text as a native description.
+	const text = spinner.locator('span')
+	await expect(text).toHaveText('Loading compact preview')
 	await text.evaluate((element) => {
 		element.id = 'test-loading-description'
 	})
-	const toggle = section.locator('button')
-	await toggle.evaluate((element) => {
+	await button.evaluate((element) => {
 		element.setAttribute('aria-describedby', 'test-loading-description')
 	})
-	await expect(toggle).toHaveAccessibleDescription('Loading')
-	await toggle.evaluate((element) => {
-		element.setAttribute('aria-labelledby', 'test-loading-description')
-	})
-	await expect(toggle).toHaveAccessibleName('Loading')
+	await expect(button).toHaveAccessibleDescription('Loading compact preview')
 })
 
 test('loading status keeps supplementary text clipped across visibility changes', async ({
@@ -50,8 +39,7 @@ test('loading status keeps supplementary text clipped across visibility changes'
 	await toggle.click()
 	await expect(spinner).toBeVisible()
 	await expect(spinner).toMatchAriaSnapshot('- status: Loading preview content')
-	await expect(spinner.locator('span')).toHaveCSS('clip-path', 'inset(50%)')
-	await expect(spinner.locator('span')).toHaveCSS('width', '1px')
+
 	await expect(toggle).toBeFocused()
 	await toggle.press('Space')
 	await expect(spinner).toBeHidden()

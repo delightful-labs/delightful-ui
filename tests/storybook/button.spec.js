@@ -77,6 +77,29 @@ test('disabled flat buttons retain native disabled behavior and do not get activ
 	await page.mouse.up()
 })
 
+test('aria-disabled buttons remain focusable and do not activate or get interactive styling', async ({
+	page
+}) => {
+	const button = await openStory(page, 'aria-disabled')
+	await expect(button).toHaveAttribute('aria-disabled', 'true')
+	await expect(button).not.toHaveAttribute('disabled')
+	await expect(button).toHaveCSS('opacity', '0.5')
+	await button.focus()
+	await expect(button).toBeFocused()
+	await button.hover()
+	await expect(button).toHaveCSS('background-color', 'rgb(255, 255, 255)')
+	await page.mouse.down()
+	await expect(button).toHaveCSS('transform', 'none')
+	await expect(button).toHaveCSS(
+		'box-shadow',
+		'rgb(38, 38, 38) 3px 3px 0px 0px'
+	)
+	await page.mouse.up()
+	await button.evaluate((element) => {
+		if (element instanceof HTMLButtonElement) element.click()
+	})
+})
+
 test('flat keys scale with their grid and preserve keyboard focus in reduced motion and forced colors', async ({
 	page
 }) => {
@@ -91,12 +114,12 @@ test('flat keys scale with their grid and preserve keyboard focus in reduced mot
 	await page.emulateMedia({ reducedMotion: 'reduce' })
 	await button.focus()
 	await expect(button).toBeFocused()
-	await expect(button).toHaveCSS('outline-style', 'solid')
+	await expect(button).toHaveCSS('outline-style', 'dashed')
 	await expect(button).toHaveCSS('transition-duration', '0s')
 	await button.press('Space')
 	await expect(button).toBeFocused()
 	await page.emulateMedia({ forcedColors: 'active' })
 	await expect(button).toHaveCSS('box-shadow', 'none')
-	await expect(button).toHaveCSS('outline-style', 'solid')
+	await expect(button).toHaveCSS('outline-style', 'dashed')
 	await expect(button).toHaveCSS('outline-width', '2px')
 })

@@ -33,4 +33,10 @@ describe('button server rendering', () => {
 			/<button\b[^>]*><\/button>/
 		)
 	})
+
+	it('forwards aria-disabled without setting native disabled', () => {
+		const { body } = render(Button, { props: { 'aria-disabled': 'true' } })
+		expect(body).toContain('aria-disabled="true"')
+		expect(body).not.toMatch(/<button\b[^>]*\sdisabled(?:=""|\s|>)/)
+	})
 })

@@ -17,6 +17,7 @@
 <Story name="Primary flat" args={{ variant: 'primary', appearance: 'flat' }} />
 <Story name="Flat secondary" args={{ appearance: 'flat' }} />
 <Story name="Flat disabled" args={{ appearance: 'flat', disabled: true }} />
+<Story name="ARIA disabled" args={{ 'aria-disabled': 'true' }} />
 <Story
 	name="Flat key"
 	args={{

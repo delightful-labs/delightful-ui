@@ -19,6 +19,11 @@
 		children,
 		...attributes
 	}: Props = $props()
+
+	let ariaDisabled = $derived(
+		attributes['aria-disabled'] === true ||
+			attributes['aria-disabled'] === 'true'
+	)
 </script>
 
 <button
@@ -35,7 +40,14 @@
 			destructive: variant === 'destructive'
 		}
 	]}
-	{onclick}
+	onclick={(event) => {
+		if (disabled || ariaDisabled) {
+			event.preventDefault()
+			event.stopImmediatePropagation()
+			return
+		}
+		onclick?.(event)
+	}}
 >
 	{#if children}
 		{@render children()}
@@ -81,7 +93,7 @@
 			box-shadow 0.1s;
 	}
 
-	.button:hover:not(:disabled) {
+	.button:hover:not(:disabled):not([aria-disabled='true']) {
 		color: var(--dui-button-color-hover, var(--dui-color-background, #fff));
 		background-color: var(
 			--dui-button-background-color-hover,
@@ -93,7 +105,7 @@
 		);
 	}
 
-	.button:active:not(:disabled) {
+	.button:active:not(:disabled):not([aria-disabled='true']) {
 		box-shadow: none;
 		transform: translate(
 			var(--dui-button-pressed-offset, var(--dui-pressed-offset, 3px)),
@@ -111,7 +123,7 @@
 		border: none;
 	}
 
-	.button.primary:hover:not(:disabled) {
+	.button.primary:hover:not(:disabled):not([aria-disabled='true']) {
 		color: var(--dui-button-color-primary-hover, #000);
 		background-color: var(--dui-button-background-color-primary-hover, #94ff47);
 		border-color: var(--dui-button-border-color-primary-hover, #94ff47);
@@ -129,7 +141,7 @@
 		);
 	}
 
-	.button.destructive:hover:not(:disabled) {
+	.button.destructive:hover:not(:disabled):not([aria-disabled='true']) {
 		color: var(--dui-button-color-destructive-hover, #fff);
 		background-color: var(
 			--dui-button-background-color-destructive-hover,
@@ -138,7 +150,7 @@
 		border-color: var(--dui-button-border-color-destructive-hover, #991b1b);
 	}
 
-	.button.flat:active:not(:disabled) {
+	.button.flat:active:not(:disabled):not([aria-disabled='true']) {
 		transform: none;
 		color: var(--dui-button-color-active, var(--dui-color-background, #fff));
 		background-color: var(
@@ -153,7 +165,8 @@
 		outline-offset: 4px;
 	}
 
-	.button:disabled {
+	.button:disabled,
+	.button[aria-disabled='true'] {
 		opacity: var(--dui-button-disabled-opacity, 0.5);
 		cursor: not-allowed;
 	}
@@ -163,7 +176,7 @@
 			transition: none;
 		}
 
-		.button:active:not(:disabled) {
+		.button:active:not(:disabled):not([aria-disabled='true']) {
 			transform: none;
 		}
 	}

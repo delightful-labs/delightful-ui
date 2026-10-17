@@ -26,3 +26,15 @@
 		</Dialog>
 	{/snippet}
 </Story>
+
+<Story name="Closedby any" args={{ closedby: 'any' }}>
+	{#snippet template(args)}
+		<Button onclick={() => (open = true)}>Open dialog</Button>
+		<Dialog {...args} bind:open>
+			<p>Click or tap outside the dialog to close it.</p>
+			<form method="dialog">
+				<Button type="submit" value="close">Close</Button>
+			</form>
+		</Dialog>
+	{/snippet}
+</Story>

@@ -23,6 +23,18 @@
 	let dialog = $state<HTMLDialogElement>()
 	const dialogId = $derived(id ?? generatedId)
 	const headingId = `${generatedId}-heading`
+	const supportsClosedBy =
+		typeof HTMLDialogElement !== 'undefined' && 'closedBy' in HTMLDialogElement.prototype
+	function closeOnBackdrop(event: MouseEvent | TouchEvent) {
+		if (
+			!supportsClosedBy &&
+			attributes.closedby === 'any' &&
+			dialog?.open &&
+			event.target === dialog
+		) {
+			dialog.close()
+		}
+	}
 
 	$effect(() => {
 		if (!dialog) return
@@ -45,6 +57,8 @@
 	id={dialogId}
 	aria-labelledby={labelledBy ?? headingId}
 	bind:this={dialog}
+	onclick={closeOnBackdrop}
+	ontouchend={closeOnBackdrop}
 	onclose={(event) => {
 		open = event.currentTarget.open
 		onclose?.(event)

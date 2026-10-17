@@ -7,10 +7,11 @@
 	type Props = Omit<HTMLAttributes<HTMLHeadingElement>, 'children'> & {
 		level?: Level
 		size?: Size
+		align?: 'start' | 'center' | 'end' | 'left' | 'right' | 'justify'
 		children: Snippet
 	}
 
-	let { level = 'h2', size, children, ...attributes }: Props = $props()
+	let { level = 'h2', size, align, children, ...attributes }: Props = $props()
 	const sizes: Record<Level, Size> = {
 		h1: 'xxl',
 		h2: 'xl',
@@ -22,7 +23,12 @@
 	const resolvedSize = $derived(size ?? sizes[level])
 </script>
 
-<svelte:element this={level} {...attributes} data-size={resolvedSize}>
+<svelte:element
+	this={level}
+	{...attributes}
+	data-size={resolvedSize}
+	data-align={align}
+>
 	{@render children()}
 </svelte:element>
 
@@ -66,5 +72,24 @@
 
 	[data-size='xxl'] {
 		font-size: var(--dui-heading-font-size, var(--dui-font-size-xxl, 1.5rem));
+	}
+
+	[data-align='start'] {
+		text-align: start;
+	}
+	[data-align='center'] {
+		text-align: center;
+	}
+	[data-align='end'] {
+		text-align: end;
+	}
+	[data-align='left'] {
+		text-align: left;
+	}
+	[data-align='right'] {
+		text-align: right;
+	}
+	[data-align='justify'] {
+		text-align: justify;
 	}
 </style>

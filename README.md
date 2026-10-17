@@ -46,6 +46,18 @@ The compact app typography scale uses `--dui-font-size-xs` (0.75rem), `--dui-fon
 
 `Heading` renders a native h1–h6, defaults to `level="h2"`, and accepts content through its children snippet. Default visual sizes map h1 → xxl, h2 → xl, h3 → lg, h4 → md, h5 → sm, and h6 → xs. Optional `size` overrides appearance independently of the semantic level; choose `level` for document structure. Native attributes, events, class, and style pass through. Default margins are zero, so layout owns spacing. Heading uses the typography tokens with matching fallbacks when the optional theme is absent. Customize `--dui-heading-font-family`, `--dui-heading-font-size`, `--dui-heading-font-weight` (600), `--dui-heading-line-height` (1.3), and `--dui-heading-color`.
 
+`Heading` and `Text` accept an optional `align` prop: `start`, `center`, `end`, `left`, `right`, or `justify`. Omit it to inherit alignment. Prefer `start` and `end` for direction-aware layouts. Inline `Text` (`as="span"`) follows the containing block’s alignment; this prop does not position the span within its parent. Use paragraph Text or set alignment on the containing block to align a line of text.
+
+## Text
+
+```svelte
+<Text>Manage your account preferences.</Text>
+<Text as="span" size="sm">Last saved a moment ago</Text>
+<Text align="center">Centered paragraph</Text>
+```
+
+`Text` renders a paragraph by default; `as` accepts `p` or `span`. Its optional `size` accepts `xs`, `sm`, `md`, `lg`, `xl`, or `xxl` and defaults to `md` (1rem). It shares the `--dui-font-size-*` scale with Heading, including fallbacks without the optional theme. Children provide content; native attributes, events, class, and style pass through. Default margins are zero. Font family uses `--dui-font-family-body`; customize `--dui-text-font-family`, `--dui-text-font-size`, `--dui-text-line-height` (1.5), or `--dui-text-color`.
+
 ## Button
 
 ```svelte
@@ -425,7 +437,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Heading, Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, InputAvatar, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
+Import components from `delightful-ui`: Text, Heading, Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, InputAvatar, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

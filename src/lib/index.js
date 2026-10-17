@@ -1,3 +1,4 @@
+import Text from './Components/Text.svelte'
 import Heading from './Components/Heading.svelte'
 import Button from './Components/Button.svelte'
 import Icon from './Components/Icon.svelte'
@@ -27,6 +28,7 @@ import InputDate from './Components/Inputs/InputDate.svelte'
 import TagInput from './Components/Inputs/TagInput.svelte'
 
 export {
+	Text,
 	Heading,
 	Button,
 	Icon,

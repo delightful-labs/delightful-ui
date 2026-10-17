@@ -50,6 +50,6 @@
 
 	output {
 		display: block;
-		margin-block-start: var(--dui-space-sm, 1rem);
+		margin-block-start: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 </style>

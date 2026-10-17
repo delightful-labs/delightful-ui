@@ -56,7 +56,10 @@
 	.checkbox-field {
 		display: flex;
 		align-items: center;
-		gap: var(--dui-checkbox-gap, var(--dui-field-gap, 0.5rem));
+		gap: var(
+			--dui-checkbox-gap,
+			var(--dui-field-gap, var(--dui-spacing-xs, 0.5rem))
+		);
 		min-block-size: var(--dui-checkbox-min-height, 44px);
 		font-family: var(--dui-field-font-family, var(--dui-font-family, inherit));
 		font-size: var(--dui-field-font-size, var(--dui-font-size-sm, 0.875rem));

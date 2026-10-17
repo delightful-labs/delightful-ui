@@ -71,7 +71,10 @@
 		max-inline-size: calc(100vw - 2rem);
 		max-block-size: calc(100dvh - 2rem);
 		overflow: auto;
-		padding: var(--dui-dialog-padding, var(--dui-space-md, 1.5rem));
+		padding: var(
+			--dui-dialog-padding,
+			var(--dui-space-md, var(--dui-spacing-lg, 1.5rem))
+		);
 		color: var(--dui-dialog-color, var(--dui-color-foreground, #262626));
 		background-color: var(
 			--dui-dialog-background-color,
@@ -96,8 +99,11 @@
 	}
 
 	.heading {
-		margin: 0 0 var(--dui-space-sm, 1rem);
-		font-size: var(--dui-dialog-heading-font-size, 1.25rem);
+		margin: 0 0 var(--dui-space-sm, var(--dui-spacing-md, 1rem));
+		font-size: var(
+			--dui-dialog-heading-font-size,
+			var(--dui-font-size-xl, 1.25rem)
+		);
 		line-height: 1.25;
 	}
 

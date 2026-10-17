@@ -62,17 +62,17 @@
 <style>
 	form {
 		display: grid;
-		gap: var(--dui-space-sm, 1rem);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 
 	.actions {
 		display: flex;
-		gap: var(--dui-space-xs, 0.5rem);
+		gap: var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem));
 	}
 
 	.field-example {
 		display: grid;
-		gap: var(--dui-field-gap, 0.25rem);
+		gap: var(--dui-field-gap, var(--dui-spacing-xxs, 0.25rem));
 	}
 
 	pre {

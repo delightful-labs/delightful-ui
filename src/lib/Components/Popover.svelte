@@ -19,7 +19,10 @@
 		max-inline-size: calc(100dvw - 2rem);
 		max-block-size: calc(100dvh - 2rem);
 		overflow: auto;
-		padding: var(--dui-popover-padding, var(--dui-space-sm, 1rem));
+		padding: var(
+			--dui-popover-padding,
+			var(--dui-space-sm, var(--dui-spacing-md, 1rem))
+		);
 		color: var(--dui-popover-color, var(--dui-color-foreground, #262626));
 		background-color: var(
 			--dui-popover-background-color,
@@ -39,7 +42,7 @@
 			position: fixed;
 			position-anchor: auto;
 			inset: auto;
-			margin: var(--dui-popover-gap, 4px);
+			margin: var(--dui-popover-gap, var(--dui-spacing-xxs, 0.25rem));
 			position-area: block-end;
 			position-try-fallbacks:
 				flip-block,

@@ -386,7 +386,7 @@
 	.selected-tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--dui-tag-gap, var(--dui-space-sm, 1rem));
+		gap: var(--dui-tag-gap, var(--dui-space-sm, var(--dui-spacing-md, 1rem)));
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -413,7 +413,7 @@
 	}
 
 	.suggestions [role='option'] {
-		padding: 0.5rem 1rem;
+		padding: var(--dui-spacing-xs, 0.5rem) var(--dui-spacing-md, 1rem);
 		min-height: 44px;
 		box-sizing: border-box;
 		overflow-wrap: anywhere;
@@ -430,7 +430,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: var(--dui-tag-gap, var(--dui-space-sm, 1rem));
+		gap: var(--dui-tag-gap, var(--dui-space-sm, var(--dui-spacing-md, 1rem)));
 		min-width: 0;
 	}
 
@@ -454,7 +454,8 @@
 
 	.tag > span {
 		align-self: center;
-		padding: 0.5rem 0 0.5rem 1rem;
+		padding: var(--dui-spacing-xs, 0.5rem) 0 var(--dui-spacing-xs, 0.5rem)
+			var(--dui-spacing-md, 1rem);
 		overflow-wrap: anywhere;
 		min-width: 0;
 	}
@@ -463,7 +464,7 @@
 		appearance: none;
 		flex: 0 0 auto;
 		min-width: 40px;
-		padding: 0.5rem;
+		padding: var(--dui-spacing-xs, 0.5rem);
 		border: 0;
 		border-radius: 0;
 		font: inherit;
@@ -492,9 +493,10 @@
 		flex: 1 1 16rem;
 		flex-wrap: wrap;
 		align-items: stretch;
-		gap: var(--dui-tag-entry-gap, 0.5rem);
+		gap: var(--dui-tag-entry-gap, var(--dui-spacing-xs, 0.5rem));
 		min-width: 0;
-		--dui-button-padding: 0.5rem 0.75rem;
+		--dui-button-padding: var(--dui-spacing-xs, 0.5rem)
+			var(--dui-spacing-sm, 0.75rem);
 		--dui-button-min-height: var(--dui-tag-min-height, 48px);
 	}
 

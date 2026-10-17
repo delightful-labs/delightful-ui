@@ -305,17 +305,17 @@
 
 <style>
 	main {
-		padding: var(--dui-space-lg);
+		padding: var(--dui-space-lg, var(--dui-spacing-xl, 2rem));
 	}
 
 	section + section {
-		margin-top: var(--dui-space-lg);
+		margin-top: var(--dui-space-lg, var(--dui-spacing-xl, 2rem));
 	}
 
 	form,
 	.bound-fields {
 		display: grid;
-		gap: var(--dui-space-sm);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 
 	form {
@@ -323,7 +323,7 @@
 	}
 
 	.bound-fields {
-		margin-top: var(--dui-space-sm);
+		margin-top: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 
 	.bound-fields p {
@@ -338,8 +338,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: var(--dui-space-sm);
-		margin-block: var(--dui-space-sm);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
+		margin-block: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 
 	.end-panel {
@@ -350,20 +350,20 @@
 	.dialog-options {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--dui-space-sm);
-		margin-top: var(--dui-space-sm);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
+		margin-top: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 
 	.spinner-examples {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: start;
-		gap: var(--dui-space-lg);
+		gap: var(--dui-space-lg, var(--dui-spacing-xl, 2rem));
 	}
 
 	.controls {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--dui-space-sm);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 </style>

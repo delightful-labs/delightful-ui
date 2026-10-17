@@ -53,7 +53,10 @@
 		color: var(--dui-stepper-color, var(--dui-color-foreground, inherit));
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--dui-stepper-gap, var(--dui-space-sm, 1rem));
+		gap: var(
+			--dui-stepper-gap,
+			var(--dui-space-sm, var(--dui-spacing-md, 1rem))
+		);
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -64,7 +67,10 @@
 		align-items: flex-start;
 		flex: 1 1 8rem;
 		min-inline-size: 0;
-		padding-block-start: var(--dui-stepper-item-padding-block, 0.5rem);
+		padding-block-start: var(
+			--dui-stepper-item-padding-block,
+			var(--dui-spacing-xs, 0.5rem)
+		);
 		border-block-start: var(--dui-stepper-track-width, 0.25rem) solid
 			var(
 				--dui-stepper-inactive-color,
@@ -96,10 +102,16 @@
 		inline-size: var(--dui-stepper-number-size, 1.75rem);
 		block-size: var(--dui-stepper-number-size, 1.75rem);
 		flex: 0 0 var(--dui-stepper-number-size, 1.75rem);
-		margin-inline-end: var(--dui-stepper-number-gap, 0.5rem);
+		margin-inline-end: var(
+			--dui-stepper-number-gap,
+			var(--dui-spacing-xs, 0.5rem)
+		);
 		border: var(--dui-stepper-number-border-width, 1px) solid currentColor;
 		border-radius: 50%;
-		font-size: var(--dui-stepper-number-font-size, 0.875rem);
+		font-size: var(
+			--dui-stepper-number-font-size,
+			var(--dui-font-size-sm, 0.875rem)
+		);
 	}
 
 	li[data-status='current'] .step-number {

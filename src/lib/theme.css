@@ -24,10 +24,10 @@
 		--dui-spacing-lg: clamp(1.5rem, calc(1.333333rem + 0.833333vw), 2rem);
 		--dui-spacing-xl: clamp(2rem, calc(1.666667rem + 1.666667vw), 3rem);
 		--dui-spacing-xxl: clamp(3rem, calc(2.333333rem + 3.333333vw), 5rem);
-		--dui-space-xs: 0.5rem;
-		--dui-space-sm: 1rem;
-		--dui-space-md: 1.5rem;
-		--dui-space-lg: 2rem;
+		--dui-space-xs: var(--dui-spacing-xs);
+		--dui-space-sm: var(--dui-spacing-md);
+		--dui-space-md: var(--dui-spacing-lg);
+		--dui-space-lg: var(--dui-spacing-xl);
 		--dui-border-width: 2px;
 		--dui-pressed-offset: 3px;
 		--dui-shadow: 3px 3px 0 var(--dui-color-foreground);
@@ -73,6 +73,7 @@
 	body {
 		margin: 0;
 		font-family: var(--dui-font-family-body);
+		font-size: var(--dui-font-size-md, 1rem);
 		line-height: 1.5;
 		color: var(--dui-color-foreground);
 		background-color: var(--dui-color-background);

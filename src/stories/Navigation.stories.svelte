@@ -125,7 +125,10 @@
 <style>
 	.dropdown-links {
 		display: grid;
-		gap: var(--dui-navigation-gap, var(--dui-space-xs, 0.5rem));
+		gap: var(
+			--dui-navigation-gap,
+			var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem))
+		);
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -133,6 +136,6 @@
 
 	.groups {
 		display: grid;
-		gap: var(--dui-space-lg, 2rem);
+		gap: var(--dui-space-lg, var(--dui-spacing-xl, 2rem));
 	}
 </style>

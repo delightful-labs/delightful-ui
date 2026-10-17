@@ -32,10 +32,16 @@
 		z-index: 1;
 		display: flex;
 		align-items: center;
-		gap: var(--dui-top-navigation-gap, var(--dui-space-sm, 1rem));
+		gap: var(
+			--dui-top-navigation-gap,
+			var(--dui-space-sm, var(--dui-spacing-md, 1rem))
+		);
 		min-block-size: var(--dui-top-navigation-height, 3.5rem);
 		box-sizing: border-box;
-		padding: var(--dui-top-navigation-padding, 0.5rem 1rem);
+		padding: var(
+			--dui-top-navigation-padding,
+			var(--dui-spacing-xs, 0.5rem) var(--dui-spacing-md, 1rem)
+		);
 		color: var(
 			--dui-top-navigation-color,
 			var(--dui-color-foreground, inherit)

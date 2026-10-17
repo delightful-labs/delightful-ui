@@ -82,13 +82,13 @@
 	.dropdown:not(.listbox) select {
 		-webkit-appearance: none;
 		appearance: none;
-		padding-inline-end: 2.5rem;
+		padding-inline-end: calc(var(--dui-spacing-md, 1rem) + 1.5rem);
 	}
 
 	.dropdown:not(.listbox)::after {
 		content: '';
 		position: absolute;
-		inset-inline-end: 1rem;
+		inset-inline-end: var(--dui-spacing-md, 1rem);
 		top: 50%;
 		width: 0.5rem;
 		height: 0.5rem;

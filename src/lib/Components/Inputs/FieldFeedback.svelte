@@ -28,7 +28,10 @@
 <style>
 	.field-feedback {
 		display: grid;
-		gap: var(--dui-field-feedback-gap, var(--dui-field-gap, 0.25rem));
+		gap: var(
+			--dui-field-feedback-gap,
+			var(--dui-field-gap, var(--dui-spacing-xxs, 0.25rem))
+		);
 		min-inline-size: 0;
 		font-family: var(--dui-field-font-family, var(--dui-font-family, inherit));
 		font-size: var(--dui-field-font-size, var(--dui-font-size-sm, 0.875rem));

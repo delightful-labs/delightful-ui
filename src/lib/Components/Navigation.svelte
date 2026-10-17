@@ -33,7 +33,10 @@
 	ul {
 		display: flex;
 		flex-direction: column;
-		gap: var(--dui-navigation-gap, var(--dui-space-xs, 0.5rem));
+		gap: var(
+			--dui-navigation-gap,
+			var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem))
+		);
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -54,7 +57,7 @@
 	}
 
 	.navigation :global(button[popovertarget]) {
-		gap: 0.25rem;
+		gap: var(--dui-spacing-xxs, 0.25rem);
 		padding: 0;
 		border: 0;
 		background: transparent;

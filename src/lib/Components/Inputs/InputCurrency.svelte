@@ -59,7 +59,10 @@
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;
 		align-items: center;
-		gap: var(--dui-input-currency-gap, var(--dui-space-xs, 0.5rem));
+		gap: var(
+			--dui-input-currency-gap,
+			var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem))
+		);
 		min-inline-size: 0;
 	}
 

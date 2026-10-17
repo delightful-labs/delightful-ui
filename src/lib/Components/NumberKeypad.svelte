@@ -123,13 +123,16 @@
 	.number-keypad {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--dui-number-keypad-gap, 0.5rem);
+		gap: var(--dui-number-keypad-gap, var(--dui-spacing-xs, 0.5rem));
 		min-inline-size: 0;
 	}
 
 	.number-keypad :global(.number-keypad-key) {
 		--dui-button-min-height: var(--dui-number-keypad-key-min-height, 64px);
-		--dui-button-font-size: var(--dui-number-keypad-font-size, 1.5rem);
+		--dui-button-font-size: var(
+			--dui-number-keypad-font-size,
+			var(--dui-font-size-xxl, 1.5rem)
+		);
 		inline-size: 100%;
 		min-inline-size: 0;
 		aspect-ratio: var(--dui-number-keypad-key-aspect-ratio, 1);

@@ -24,7 +24,8 @@
 	args={{
 		appearance: 'flat',
 		text: '7',
-		style: '--dui-button-font-size: 1.5rem; inline-size: 100%; aspect-ratio: 1;'
+		style:
+			'--dui-button-font-size: var(--dui-font-size-xxl, 1.5rem); inline-size: 100%; aspect-ratio: 1;'
 	}}
 >
 	{#snippet template(args)}
@@ -56,7 +57,7 @@
 	.key-example {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--dui-space-xs, 0.5rem);
+		gap: var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem));
 		max-inline-size: 32rem;
 	}
 </style>

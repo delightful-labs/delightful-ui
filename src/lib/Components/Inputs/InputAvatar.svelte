@@ -151,7 +151,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: var(--dui-field-gap, 0.25rem);
+		gap: var(--dui-field-gap, var(--dui-spacing-xxs, 0.25rem));
 		box-sizing: border-box;
 		width: var(--dui-avatar-size, 8rem);
 		max-width: 100%;
@@ -164,7 +164,7 @@
 		);
 		color: var(--dui-input-color, var(--dui-color-foreground, inherit));
 		font-family: var(--dui-input-font-family, var(--dui-font-family, inherit));
-		font-size: var(--dui-input-font-size, 1rem);
+		font-size: var(--dui-input-font-size, var(--dui-font-size-md, 1rem));
 	}
 
 	.tile input {

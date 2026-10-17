@@ -41,7 +41,10 @@
 	.status-message {
 		display: flex;
 		align-items: center;
-		gap: var(--dui-status-message-gap, var(--dui-space-xs, 0.5rem));
+		gap: var(
+			--dui-status-message-gap,
+			var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem))
+		);
 		color: var(
 			--dui-status-message-color,
 			var(--dui-color-foreground, inherit)

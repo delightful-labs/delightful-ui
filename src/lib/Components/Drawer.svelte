@@ -139,8 +139,14 @@
 		grid-template-columns: var(--_dui-drawer-header-columns);
 		grid-template-rows: auto minmax(0, 1fr);
 		align-content: start;
-		gap: var(--dui-drawer-gap, var(--dui-space-sm, 1rem));
-		padding: var(--dui-drawer-padding, var(--dui-space-md, 1.5rem));
+		gap: var(
+			--dui-drawer-gap,
+			var(--dui-space-sm, var(--dui-spacing-md, 1rem))
+		);
+		padding: var(
+			--dui-drawer-padding,
+			var(--dui-space-md, var(--dui-spacing-lg, 1.5rem))
+		);
 		color: var(--dui-drawer-color, var(--dui-color-foreground, inherit));
 		background-color: var(
 			--dui-drawer-background-color,
@@ -180,7 +186,10 @@
 		grid-row: 1;
 		align-self: center;
 		margin: 0;
-		font-size: var(--dui-drawer-heading-font-size, 1.25rem);
+		font-size: var(
+			--dui-drawer-heading-font-size,
+			var(--dui-font-size-xl, 1.25rem)
+		);
 		line-height: 1.25;
 		overflow-wrap: anywhere;
 	}
@@ -201,7 +210,7 @@
 		--dui-button-border-width: 0;
 		inline-size: 2.75rem;
 		block-size: 2.75rem;
-		font-size: 1.5rem;
+		font-size: var(--dui-font-size-xxl, 1.5rem);
 	}
 
 	.drawer-close {

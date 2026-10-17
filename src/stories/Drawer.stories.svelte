@@ -111,7 +111,7 @@
 	.inline-example,
 	.example-content {
 		display: grid;
-		gap: var(--dui-space-sm, 1rem);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 	.inline-example {
 		justify-items: start;
@@ -120,7 +120,7 @@
 	.inline-layout {
 		display: flex;
 		align-items: stretch;
-		gap: var(--dui-space-sm, 1rem);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 		inline-size: 100%;
 	}
 	.example-content {

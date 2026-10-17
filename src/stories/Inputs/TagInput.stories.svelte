@@ -96,12 +96,12 @@
 <style>
 	form {
 		display: grid;
-		gap: var(--dui-space-sm, 0.5rem);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 		max-inline-size: 32rem;
 	}
 	.controls {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--dui-space-sm, 0.5rem);
+		gap: var(--dui-space-sm, var(--dui-spacing-md, 1rem));
 	}
 </style>

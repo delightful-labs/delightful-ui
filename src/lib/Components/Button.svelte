@@ -67,7 +67,10 @@
 		);
 		font-size: var(--dui-button-font-size, inherit);
 		line-height: 1.25;
-		padding: var(--dui-button-padding, 0.5rem 1rem);
+		padding: var(
+			--dui-button-padding,
+			var(--dui-spacing-xs, 0.5rem) var(--dui-spacing-md, 1rem)
+		);
 		min-height: var(--dui-button-min-height, 44px);
 		color: var(--dui-button-color, var(--dui-color-foreground, #000));
 		background-color: var(

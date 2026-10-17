@@ -27,7 +27,10 @@
 		display: grid;
 		place-items: center;
 		min-block-size: var(--dui-loading-screen-min-height, 100dvh);
-		padding: var(--dui-loading-screen-padding, var(--dui-space-md, 1.5rem));
+		padding: var(
+			--dui-loading-screen-padding,
+			var(--dui-space-md, var(--dui-spacing-lg, 1.5rem))
+		);
 		text-align: center;
 	}
 

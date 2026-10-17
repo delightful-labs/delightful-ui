@@ -72,7 +72,7 @@
 <style>
 	.field-example {
 		display: grid;
-		gap: var(--dui-field-gap, 0.25rem);
+		gap: var(--dui-field-gap, var(--dui-spacing-xxs, 0.25rem));
 		max-inline-size: 28rem;
 	}
 </style>

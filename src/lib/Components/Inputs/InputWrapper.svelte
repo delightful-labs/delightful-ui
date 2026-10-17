@@ -19,7 +19,7 @@
 	.wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: var(--dui-field-gap, 0.25rem);
+		gap: var(--dui-field-gap, var(--dui-spacing-xxs, 0.25rem));
 		min-width: 0;
 	}
 
@@ -34,7 +34,10 @@
 		font-size: var(--dui-input-font-size, inherit);
 		line-height: 1.25;
 		box-sizing: border-box;
-		padding: var(--dui-input-padding, 0.5rem 1rem);
+		padding: var(
+			--dui-input-padding,
+			var(--dui-spacing-xs, 0.5rem) var(--dui-spacing-md, 1rem)
+		);
 		color: var(--dui-input-color, var(--dui-color-foreground, inherit));
 		min-height: var(--dui-input-min-height, 44px);
 		min-width: 0;

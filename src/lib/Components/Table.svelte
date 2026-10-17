@@ -83,11 +83,11 @@
 	.table :global(td) {
 		padding-block: var(
 			--dui-table-cell-padding-block,
-			var(--dui-space-xs, 0.5rem)
+			var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem))
 		);
 		padding-inline: var(
 			--dui-table-cell-padding-inline,
-			var(--dui-space-xs, 0.5rem)
+			var(--dui-space-xs, var(--dui-spacing-xs, 0.5rem))
 		);
 		text-align: start;
 		vertical-align: top;

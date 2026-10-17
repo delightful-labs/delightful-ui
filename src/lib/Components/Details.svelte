@@ -112,7 +112,10 @@
 	summary {
 		box-sizing: border-box;
 		min-height: var(--dui-details-summary-min-height, 44px);
-		padding: var(--dui-details-summary-padding, 0.5rem 1rem);
+		padding: var(
+			--dui-details-summary-padding,
+			var(--dui-spacing-xs, 0.5rem) var(--dui-spacing-md, 1rem)
+		);
 		font-family: var(
 			--dui-details-summary-font-family,
 			var(--dui-font-family, inherit)
@@ -120,7 +123,7 @@
 		font-size: var(--dui-details-summary-font-size, inherit);
 		display: flex;
 		align-items: center;
-		gap: var(--dui-details-caret-gap, 0.5rem);
+		gap: var(--dui-details-caret-gap, var(--dui-spacing-xs, 0.5rem));
 		list-style: none;
 		-webkit-user-select: none;
 		user-select: none;
@@ -163,7 +166,10 @@
 	}
 
 	.details-content {
-		padding: var(--dui-details-content-padding, var(--dui-space-sm, 1rem));
+		padding: var(
+			--dui-details-content-padding,
+			var(--dui-space-sm, var(--dui-spacing-md, 1rem))
+		);
 		border-top: var(--dui-details-content-border-width, 1px) solid;
 		border-color: var(
 			--dui-details-border-color,
@@ -180,7 +186,9 @@
 
 	details[data-position='absolute'] .details-content {
 		position: absolute;
-		inset-block-start: calc(100% + var(--dui-details-panel-offset, 0.25rem));
+		inset-block-start: calc(
+			100% + var(--dui-details-panel-offset, var(--dui-spacing-xxs, 0.25rem))
+		);
 		inset-inline-start: 0;
 		z-index: var(--dui-details-panel-z-index, 10);
 		box-sizing: border-box;

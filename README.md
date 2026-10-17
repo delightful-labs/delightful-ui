@@ -29,6 +29,8 @@ The theme supplies green accents (`#94ff47`), system-preference light/dark surfa
 
 Field labels use the shared `--dui-font-size-sm` token (`0.875rem`, with the same fallback without the theme). Override `--dui-field-font-size` to customize label size independently of input text.
 
+Spacing primitives use rem units: `--dui-spacing-xxs` (0.25rem), `--dui-spacing-xs` (0.5rem), and `--dui-spacing-sm` (0.75rem) stay constant across viewport sizes. Larger tokens use `clamp()` to grow smoothly between viewport widths of 20rem and 80rem: `--dui-spacing-md` (1–1.25rem), `--dui-spacing-lg` (1.5–2rem), `--dui-spacing-xl` (2–3rem), and `--dui-spacing-xxl` (3–5rem). Values stay within those bounds outside that viewport range. The existing `--dui-space-*` tokens retain their current values. Avatar Input is the first component to adopt the new scale: its square-to-button gap uses `--dui-spacing-xs`, with a 0.5rem fallback without the theme. Override `--dui-avatar-gap` to customize that gap.
+
 The theme follows the system color preference automatically. Set `data-dui-theme="dark"` or `data-dui-theme="light"` on the root `<html>` element to override it; remove the attribute to follow the system again. Override `--dui-*` properties on the root for application-wide theming, or `--dui-button-*` properties to customize Button.
 
 The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS can override its defaults. It is global when imported: it changes body margins, colors, fonts, box sizing, links, focus indicators, and native control fonts/accent colors. It contains no page layout, heading scale, or form-control replacement.
@@ -55,8 +57,8 @@ Use a 24×24 viewBox unless the source SVG specifies otherwise. The consuming ap
 
 ```svelte
 <Icon label="Warning">
-  <path d="M12 3 2 21h20L12 3Z" />
-  <path d="M12 9v4m0 4h.01" />
+	<path d="M12 3 2 21h20L12 3Z" />
+	<path d="M12 9v4m0 4h.01" />
 </Icon>
 ```
 
@@ -140,6 +142,14 @@ InputCurrency does not parse, format, round, clamp, validate currencies, insert 
 ```
 
 Values stay as date-only strings; the library performs no Date or timezone conversion. Native `min`, `max`, and `step` constraints pass through. `bind:value` is optional, and `defaultValue` supplies initial/reset text.
+
+## InputAvatar
+
+```svelte
+<InputAvatar label="Avatar" name="avatar" removeLabel="Remove" bind:value />
+```
+
+A custom square image picker with a plus icon and cropped preview. The visible `label` is associated with the native file input. A persistent button below the square displays `uploadLabel` (default `Upload`) to choose an image and `removeLabel` (default `Remove`) after selection. Supply these props to customize or translate each label. The control keeps the same size in both states. Click the square to choose or replace an image. Supports a bindable `File | null`, native form submission, required validation, disabled state, and form reset. Customize the tile size with `--dui-avatar-size` (default `8rem`). Selecting a file does not upload it to a server.
 
 ## InputImage
 
@@ -404,7 +414,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
+Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, InputAvatar, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

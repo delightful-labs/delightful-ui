@@ -4,6 +4,7 @@ for (const story of ['inline', 'absolute', 'right-caret', 'custom-caret']) {
 	test(`Details ${story} renders and toggles with the keyboard`, async ({
 		page
 	}) => {
+		/** @type {string[]} */
 		const errors = []
 		page.on('pageerror', (error) => errors.push(error.message))
 		await page.goto(

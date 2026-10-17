@@ -11,6 +11,14 @@
 		--dui-font-family: 'Source Code Pro', monospace;
 		--dui-font-family-body: system-ui, sans-serif;
 		--dui-font-size-sm: 0.875rem;
+		--dui-spacing-xxs: 0.25rem;
+		--dui-spacing-xs: 0.5rem;
+		--dui-spacing-sm: 0.75rem;
+		/* Fluid spacing grows between viewport widths of 20rem and 80rem. */
+		--dui-spacing-md: clamp(1rem, calc(0.916667rem + 0.416667vw), 1.25rem);
+		--dui-spacing-lg: clamp(1.5rem, calc(1.333333rem + 0.833333vw), 2rem);
+		--dui-spacing-xl: clamp(2rem, calc(1.666667rem + 1.666667vw), 3rem);
+		--dui-spacing-xxl: clamp(3rem, calc(2.333333rem + 3.333333vw), 5rem);
 		--dui-space-xs: 0.5rem;
 		--dui-space-sm: 1rem;
 		--dui-space-md: 1.5rem;

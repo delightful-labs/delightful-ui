@@ -1,3 +1,4 @@
+import Heading from './Components/Heading.svelte'
 import Button from './Components/Button.svelte'
 import Icon from './Components/Icon.svelte'
 import NumberKeypad from './Components/NumberKeypad.svelte'
@@ -26,6 +27,7 @@ import InputDate from './Components/Inputs/InputDate.svelte'
 import TagInput from './Components/Inputs/TagInput.svelte'
 
 export {
+	Heading,
 	Button,
 	Icon,
 	NumberKeypad,

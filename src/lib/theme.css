@@ -10,7 +10,12 @@
 		--dui-color-on-error: var(--dui-color-background);
 		--dui-font-family: 'Source Code Pro', monospace;
 		--dui-font-family-body: system-ui, sans-serif;
+		--dui-font-size-xs: 0.75rem;
 		--dui-font-size-sm: 0.875rem;
+		--dui-font-size-md: 1rem;
+		--dui-font-size-lg: 1.125rem;
+		--dui-font-size-xl: 1.25rem;
+		--dui-font-size-xxl: 1.5rem;
 		--dui-spacing-xxs: 0.25rem;
 		--dui-spacing-xs: 0.5rem;
 		--dui-spacing-sm: 0.75rem;

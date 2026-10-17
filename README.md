@@ -35,6 +35,17 @@ The theme follows the system color preference automatically. Set `data-dui-theme
 
 The stylesheet uses the `dui-theme` cascade layer so ordinary application CSS can override its defaults. It is global when imported: it changes body margins, colors, fonts, box sizing, links, focus indicators, and native control fonts/accent colors. It contains no page layout, heading scale, or form-control replacement.
 
+## Typography and Heading
+
+The compact app typography scale uses `--dui-font-size-xs` (0.75rem), `--dui-font-size-sm` (0.875rem), `--dui-font-size-md` (1rem), `--dui-font-size-lg` (1.125rem), `--dui-font-size-xl` (1.25rem), and `--dui-font-size-xxl` (1.5rem). Sizes stay constant across viewport widths and scale with the root font size. Existing small text retains its 0.875rem size.
+
+```svelte
+<Heading level="h1">Account settings</Heading>
+<Heading level="h2" size="sm">Notifications</Heading>
+```
+
+`Heading` renders a native h1–h6, defaults to `level="h2"`, and accepts content through its children snippet. Default visual sizes map h1 → xxl, h2 → xl, h3 → lg, h4 → md, h5 → sm, and h6 → xs. Optional `size` overrides appearance independently of the semantic level; choose `level` for document structure. Native attributes, events, class, and style pass through. Default margins are zero, so layout owns spacing. Heading uses the typography tokens with matching fallbacks when the optional theme is absent. Customize `--dui-heading-font-family`, `--dui-heading-font-size`, `--dui-heading-font-weight` (600), `--dui-heading-line-height` (1.3), and `--dui-heading-color`.
+
 ## Button
 
 ```svelte
@@ -414,7 +425,7 @@ After reviewing implementation, `pnpm test:storybook` builds a test-only Storybo
 
 ## Packaging and publishing
 
-Import components from `delightful-ui`: Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, InputAvatar, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
+Import components from `delightful-ui`: Heading, Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, InputAvatar, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.
 
 The root package exports `dist/index.js` and `dist/index.d.ts`. Internal library aliases are rewritten by Svelte's package tooling. Consumers require Svelte 5.57.2 or newer within Svelte 5.
 

@@ -234,6 +234,13 @@
 		}
 	}
 
+	function commitOnMobileAction(event: Event) {
+		if (!(event instanceof InputEvent) || event.inputType !== 'insertLineBreak')
+			return
+		event.preventDefault()
+		add(expanded && activeIndex >= 0 ? matches[activeIndex] : draft)
+	}
+
 	function registerReset(node: HTMLInputElement) {
 		const form = node.form
 		function reset(event: Event) {
@@ -293,6 +300,7 @@
 				aria-invalid={ariaInvalid ?? (errorMessage ? true : undefined)}
 				role={suggestions.length ? 'combobox' : undefined}
 				autocomplete="off"
+				enterkeyhint="done"
 				aria-autocomplete={suggestions.length ? 'list' : undefined}
 				aria-expanded={suggestions.length ? expanded : undefined}
 				aria-controls={suggestions.length ? listId : undefined}
@@ -316,6 +324,7 @@
 					activeIndex = -1
 				}}
 				onkeydown={keydown}
+				onbeforeinput={commitOnMobileAction}
 			/>
 			<Button appearance="flat" disabled={locked} onclick={() => add()}
 				>{addLabel}</Button

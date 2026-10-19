@@ -79,9 +79,10 @@
 		font-weight: var(--dui-navigation-current-font-weight, 600);
 	}
 
+	.navigation :global(summary:focus-visible),
 	.navigation :global(a:focus-visible),
 	.navigation :global(button[popovertarget]:focus-visible) {
-		outline: 2px solid var(--dui-color-focus, currentColor);
-		outline-offset: 2px;
+		outline: 2px dashed var(--dui-color-foreground, currentColor);
+		outline-offset: -2px;
 	}
 </style>

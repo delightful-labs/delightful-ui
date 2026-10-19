@@ -12,6 +12,8 @@ import LoadingScreen from './Components/LoadingScreen.svelte'
 import Table from './Components/Table.svelte'
 import Navigation from './Components/Navigation.svelte'
 import Stepper from './Components/Stepper.svelte'
+import Pagination from './Components/Pagination.svelte'
+import PaginationItem from './Components/PaginationItem.svelte'
 import TopNavigation from './Components/TopNavigation.svelte'
 import Drawer from './Components/Drawer.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
@@ -53,6 +55,8 @@ export {
 	Table,
 	Navigation,
 	Stepper,
+	Pagination,
+	PaginationItem,
 	TopNavigation,
 	Drawer,
 	ScreenReaderText

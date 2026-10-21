@@ -75,6 +75,7 @@
 	let focused = $state(false)
 	let dismissed = $state(false)
 	let expanded = $state(false)
+	let nativePopover = $state(true)
 	let activeIndex = $state(-1)
 	const matches = $derived.by(() => {
 		const selected = (value ?? []).map((tag) => tag.toLowerCase())
@@ -135,7 +136,7 @@
 	}
 
 	function position() {
-		if (!popup?.matches(':popover-open')) return
+		if (!popup || !expanded) return
 		const rect = input.getBoundingClientRect()
 		const viewport = window.visualViewport
 		const left = viewport?.offsetLeft ?? 0
@@ -170,9 +171,15 @@
 
 	$effect(() => {
 		const visible = focused && !dismissed && !locked && matches.length > 0
-		if (!popup || typeof popup.showPopover !== 'function') return
+		if (!popup) return
+		nativePopover = typeof popup.showPopover === 'function'
+		if (!nativePopover) {
+			expanded = visible
+			if (visible) position()
+			return
+		}
 		if (visible) {
-			if (!popup.matches(':popover-open')) popup.showPopover({ source: input })
+			if (!popup.matches(':popover-open')) popup.showPopover()
 			position()
 		} else if (popup.matches(':popover-open')) popup.hidePopover()
 	})
@@ -230,15 +237,19 @@
 			)
 		} else if (event.key === 'Enter') {
 			event.preventDefault()
-			add(expanded && activeIndex >= 0 ? matches[activeIndex] : draft)
+			add(expanded && activeIndex >= 0 ? matches[activeIndex] : input.value)
 		}
 	}
 
 	function commitOnMobileAction(event: Event) {
-		if (!(event instanceof InputEvent) || event.inputType !== 'insertLineBreak')
+		if (
+			!(event instanceof InputEvent) ||
+			event.isComposing ||
+			!['insertLineBreak', 'insertParagraph'].includes(event.inputType)
+		)
 			return
 		event.preventDefault()
-		add(expanded && activeIndex >= 0 ? matches[activeIndex] : draft)
+		add(expanded && activeIndex >= 0 ? matches[activeIndex] : input.value)
 	}
 
 	function registerReset(node: HTMLInputElement) {
@@ -348,7 +359,8 @@
 		bind:this={popup}
 		id={listId}
 		class="suggestions"
-		popover="manual"
+		popover={nativePopover ? 'manual' : undefined}
+		hidden={!nativePopover && !expanded}
 		role="listbox"
 		aria-label={label}
 		onbeforetoggle={(event) => {
@@ -365,7 +377,11 @@
 				role="option"
 				aria-selected={activeIndex === index}
 				tabindex="-1"
-				onpointerdown={(event) => event.preventDefault()}
+				onmousedown={(event) => {
+					// Canceling pointerdown suppresses touch clicks in WebKit.
+					// Prevent the compatibility mouse event from moving focus instead.
+					event.preventDefault()
+				}}
 				onclick={() => add(suggestion)}
 				onkeydown={(event) => {
 					if (event.key === 'Enter' || event.key === ' ') {
@@ -404,6 +420,7 @@
 	}
 
 	.suggestions {
+		z-index: 1;
 		position: fixed;
 		inset: auto;
 		margin: 0;

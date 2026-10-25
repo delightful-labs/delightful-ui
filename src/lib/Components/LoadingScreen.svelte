@@ -1,14 +1,18 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
 	import StatusMessage from './StatusMessage.svelte'
 
 	type Props = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
-		text: string
 		variant?: 'loading' | 'error'
-	}
+	} & (
+			| { text: string; feedback?: Snippet }
+			| { text?: string; feedback: Snippet }
+		)
 
 	let {
-		text,
+		text = '',
+		feedback,
 		variant = 'loading',
 		class: className,
 		...attributes
@@ -17,7 +21,11 @@
 
 <div {...attributes} class={['loading-screen', className]}>
 	<div class="content">
-		<StatusMessage {variant} {text} />
+		{#if feedback}
+			{@render feedback()}
+		{:else}
+			<StatusMessage {variant} {text} />
+		{/if}
 	</div>
 </div>
 

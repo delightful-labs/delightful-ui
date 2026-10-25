@@ -8,6 +8,8 @@
 		summary: string | Snippet
 		/** Decorative replacement for the disclosure icon; receives the expanded state. */
 		caret?: Snippet<[boolean]>
+		/** Replace the default padded content; absolute positioning remains library-owned. */
+		content?: Snippet
 		caretPosition?: 'left' | 'right'
 		open?: boolean
 		position?: 'inline' | 'absolute'
@@ -17,6 +19,7 @@
 	let {
 		summary,
 		caret,
+		content,
 		caretPosition = 'left',
 		open = $bindable(false),
 		position = 'inline',
@@ -86,9 +89,22 @@
 			{/if}
 		</span>
 	</summary>
-	<div class="details-content">
-		{@render children?.()}
-	</div>
+	{#snippet body()}
+		{#if content}
+			{@render content()}
+		{:else}
+			<div class="details-content" class:divided={position === 'inline'}>
+				{@render children?.()}
+			</div>
+		{/if}
+	{/snippet}
+	{#if position === 'absolute'}
+		<div class="details-panel" data-align={align}>
+			{@render body()}
+		</div>
+	{:else}
+		{@render body()}
+	{/if}
 </details>
 
 <style>
@@ -170,6 +186,9 @@
 			--dui-details-content-padding,
 			var(--dui-space-sm, var(--dui-spacing-md, 1rem))
 		);
+	}
+
+	.divided {
 		border-top: var(--dui-details-content-border-width, 1px) solid;
 		border-color: var(
 			--dui-details-border-color,
@@ -184,7 +203,7 @@
 		vertical-align: top;
 	}
 
-	details[data-position='absolute'] .details-content {
+	.details-panel {
 		position: absolute;
 		inset-block-start: calc(
 			100% + var(--dui-details-panel-offset, var(--dui-spacing-xxs, 0.25rem))
@@ -214,13 +233,13 @@
 		);
 	}
 
-	details[data-position='absolute'][data-align='end'] .details-content {
+	.details-panel[data-align='end'] {
 		inset-inline-start: auto;
 		inset-inline-end: 0;
 	}
 
 	@media (forced-colors: active) {
-		details[data-position='absolute'] .details-content {
+		.details-panel {
 			box-shadow: none;
 		}
 

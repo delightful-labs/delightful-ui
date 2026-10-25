@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
 	import ScreenReaderText from './ScreenReaderText.svelte'
 
@@ -10,6 +11,8 @@
 
 	type Props = Omit<HTMLAttributes<HTMLElement>, 'aria-label'> & {
 		steps: StepperStep[]
+		/** Replaces the visible label; status announcements remain library-owned. */
+		stepLabel?: Snippet<[StepperStep]>
 		currentStep: string
 		label?: string
 		completedLabel?: string
@@ -19,6 +22,7 @@
 	let {
 		steps,
 		currentStep,
+		stepLabel,
 		label = 'Progress',
 		completedLabel = 'completed',
 		upcomingLabel = 'not completed',
@@ -37,7 +41,7 @@
 		>
 			<span class="step-number" aria-hidden="true">{index + 1}</span>
 			<span class="step-label">
-				{step.label}
+				{#if stepLabel}{@render stepLabel(step)}{:else}{step.label}{/if}
 				{#if status === 'completed'}
 					<ScreenReaderText>{completedLabel}</ScreenReaderText>
 				{:else if status === 'upcoming'}

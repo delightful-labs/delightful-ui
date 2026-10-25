@@ -1,16 +1,19 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
 	import LoadingSpinner from './LoadingSpinner.svelte'
 
 	type Props = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
-		text: string
 		variant?: 'info' | 'loading' | 'success' | 'error'
 		/** Show a compact dot-and-label status, retaining a spinner while loading. */
 		compact?: boolean
-	}
+	} & (
+			{ text: string; message?: Snippet } | { text?: string; message: Snippet }
+		)
 
 	let {
 		text,
+		message,
 		variant = 'info',
 		compact = false,
 		role,
@@ -34,11 +37,14 @@
 			aria-hidden="true"
 		></span>
 	{/if}
-	<span class="message">{text}</span>
+	<span class="message">
+		{#if message}{@render message()}{:else}{text}{/if}
+	</span>
 </div>
 
 <style>
 	.status-message {
+		--dui-loading-spinner-size: var(--dui-status-message-spinner-size, 1.5rem);
 		display: flex;
 		align-items: center;
 		gap: var(
@@ -56,6 +62,7 @@
 	}
 
 	.compact {
+		--dui-loading-spinner-size: var(--dui-status-message-spinner-size, 1rem);
 		font-size: var(
 			--dui-status-message-compact-font-size,
 			var(--dui-font-size-sm, 0.875rem)
@@ -79,10 +86,6 @@
 		);
 	}
 
-	.compact .spinner {
-		--dui-loading-spinner-size: var(--dui-status-message-spinner-size, 1rem);
-	}
-
 	.error {
 		color: var(
 			--dui-status-message-error-color,
@@ -92,7 +95,6 @@
 
 	.spinner {
 		flex: none;
-		--dui-loading-spinner-size: var(--dui-status-message-spinner-size, 1.5rem);
 		--dui-loading-spinner-border-width: var(
 			--dui-status-message-spinner-border-width,
 			2px

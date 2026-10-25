@@ -261,7 +261,23 @@ Native multiline editing, attributes, and callbacks pass through. `bind:value` i
 
 The native control submits its value only when checked and enabled. `bind:checked` is optional; `defaultChecked` supplies initial/reset state. The clickable label and native checkbox use green accent and explicit focus styling.
 
+## Typography and Button styling
+
+Typography resolves size props through a shared typed font-token lookup and uses one scoped base rule per component. Existing `--dui-heading-font-size` / `--dui-text-font-size` overrides and native inline styles remain supported; omitted alignment inherits from the parent, including nested typography. `data-size` and `data-align` remain available without driving variant selectors.
+
+Button variants configure private color values consumed by shared hover/active rules. Existing public button tokens remain the customization API. Native disabled state (including disabled fieldsets), `aria-disabled`, flat/raised behavior, focus, reduced motion and forced colors remain separate interaction concerns. Private `--_dui-*` variables are implementation details.
+
 ## Details
+
+Ordinary children use the default padded content with its existing border/theme tokens. Supply a `content` snippet to replace that presentation with consumer-owned markup and scoped CSS; when supplied, it takes precedence over children. Absolute mode keeps a library-owned positioning, border and overflow frame around either presentation. The existing `caret(open)` snippet lets consumers own decorative caret markup and sizing.
+
+```svelte
+<Details summary="Filters">
+	{#snippet content()}
+		<div class="filters"><!-- consumer-owned layout --></div>
+	{/snippet}
+</Details>
+```
 
 ```svelte
 <Details summary="Filters" position="absolute" align="end">
@@ -318,6 +334,17 @@ Screen-reader text renders only when a nonempty `text` is supplied; there is no 
 
 ## LoadingScreen
 
+Supply an optional `feedback` snippet to replace the default StatusMessage inside the centering layout. Provide either `text` for the default or `feedback` for custom markup; the snippet takes precedence if both are supplied. Custom feedback owns its status/alert announcements, so the layout adds no extra live region.
+
+```svelte
+<LoadingScreen>
+	{#snippet feedback()}
+		<StatusMessage variant="error" text={failureMessage} />
+		<Button onclick={retry}>{retryLabel}</Button>
+	{/snippet}
+</LoadingScreen>
+```
+
 Center a single translated startup message horizontally and vertically within a full viewport. Keep the page's main landmark in the caller.
 
 ```svelte
@@ -338,9 +365,17 @@ See the [Finance-driven component specification](docs/finance-component-spec.md)
 <StatusMessage variant="error" text={saveError} />
 ```
 
-Required `text` is caller-owned and visible. `variant` defaults to `info`; `loading` adds a compact decorative LoadingSpinner, while `success` and `info` show text alone. Errors use `role="alert"` and the shared error color; other variants use `role="status"`. The spinner is excluded from the accessibility tree, leaving one live region. Native div attributes and callbacks, class, and style pass through. Override `role` or `aria-live` when the application supplies announcement behavior; avoid nesting inside another live region. For announcements of updates, keep the component mounted and update its text/variant rather than relying on initially rendered status text being announced.
+Provide caller-owned `text` or an optional `message` snippet for rich inline content. The snippet replaces the visible text while StatusMessage keeps its live-region root and decorative indicator; do not add another live region inside the snippet. If both are supplied, `message` takes precedence. `variant` defaults to `info`; `loading` adds a compact decorative LoadingSpinner, while `success` and `info` show text alone. Errors use `role="alert"` and the shared error color; other variants use `role="status"`. The spinner is excluded from the accessibility tree, leaving one live region. Native div attributes and callbacks, class, and style pass through. Override `role` or `aria-live` when the application supplies announcement behavior; avoid nesting inside another live region. For announcements of updates, keep the component mounted and update its text/variant rather than relying on initially rendered status text being announced.
 
 The application owns visibility, loading/save state, translations, retry actions, and error mapping. The component accepts plain text and adds no dismissal, timer, form logic, or generic fallback messages. Spacing uses `gap`, and long text wraps. Customize `--dui-status-message-gap`, `--dui-status-message-color`, `--dui-status-message-error-color`, `--dui-status-message-spinner-size` (default `1.5rem`), and `--dui-status-message-spinner-border-width` (default `2px`). Loading animation and reduced-motion behavior come from LoadingSpinner.
+
+```svelte
+<StatusMessage variant="error">
+	{#snippet message()}
+		{failureMessage} <a href={helpHref}>{helpLabel}</a>
+	{/snippet}
+</StatusMessage>
+```
 
 ## ScreenReaderText
 
@@ -397,7 +432,36 @@ Required `label` names the native nav landmark. Children supply native `li` elem
 
 Routing, active-route matching, permissions, link grouping, workspace selection and collapsed/mobile shell behavior remain caller-owned. Navigation adds no menu roles, arrow-key handling, route interception or data model. Link spacing uses `gap`; list padding/margins are reset. Links have a 44px minimum height and visible focus. Customize `--dui-navigation-gap`, `--dui-navigation-link-min-height` and `--dui-navigation-current-font-weight`; colors inherit the existing link/theme styles.
 
+## Stepper
+
+Pass `steps` and `currentStep`; plain `step.label` remains the default visible label. An optional `stepLabel(step)` snippet replaces only the visible inline label. Stepper retains the ordered list, decorative numbering, `aria-current` and translated completed/upcoming announcements. Keep those announcements out of the custom snippet to avoid duplication.
+
+```svelte
+<Stepper
+	{steps}
+	{currentStep}
+	label={progressLabel}
+	{completedLabel}
+	{upcomingLabel}
+>
+	{#snippet stepLabel(step)}<strong>{step.label}</strong>{/snippet}
+</Stepper>
+```
+
 ## Drawer
+
+Use `closeControl(close, label)` to replace the default close button. Render an accessibly named native control and invoke the supplied callback; `label` is the translated `closeLabel`. Drawer retains panel visibility, scoped Escape and focus restoration. `showCloseButton={false}` hides the custom control too. Default close-button sizing applies only to the default button, leaving custom markup locally styleable.
+
+```svelte
+<Drawer heading={menuHeading} closeLabel={closeMenuLabel} bind:open={menuOpen}>
+	{#snippet closeControl(close, label)}
+		<button type="button" onclick={close}>{label}</button>
+	{/snippet}
+	<!-- navigation content -->
+</Drawer>
+```
+
+Set `--dui-drawer-panel-border-inline-end` to a CSS border value (for example, `2px solid currentColor`) to add a separator on the panel’s logical inline end. It defaults to `0`, preserving the borderless panel. Set it through the Drawer’s native `style` attribute or an inherited custom property; consumers do not need to select the internal panel element.
 
 ```svelte
 <Button onclick={() => (menuOpen = true)}>{openMenuLabel}</Button>

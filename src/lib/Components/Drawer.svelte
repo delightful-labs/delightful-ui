@@ -10,6 +10,8 @@
 		headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 		headingHidden?: boolean
 		closeLabel: string
+		/** Receives dismissal and the translated accessible label. */
+		closeControl?: Snippet<[() => void, string]>
 		showCloseButton?: boolean
 		side?: 'left' | 'right'
 		open?: boolean
@@ -28,12 +30,17 @@
 		headingHidden = false,
 		showCloseButton = true,
 		closeLabel,
+		closeControl,
 		side = 'left',
 		open = $bindable(false),
 		children,
 		class: className,
 		...attributes
 	}: Props = $props()
+
+	function closeDrawer() {
+		open = false
+	}
 
 	$effect.pre(() => {
 		if (open && !wasOpen) {
@@ -88,15 +95,19 @@
 			{#if typeof heading === 'string'}{heading}{:else}{@render heading()}{/if}
 		</svelte:element>
 		{#if showCloseButton}
-			<div class="drawer-close">
-				<Button type="button" appearance="flat" onclick={() => (open = false)}>
-					<CloseIcon
-						aria-hidden="true"
-						focusable="false"
-						width="1em"
-						height="1em"
-					/><ScreenReaderText>{closeLabel}</ScreenReaderText>
-				</Button>
+			<div class="drawer-close" class:default-close={!closeControl}>
+				{#if closeControl}
+					{@render closeControl(closeDrawer, closeLabel)}
+				{:else}
+					<Button type="button" appearance="flat" onclick={closeDrawer}>
+						<CloseIcon
+							aria-hidden="true"
+							focusable="false"
+							width="1em"
+							height="1em"
+						/><ScreenReaderText>{closeLabel}</ScreenReaderText>
+					</Button>
+				{/if}
 			</div>
 		{/if}
 		<div class="drawer-body" data-close-button={showCloseButton}>
@@ -153,6 +164,7 @@
 			var(--dui-color-background, transparent)
 		);
 		border: 0;
+		border-inline-end: var(--dui-drawer-panel-border-inline-end, 0);
 		transform: translateX(-100%);
 		transition: transform var(--dui-drawer-duration, 225ms)
 			var(--_dui-drawer-transition-easing);
@@ -205,7 +217,7 @@
 		white-space: nowrap;
 	}
 
-	.drawer-close :global(button) {
+	.default-close :global(button) {
 		--dui-button-padding: 0;
 		--dui-button-border-width: 0;
 		inline-size: 2.75rem;

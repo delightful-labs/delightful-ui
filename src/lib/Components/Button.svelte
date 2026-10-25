@@ -58,6 +58,30 @@
 
 <style>
 	.button {
+		--_dui-button-color: var(
+			--dui-button-color,
+			var(--dui-color-foreground, #000)
+		);
+		--_dui-button-background: var(
+			--dui-button-background-color,
+			var(--dui-color-background, #fff)
+		);
+		--_dui-button-border: var(
+			--dui-button-border-color,
+			var(--dui-color-foreground, #000)
+		);
+		--_dui-button-hover-color: var(
+			--dui-button-color-hover,
+			var(--dui-color-background, #fff)
+		);
+		--_dui-button-hover-background: var(
+			--dui-button-background-color-hover,
+			var(--dui-color-foreground, #000)
+		);
+		--_dui-button-hover-border: var(
+			--dui-button-border-color-hover,
+			var(--dui-color-foreground, #000)
+		);
 		-webkit-appearance: none;
 		appearance: none;
 		box-sizing: border-box;
@@ -72,15 +96,9 @@
 			var(--dui-spacing-xs, 0.5rem) var(--dui-spacing-md, 1rem)
 		);
 		min-height: var(--dui-button-min-height, 44px);
-		color: var(--dui-button-color, var(--dui-color-foreground, #000));
-		background-color: var(
-			--dui-button-background-color,
-			var(--dui-color-background, #fff)
-		);
-		border-color: var(
-			--dui-button-border-color,
-			var(--dui-color-foreground, #000)
-		);
+		color: var(--_dui-button-color);
+		background-color: var(--_dui-button-background);
+		border-color: var(--_dui-button-border);
 		border-style: var(--dui-button-border-style, solid);
 		border-width: var(--dui-button-border-width, var(--dui-border-width, 2px));
 		border-radius: 0;
@@ -96,19 +114,13 @@
 			box-shadow 0.1s;
 	}
 
-	.button:hover:not(:disabled):not([aria-disabled='true']) {
-		color: var(--dui-button-color-hover, var(--dui-color-background, #fff));
-		background-color: var(
-			--dui-button-background-color-hover,
-			var(--dui-color-foreground, #000)
-		);
-		border-color: var(
-			--dui-button-border-color-hover,
-			var(--dui-color-foreground, #000)
-		);
+	.button:hover:not(:disabled, [aria-disabled='true']) {
+		color: var(--_dui-button-hover-color);
+		background-color: var(--_dui-button-hover-background);
+		border-color: var(--_dui-button-hover-border);
 	}
 
-	.button:active:not(:disabled):not([aria-disabled='true']) {
+	.button:active:not(:disabled, [aria-disabled='true']) {
 		box-shadow: none;
 		transform: translate(
 			var(--dui-button-pressed-offset, var(--dui-pressed-offset, 3px)),
@@ -116,44 +128,50 @@
 		);
 	}
 
-	.button.flat {
+	.flat {
 		box-shadow: var(--dui-button-box-shadow, none);
 	}
 
-	.button.primary {
-		color: var(--dui-button-color-primary, #fff);
-		background-color: var(--dui-button-background-color-primary, #000);
+	.primary {
+		--_dui-button-color: var(--dui-button-color-primary, #fff);
+		--_dui-button-background: var(--dui-button-background-color-primary, #000);
+		--_dui-button-hover-color: var(--dui-button-color-primary-hover, #000);
+		--_dui-button-hover-background: var(
+			--dui-button-background-color-primary-hover,
+			#94ff47
+		);
+		--_dui-button-hover-border: var(
+			--dui-button-border-color-primary-hover,
+			#94ff47
+		);
 		border: none;
 	}
 
-	.button.primary:hover:not(:disabled):not([aria-disabled='true']) {
-		color: var(--dui-button-color-primary-hover, #000);
-		background-color: var(--dui-button-background-color-primary-hover, #94ff47);
-		border-color: var(--dui-button-border-color-primary-hover, #94ff47);
-	}
-
-	.button.destructive {
-		color: var(--dui-button-color-destructive, var(--dui-color-on-error, #fff));
-		background-color: var(
+	.destructive {
+		--_dui-button-color: var(
+			--dui-button-color-destructive,
+			var(--dui-color-on-error, #fff)
+		);
+		--_dui-button-background: var(
 			--dui-button-background-color-destructive,
 			var(--dui-color-error, #b91c1c)
 		);
-		border-color: var(
+		--_dui-button-border: var(
 			--dui-button-border-color-destructive,
 			var(--dui-color-error, #b91c1c)
 		);
-	}
-
-	.button.destructive:hover:not(:disabled):not([aria-disabled='true']) {
-		color: var(--dui-button-color-destructive-hover, #fff);
-		background-color: var(
+		--_dui-button-hover-color: var(--dui-button-color-destructive-hover, #fff);
+		--_dui-button-hover-background: var(
 			--dui-button-background-color-destructive-hover,
 			#991b1b
 		);
-		border-color: var(--dui-button-border-color-destructive-hover, #991b1b);
+		--_dui-button-hover-border: var(
+			--dui-button-border-color-destructive-hover,
+			#991b1b
+		);
 	}
 
-	.button.flat:active:not(:disabled):not([aria-disabled='true']) {
+	.flat:active:not(:disabled, [aria-disabled='true']) {
 		transform: none;
 		color: var(--dui-button-color-active, var(--dui-color-background, #fff));
 		background-color: var(
@@ -168,8 +186,7 @@
 		outline-offset: 4px;
 	}
 
-	.button:disabled,
-	.button[aria-disabled='true'] {
+	.button:is(:disabled, [aria-disabled='true']) {
 		opacity: var(--dui-button-disabled-opacity, 0.5);
 		cursor: not-allowed;
 	}
@@ -179,14 +196,13 @@
 			transition: none;
 		}
 
-		.button:active:not(:disabled):not([aria-disabled='true']) {
+		.button:active:not(:disabled, [aria-disabled='true']) {
 			transform: none;
 		}
 	}
 
 	@media (forced-colors: active) {
-		.button,
-		.button.flat {
+		.button {
 			box-shadow: none;
 		}
 

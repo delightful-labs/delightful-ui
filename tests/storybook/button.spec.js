@@ -34,7 +34,7 @@ test('raised and flat buttons remain usable while hovered and pressed', async ({
 	await raised.hover()
 	await page.mouse.down()
 	await page.mouse.up()
-	const flat = await openStory(page, 'flat')
+	const flat = await openStory(page, 'flat-secondary')
 	await expect(flat).toBeEnabled()
 	await flat.hover()
 	for (const dark of [false, true]) {

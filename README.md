@@ -261,6 +261,12 @@ Native multiline editing, attributes, and callbacks pass through. `bind:value` i
 
 The native control submits its value only when checked and enabled. `bind:checked` is optional; `defaultChecked` supplies initial/reset state. The clickable label and native checkbox use green accent and explicit focus styling.
 
+## Typography and Button styling
+
+Typography resolves size props through a shared typed font-token lookup and uses one scoped base rule per component. Existing `--dui-heading-font-size` / `--dui-text-font-size` overrides and native inline styles remain supported; omitted alignment inherits from the parent, including nested typography. `data-size` and `data-align` remain available without driving variant selectors.
+
+Button variants configure private color values consumed by shared hover/active rules. Existing public button tokens remain the customization API. Native disabled state (including disabled fieldsets), `aria-disabled`, flat/raised behavior, focus, reduced motion and forced colors remain separate interaction concerns. Private `--_dui-*` variables are implementation details.
+
 ## Details
 
 Ordinary children use the default padded content with its existing border/theme tokens. Supply a `content` snippet to replace that presentation with consumer-owned markup and scoped CSS; when supplied, it takes precedence over children. Absolute mode keeps a library-owned positioning, border and overflow frame around either presentation. The existing `caret(open)` snippet lets consumers own decorative caret markup and sizing.

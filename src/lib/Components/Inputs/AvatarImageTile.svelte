@@ -34,13 +34,22 @@
 		infoLabel?: string
 		removeLabel: string
 		onremove?: (() => void) | undefined
-		onpreviewerror?: () => void
+		onpreviewerror?: (url: string) => void
 	} = $props()
 	const informationId = $props.id()
 </script>
 
 {#snippet thumbnail()}
-	<img src={preview} {alt} onerror={onpreviewerror} />
+	{#key preview}
+		<img
+			src={preview}
+			{alt}
+			onerror={(event) => {
+				if (event.currentTarget instanceof HTMLImageElement)
+					onpreviewerror?.(event.currentTarget.src)
+			}}
+		/>
+	{/key}
 {/snippet}
 
 <div class="item">

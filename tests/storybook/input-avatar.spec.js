@@ -54,6 +54,16 @@ test('selection, replacement, removal and preview URL cleanup', async ({
 		.toBe(1)
 	await input.setInputFiles(image('replacement.png'))
 	await expect(page.getByRole('status')).toHaveText('replacement.png')
+	await expect(page.locator('img')).toBeVisible()
+	await expect
+		.poll(() =>
+			page
+				.locator('img')
+				.evaluate((img) =>
+					img instanceof HTMLImageElement ? img.naturalWidth : 0
+				)
+		)
+		.toBe(1)
 	await page.getByRole('button', { name: 'Remove', exact: true }).focus()
 	await page.keyboard.press('Enter')
 	await expect(input).toBeFocused()

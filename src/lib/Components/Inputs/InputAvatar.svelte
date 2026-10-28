@@ -128,8 +128,8 @@
 					: removeLabel}
 				{infoLabel}
 				onremove={() => remove(file)}
-				onpreviewerror={() => {
-					failedPreviews = [...failedPreviews, previews[index]]
+				onpreviewerror={(url) => {
+					failedPreviews = [...failedPreviews, url]
 				}}
 			>
 				{#snippet actions(popoverId)}

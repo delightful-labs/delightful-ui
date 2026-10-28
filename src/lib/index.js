@@ -19,11 +19,13 @@ import Drawer from './Components/Drawer.svelte'
 import ScreenReaderText from './Components/ScreenReaderText.svelte'
 import InputText from './Components/Inputs/InputText.svelte'
 import FieldFeedback from './Components/Inputs/FieldFeedback.svelte'
+import InputRange from './Components/Inputs/InputRange.svelte'
 import InputNumber from './Components/Inputs/InputNumber.svelte'
 import InputCurrency from './Components/Inputs/InputCurrency.svelte'
 import Select from './Components/Inputs/Select.svelte'
 import Textarea from './Components/Inputs/Textarea.svelte'
 import Checkbox from './Components/Inputs/Checkbox.svelte'
+import AvatarImageTile from './Components/Inputs/AvatarImageTile.svelte'
 import InputAvatar from './Components/Inputs/InputAvatar.svelte'
 import InputImage from './Components/Inputs/InputImage.svelte'
 import InputDate from './Components/Inputs/InputDate.svelte'
@@ -41,10 +43,12 @@ export {
 	InputText,
 	FieldFeedback,
 	InputNumber,
+	InputRange,
 	InputCurrency,
 	InputDate,
 	InputImage,
 	InputAvatar,
+	AvatarImageTile,
 	TagInput,
 	Select,
 	Textarea,

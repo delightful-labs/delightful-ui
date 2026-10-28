@@ -54,13 +54,19 @@ test('selection, replacement, removal and preview URL cleanup', async ({
 		.toBe(1)
 	await input.setInputFiles(image('replacement.png'))
 	await expect(page.getByRole('status')).toHaveText('replacement.png')
+	await expect(page.locator('img')).toBeVisible()
+	await expect
+		.poll(() =>
+			page
+				.locator('img')
+				.evaluate((img) =>
+					img instanceof HTMLImageElement ? img.naturalWidth : 0
+				)
+		)
+		.toBe(1)
 	await page.getByRole('button', { name: 'Remove', exact: true }).focus()
 	await page.keyboard.press('Enter')
-	await expect(
-		page
-			.getByRole('button', { name: 'Upload', exact: true })
-			.and(page.locator('button'))
-	).toBeFocused()
+	await expect(input).toBeFocused()
 	await expect(page.getByRole('status')).toHaveText('No image')
 	await expect(page.locator('img')).toHaveCount(0)
 	await expect(input).toHaveValue('')
@@ -157,28 +163,29 @@ test('tile opens the picker with pointer and keyboard, including replacement', a
 	await expect(page.getByRole('status')).toHaveText('new-avatar.png')
 })
 
-test('button chooses and removes an image without moving surrounding content', async ({
+test('add tile stays reachable and removing an image restores picker focus and layout', async ({
 	page
 }) => {
 	await open(page)
 	const input = page.getByLabel('Avatar', { exact: true })
-	const button = page
-		.getByRole('button', { name: 'Upload', exact: true })
-		.and(page.locator('button'))
 	const before = await input.boundingBox()
 	const below = await page.getByRole('status').boundingBox()
 	const picker = page.waitForEvent('filechooser')
-	await button.focus()
+	await input.focus()
 	await page.keyboard.press('Enter')
 	await (await picker).setFiles(image())
 	await expect(
 		page.getByRole('button', { name: 'Remove', exact: true })
 	).toBeVisible()
 	await expect(page.locator('img')).toBeVisible()
-	expect(await input.boundingBox()).toEqual(before)
+	const selected = await input.boundingBox()
+	if (!before || !selected) throw new Error('Expected picker bounds')
+	expect(selected.width).toEqual(before.width)
+	expect(selected.x).toBeGreaterThan(before.x)
 	expect(await page.getByRole('status').boundingBox()).toEqual(below)
-	await page.getByRole('button', { name: 'Remove', exact: true }).click()
-	await expect(button).toBeFocused()
+	await page.getByRole('button', { name: 'Remove', exact: true }).focus()
+	await page.getByRole('button', { name: 'Remove', exact: true }).press('Enter')
+	await expect(input).toBeFocused()
 	await expect(input).toHaveValue('')
 	expect(await input.boundingBox()).toEqual(before)
 	expect(await page.getByRole('status').boundingBox()).toEqual(below)
@@ -194,9 +201,10 @@ test('visible field label names the input and button labels can be customized', 
 	const picker = page.waitForEvent('filechooser')
 	await page.locator('label').click()
 	await (await picker).setFiles(image())
-	await page.getByRole('button', { name: 'Delete photo', exact: true }).click()
-	await expect(
-		page.getByRole('button', { name: 'Choose photo', exact: true })
-	).toBeFocused()
+	await page.getByRole('button', { name: 'Delete photo', exact: true }).focus()
+	await page
+		.getByRole('button', { name: 'Delete photo', exact: true })
+		.press('Enter')
+	await expect(input).toBeFocused()
 	await expect(input).toHaveValue('')
 })

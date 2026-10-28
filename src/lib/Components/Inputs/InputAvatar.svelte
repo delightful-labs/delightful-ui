@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { untrack } from 'svelte'
+	import { tick, untrack, type Snippet } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import AvatarImageTile from './AvatarImageTile.svelte'
 	import AvatarFilePicker from './AvatarFilePicker.svelte'
@@ -15,9 +15,12 @@
 		| 'children'
 		| 'readonly'
 	> & {
+		imageActions?: Snippet<[File, string]>
+		leadingImages?: Snippet
 		label: string
 		uploadLabel?: string
 		removeLabel?: string
+		infoLabel?: string
 		value?: File | File[] | null
 		shape?: 'square' | 'circle'
 		imageState?: (file: File) => {
@@ -29,8 +32,11 @@
 	const generatedId = $props.id()
 	let {
 		label,
+		leadingImages,
+		imageActions,
 		uploadLabel = 'Upload',
 		removeLabel = 'Remove',
+		infoLabel = 'File information',
 		id,
 		shape = 'square',
 		imageState,
@@ -93,6 +99,7 @@
 		if (disabled || input?.matches(':disabled')) return
 		const remaining = files.filter((item) => item !== file)
 		value = attributes.multiple ? remaining : (remaining[0] ?? null)
+		void tick().then(() => input?.focus())
 	}
 
 	function select(node: HTMLInputElement) {
@@ -106,6 +113,7 @@
 
 <InputWrapper title={label} key={inputId}>
 	<div class="avatar">
+		{#if leadingImages}{@render leadingImages()}{/if}
 		{#each files as file, index (file)}
 			<AvatarImageTile
 				name={file.name}
@@ -115,11 +123,19 @@
 				{shape}
 				{disabled}
 				{removeLabel}
+				removeAccessibleLabel={attributes.multiple
+					? `${removeLabel}: ${file.name}`
+					: removeLabel}
+				{infoLabel}
 				onremove={() => remove(file)}
-				onpreviewerror={() => {
-					failedPreviews = [...failedPreviews, previews[index]]
+				onpreviewerror={(url) => {
+					failedPreviews = [...failedPreviews, url]
 				}}
-			/>
+			>
+				{#snippet actions(popoverId)}
+					{#if imageActions}{@render imageActions(file, popoverId)}{/if}
+				{/snippet}
+			</AvatarImageTile>
 		{/each}
 		<AvatarFilePicker
 			{...attributes}

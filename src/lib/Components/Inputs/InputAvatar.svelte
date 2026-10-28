@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { untrack } from 'svelte'
+	import { untrack, type Snippet } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import AvatarImageTile from './AvatarImageTile.svelte'
 	import AvatarFilePicker from './AvatarFilePicker.svelte'
@@ -15,9 +15,11 @@
 		| 'children'
 		| 'readonly'
 	> & {
+		leadingImages?: Snippet
 		label: string
 		uploadLabel?: string
 		removeLabel?: string
+		infoLabel?: string
 		value?: File | File[] | null
 		shape?: 'square' | 'circle'
 		imageState?: (file: File) => {
@@ -29,8 +31,10 @@
 	const generatedId = $props.id()
 	let {
 		label,
+		leadingImages,
 		uploadLabel = 'Upload',
 		removeLabel = 'Remove',
+		infoLabel = 'File information',
 		id,
 		shape = 'square',
 		imageState,
@@ -106,6 +110,7 @@
 
 <InputWrapper title={label} key={inputId}>
 	<div class="avatar">
+		{#if leadingImages}{@render leadingImages()}{/if}
 		{#each files as file, index (file)}
 			<AvatarImageTile
 				name={file.name}
@@ -115,6 +120,7 @@
 				{shape}
 				{disabled}
 				{removeLabel}
+				{infoLabel}
 				onremove={() => remove(file)}
 				onpreviewerror={() => {
 					failedPreviews = [...failedPreviews, previews[index]]

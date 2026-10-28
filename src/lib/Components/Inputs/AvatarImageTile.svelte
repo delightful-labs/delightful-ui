@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte'
 	import Button from '../Button.svelte'
 	import Popover from '../Popover.svelte'
 	import Icon from '../Icon.svelte'
@@ -6,6 +7,7 @@
 	import AvatarTile from './AvatarTile.svelte'
 	let {
 		name,
+		actions,
 		preview,
 		downloadUrl,
 		alt = name,
@@ -19,6 +21,7 @@
 		onremove,
 		onpreviewerror
 	}: {
+		actions?: Snippet<[string]>
 		name: string
 		downloadUrl?: string
 		alt?: string
@@ -94,6 +97,7 @@
 		{:else}
 			<p class="filename">{name}</p>
 		{/if}
+		{#if actions}{@render actions(informationId)}{/if}
 	</Popover>
 </div>
 

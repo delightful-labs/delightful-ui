@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { untrack, type Snippet } from 'svelte'
+	import { tick, untrack, type Snippet } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import AvatarImageTile from './AvatarImageTile.svelte'
 	import AvatarFilePicker from './AvatarFilePicker.svelte'
@@ -15,6 +15,7 @@
 		| 'children'
 		| 'readonly'
 	> & {
+		imageActions?: Snippet<[File, string]>
 		leadingImages?: Snippet
 		label: string
 		uploadLabel?: string
@@ -32,6 +33,7 @@
 	let {
 		label,
 		leadingImages,
+		imageActions,
 		uploadLabel = 'Upload',
 		removeLabel = 'Remove',
 		infoLabel = 'File information',
@@ -97,6 +99,7 @@
 		if (disabled || input?.matches(':disabled')) return
 		const remaining = files.filter((item) => item !== file)
 		value = attributes.multiple ? remaining : (remaining[0] ?? null)
+		void tick().then(() => input?.focus())
 	}
 
 	function select(node: HTMLInputElement) {
@@ -120,12 +123,19 @@
 				{shape}
 				{disabled}
 				{removeLabel}
+				removeAccessibleLabel={attributes.multiple
+					? `${removeLabel}: ${file.name}`
+					: removeLabel}
 				{infoLabel}
 				onremove={() => remove(file)}
 				onpreviewerror={() => {
 					failedPreviews = [...failedPreviews, previews[index]]
 				}}
-			/>
+			>
+				{#snippet actions(popoverId)}
+					{#if imageActions}{@render imageActions(file, popoverId)}{/if}
+				{/snippet}
+			</AvatarImageTile>
 		{/each}
 		<AvatarFilePicker
 			{...attributes}

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { untrack } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
-	import Button from '../Button.svelte'
-	import Icon from '../Icon.svelte'
+	import AvatarImageTile from './AvatarImageTile.svelte'
+	import AvatarFilePicker from './AvatarFilePicker.svelte'
 	import InputWrapper from './InputWrapper.svelte'
 
 	type Props = Omit<
@@ -10,7 +10,6 @@
 		| 'type'
 		| 'value'
 		| 'files'
-		| 'multiple'
 		| 'defaultValue'
 		| 'defaultvalue'
 		| 'children'
@@ -19,7 +18,12 @@
 		label: string
 		uploadLabel?: string
 		removeLabel?: string
-		value?: File | null
+		value?: File | File[] | null
+		shape?: 'square' | 'circle'
+		imageState?: (file: File) => {
+			status: 'ready' | 'uploading' | 'error'
+			label?: string
+		}
 	}
 
 	const generatedId = $props.id()
@@ -28,6 +32,8 @@
 		uploadLabel = 'Upload',
 		removeLabel = 'Remove',
 		id,
+		shape = 'square',
+		imageState,
 		value = $bindable(null),
 		accept = 'image/*',
 		disabled = false,
@@ -37,28 +43,36 @@
 	}: Props = $props()
 	const inputId = $derived(id ?? generatedId)
 	let input = $state<HTMLInputElement>()
-	let preview = $state<string>()
-	let failedPreview = $state<string>()
+	let previews = $state<string[]>([])
+	let failedPreviews = $state<string[]>([])
+	const files = $derived(
+		value === null ? [] : Array.isArray(value) ? value : [value]
+	)
 
 	$effect(() => {
-		const file = value
+		const selectedFiles = files
 		if (!input) return
 		const node = input
 		untrack(() => {
-			if ((node.files?.[0] ?? null) === file) return
-			if (file) {
+			if (
+				node.files?.length === selectedFiles.length &&
+				selectedFiles.every((file, index) => node.files?.[index] === file)
+			)
+				return
+			if (selectedFiles.length > 0) {
 				const transfer = new DataTransfer()
-				transfer.items.add(file)
+				selectedFiles.forEach((file) => transfer.items.add(file))
 				node.files = transfer.files
 			} else node.value = ''
 		})
 	})
 
 	$effect(() => {
-		const url = value ? URL.createObjectURL(value) : undefined
-		preview = url
+		const urls = files.map((file) => URL.createObjectURL(file))
+		previews = urls
+		failedPreviews = []
 		return () => {
-			if (url) URL.revokeObjectURL(url)
+			urls.forEach((url) => URL.revokeObjectURL(url))
 		}
 	})
 
@@ -68,153 +82,70 @@
 		const form = input?.form
 		function reset(event: Event) {
 			queueMicrotask(() => {
-				if (!event.defaultPrevented) value = null
+				if (!event.defaultPrevented) value = attributes.multiple ? [] : null
 			})
 		}
 		form?.addEventListener('reset', reset)
 		return () => form?.removeEventListener('reset', reset)
 	})
 
-	function remove() {
+	function remove(file: File) {
 		if (disabled || input?.matches(':disabled')) return
-		value = null
-		if (input) {
-			input.value = ''
-		}
+		const remaining = files.filter((item) => item !== file)
+		value = attributes.multiple ? remaining : (remaining[0] ?? null)
+	}
+
+	function select(node: HTMLInputElement) {
+		const selected = Array.from(node.files ?? [])
+		if (selected.length === 0) return
+		value = attributes.multiple
+			? [...new Set([...files, ...selected])]
+			: selected[0]
 	}
 </script>
 
 <InputWrapper title={label} key={inputId}>
 	<div class="avatar">
-		<div class="tile">
-			<input
-				{...attributes}
-				bind:this={input}
-				id={inputId}
-				type="file"
-				{accept}
+		{#each files as file, index (file)}
+			<AvatarImageTile
+				name={file.name}
+				preview={previews[index]}
+				previewFailed={failedPreviews.includes(previews[index])}
+				state={imageState?.(file)}
+				{shape}
 				{disabled}
-				oninput={(event) => {
-					value = event.currentTarget.files?.[0] ?? null
-					oninput?.(event)
-				}}
-				onchange={(event) => {
-					value = event.currentTarget.files?.[0] ?? null
-					onchange?.(event)
+				{removeLabel}
+				onremove={() => remove(file)}
+				onpreviewerror={() => {
+					failedPreviews = [...failedPreviews, previews[index]]
 				}}
 			/>
-			{#if preview && failedPreview !== preview}
-				<img
-					src={preview}
-					alt=""
-					onerror={(event) => {
-						failedPreview = event.currentTarget.getAttribute('src') ?? undefined
-					}}
-				/>
-			{:else}
-				<Icon width="24" height="24"><path d="M12 5v14M5 12h14" /></Icon>
-			{/if}
-		</div>
-		<Button
-			appearance="flat"
+		{/each}
+		<AvatarFilePicker
+			{...attributes}
+			bind:input
+			id={inputId}
+			{accept}
 			{disabled}
-			onclick={() => {
-				if (input?.matches(':disabled')) return
-				if (value) remove()
-				else input?.click()
-			}}>{value ? removeLabel : uploadLabel}</Button
-		>
+			{shape}
+			{uploadLabel}
+			oninput={(event) => {
+				select(event.currentTarget)
+				oninput?.(event)
+			}}
+			onchange={(event) => onchange?.(event)}
+		/>
 	</div>
 </InputWrapper>
 
 <style>
 	.avatar {
 		display: flex;
-		flex-direction: column;
+		flex-wrap: wrap;
 		align-items: flex-start;
 		gap: var(--dui-avatar-gap, var(--dui-spacing-xs, 0.5rem));
 		width: fit-content;
 		min-width: min(var(--dui-avatar-size, 8rem), 100%);
 		max-width: 100%;
-	}
-
-	.avatar :global(button) {
-		min-width: min(var(--dui-avatar-size, 8rem), 100%);
-		max-width: 100%;
-		white-space: normal;
-		overflow-wrap: anywhere;
-	}
-
-	.tile {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: var(--dui-field-gap, var(--dui-spacing-xxs, 0.25rem));
-		box-sizing: border-box;
-		width: var(--dui-avatar-size, 8rem);
-		max-width: 100%;
-		aspect-ratio: 1;
-		border: var(--dui-border-width, 2px) dashed
-			var(--dui-input-border-color, var(--dui-color-foreground, currentColor));
-		background: var(
-			--dui-input-background-color,
-			var(--dui-color-background, transparent)
-		);
-		color: var(--dui-input-color, var(--dui-color-foreground, inherit));
-		font-family: var(--dui-input-font-family, var(--dui-font-family, inherit));
-		font-size: var(--dui-input-font-size, var(--dui-font-size-md, 1rem));
-	}
-
-	.tile input {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		opacity: 0;
-		z-index: 1;
-		cursor: pointer;
-	}
-
-	.tile:has(input:not(:disabled)):hover {
-		border-color: var(
-			--dui-input-border-color-focus,
-			var(--dui-color-accent, currentColor)
-		);
-	}
-
-	.tile:has(input:focus-visible) {
-		outline: 2px dashed
-			var(--dui-input-focus-color, var(--dui-color-focus, #2563eb));
-		outline-offset: 4px;
-	}
-
-	.tile:has(
-		input:is([data-valid='false'], [aria-invalid='true'], :user-invalid)
-	) {
-		border-color: var(--dui-input-error-color, var(--dui-color-error, #b91c1c));
-	}
-
-	.tile:has(input:disabled) {
-		opacity: var(--dui-input-disabled-opacity, 0.5);
-	}
-
-	.tile input:disabled {
-		cursor: not-allowed;
-	}
-
-	img {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	@media (forced-colors: active) {
-		.tile:has(input:focus-visible) {
-			outline-color: Highlight;
-		}
 	}
 </style>

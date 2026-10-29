@@ -12,6 +12,7 @@
 		imageActions,
 		uploadLabel = 'Upload',
 		removeLabel = 'Remove',
+		closeLabel = 'Close',
 		infoLabel = 'File information',
 		id,
 		shape = 'square',
@@ -42,11 +43,12 @@
 				{shape}
 				{disabled}
 				{removeLabel}
+				{closeLabel}
 				{infoLabel}
 				onremove={() => remove(file)}
 			>
-				{#snippet actions(popoverId)}
-					{#if imageActions}{@render imageActions(file, popoverId)}{/if}
+				{#snippet actions(close)}
+					{#if imageActions}{@render imageActions(file, close)}{/if}
 				{/snippet}
 			</AvatarImageTile>
 		{/each}

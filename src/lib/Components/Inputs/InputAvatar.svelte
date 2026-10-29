@@ -11,6 +11,7 @@
 		imageActions,
 		uploadLabel = 'Upload',
 		removeLabel = 'Remove',
+		closeLabel = 'Close',
 		infoLabel = 'File information',
 		id,
 		shape = 'square',
@@ -31,7 +32,7 @@
 	}
 </script>
 
-{#snippet picker(embedded = false)}
+{#snippet filePicker(embedded = false, closePreview = () => {})}
 	<AvatarFilePicker
 		{...attributes}
 		{embedded}
@@ -43,6 +44,7 @@
 		{shape}
 		{uploadLabel}
 		onfileschange={(selected) => {
+			closePreview()
 			value = selected[0] ?? null
 		}}
 	/>
@@ -57,18 +59,36 @@
 			{shape}
 			{disabled}
 			{removeLabel}
+			{closeLabel}
 			removeAccessibleLabel={removeLabel}
 			{infoLabel}
 			onremove={remove}
 		>
-			{#snippet picker()}{@render selectedPicker()}{/snippet}
-			{#snippet actions(popoverId)}
-				{#if imageActions && value}{@render imageActions(value, popoverId)}{/if}
+			{#snippet picker(closePreview)}
+				<div class="replacement">
+					{uploadLabel}
+					{@render filePicker(true, closePreview)}
+				</div>
+			{/snippet}
+			{#snippet actions(close)}
+				{#if imageActions && value}{@render imageActions(value, close)}{/if}
 			{/snippet}
 		</AvatarImageTile>
 	{:else}
-		{@render picker()}
+		{@render filePicker()}
 	{/if}
 </InputWrapper>
 
-{#snippet selectedPicker()}{@render picker(true)}{/snippet}
+<style>
+	.replacement {
+		position: relative;
+		width: fit-content;
+		padding: var(--dui-spacing-xs, 0.5rem);
+		margin-block-start: var(--dui-spacing-xs, 0.5rem);
+		border: var(--dui-border-width, 2px) solid currentColor;
+	}
+	.replacement:focus-within {
+		outline: 2px solid var(--dui-color-focus, currentColor);
+		outline-offset: 2px;
+	}
+</style>

@@ -1,5 +1,10 @@
 import { expect, test } from '@playwright/test'
-import { image, png, openImageInput } from './image-input-helpers.js'
+import {
+	image,
+	png,
+	openImageInput,
+	openPreview
+} from './image-input-helpers.js'
 
 /** @param {import('@playwright/test').Page} page */
 async function open(page) {
@@ -39,10 +44,15 @@ test('adds images beside the picker, accumulates later selections, submits and r
 			.map((name) => `${name}: ${png.length} bytes`)
 			.join(', ')
 	)
+	const dialog = await openPreview(page, 'second.png')
+	await expect(
+		dialog.getByRole('img', { name: 'second.png', exact: true })
+	).toBeVisible()
 	await page
 		.getByRole('button', { name: 'Remove image: second.png', exact: true })
 		.focus()
 	await page.keyboard.press('Enter')
+	await expect(dialog).toBeHidden()
 	await expect(input).toBeFocused()
 	await expect(page.getByRole('status')).toHaveText('first.png, third.png')
 	await page.getByRole('button', { name: 'Submit', exact: true }).click()
@@ -80,12 +90,23 @@ test('disabled controls exclude files from submission and unmount releases every
 	await input.setInputFiles([image('first.png'), image('second.png')])
 	await page.getByRole('button', { name: 'Toggle disabled' }).click()
 	await expect(input).toBeDisabled()
+	let dialog = await openPreview(page, 'first.png')
 	await expect(
 		page.getByRole('button', { name: 'Remove image: first.png', exact: true })
 	).toBeDisabled()
+	await dialog.getByRole('button', { name: 'Close', exact: true }).click()
+	dialog = await openPreview(page, 'second.png')
 	await expect(
 		page.getByRole('button', { name: 'Remove image: second.png', exact: true })
 	).toBeDisabled()
+	await page.keyboard.press('Escape')
+	await expect(dialog).toBeHidden()
+	await expect(
+		page.getByRole('button', {
+			name: 'File information: second.png',
+			exact: true
+		})
+	).toBeFocused()
 	await page.getByRole('button', { name: 'Submit', exact: true }).click()
 	await expect(page.locator('pre[aria-live="polite"]')).toHaveText(
 		'No image field'

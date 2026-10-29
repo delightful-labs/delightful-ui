@@ -12,10 +12,12 @@ export type ImageInputProps = Omit<
 	| 'children'
 	| 'readonly'
 > & {
-	imageActions?: Snippet<[File, string]>
+	/** Close the preview before opening a consumer-owned editor. */
+	imageActions?: Snippet<[File, () => void]>
 	label: string
 	uploadLabel?: string
 	removeLabel?: string
+	closeLabel?: string
 	infoLabel?: string
 	shape?: 'square' | 'circle'
 	imageState?: (file: File) => {

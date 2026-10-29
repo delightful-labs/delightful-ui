@@ -7,13 +7,15 @@
 	import AvatarTile from './AvatarTile.svelte'
 	let {
 		name,
+		file,
 		actions,
+		picker,
 		preview,
 		downloadUrl,
 		alt = name,
 		removeAccessibleLabel,
 		previewFailed = false,
-		state,
+		state: imageState,
 		shape = 'square',
 		disabled = false,
 		removeLabel,
@@ -21,7 +23,9 @@
 		onremove,
 		onpreviewerror
 	}: {
+		picker?: Snippet
 		actions?: Snippet<[string]>
+		file?: File
 		name: string
 		downloadUrl?: string
 		alt?: string
@@ -37,31 +41,46 @@
 		onpreviewerror?: (url: string) => void
 	} = $props()
 	const informationId = $props.id()
+	let localPreview = $state<string>()
+	let failedLocalPreview = $state<string>()
+	const imageUrl = $derived(localPreview ?? preview)
+	const imageFailed = $derived(
+		previewFailed || (imageUrl !== undefined && failedLocalPreview === imageUrl)
+	)
+	$effect(() => {
+		const url = file ? URL.createObjectURL(file) : undefined
+		localPreview = url
+		return () => {
+			if (url) URL.revokeObjectURL(url)
+		}
+	})
 </script>
 
 {#snippet thumbnail()}
-	{#key preview}
+	{#key imageUrl}
 		<img
-			src={preview}
+			src={imageUrl}
 			{alt}
 			onerror={(event) => {
-				if (event.currentTarget instanceof HTMLImageElement)
+				if (event.currentTarget instanceof HTMLImageElement) {
+					failedLocalPreview = event.currentTarget.src
 					onpreviewerror?.(event.currentTarget.src)
+				}
 			}}
 		/>
 	{/key}
 {/snippet}
 
 <div class="item">
-	<AvatarTile {shape} status={previewFailed ? 'error' : state?.status}>
-		{#if state?.status === 'uploading'}
-			<LoadingSpinner text={state.label ?? name} />
-		{:else if state?.status === 'error' || previewFailed}
+	<AvatarTile {shape} status={imageFailed ? 'error' : imageState?.status}>
+		{#if imageState?.status === 'uploading'}
+			<LoadingSpinner text={imageState.label ?? name} />
+		{:else if imageState?.status === 'error' || imageFailed}
 			<Icon width="24" height="24"
 				><path d="M3 3h18v18H3zM3 17l6-6 4 4 3-3 5 5" /></Icon
 			>
-			<span role="alert">{state?.label ?? name}</span>
-		{:else if preview}
+			<span role="alert">{imageState?.label ?? name}</span>
+		{:else if imageUrl}
 			{#if downloadUrl}
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- Native download URLs belong to the consumer. -->
 				<a class="preview" href={downloadUrl} download={name}
@@ -71,6 +90,7 @@
 				{@render thumbnail()}
 			{/if}
 		{/if}
+		{#if picker}{@render picker()}{/if}
 		<div class="controls" data-shape={shape}>
 			<Button
 				type="button"
@@ -118,6 +138,7 @@
 		max-width: 100%;
 	}
 	.controls {
+		z-index: 2;
 		position: absolute;
 		inset-inline: 0;
 		inset-block-end: 0;

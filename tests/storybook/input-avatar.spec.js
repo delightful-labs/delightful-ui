@@ -1,39 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const png = Buffer.from(
-	'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aD1sAAAAASUVORK5CYII=',
-	'base64'
-)
-const image = (name = 'image.png') => ({
-	name,
-	mimeType: 'image/png',
-	buffer: png
-})
-
-/** @param {import('@playwright/test').Page} page */
-async function open(page) {
-	await page.addInitScript(() => {
-		const tracked = Object.assign(window, {
-			imageUrls: {
-				created: /** @type {string[]} */ ([]),
-				revoked: /** @type {string[]} */ ([])
-			}
-		})
-		const create = URL.createObjectURL.bind(URL)
-		const revoke = URL.revokeObjectURL.bind(URL)
-		URL.createObjectURL = (file) => {
-			const url = create(file)
-			tracked.imageUrls.created.push(url)
-			return url
-		}
-		URL.revokeObjectURL = (url) => {
-			tracked.imageUrls.revoked.push(url)
-			revoke(url)
-		}
-	})
-	await page.goto('/iframe.html?id=inputs-avatar--bound-form&viewMode=story')
-	await expect(page.getByLabel('Avatar', { exact: true })).toBeVisible()
-}
+import { image, png, openImageInput as open } from './image-input-helpers.js'
 
 test('selection, replacement, removal and preview URL cleanup', async ({
 	page
@@ -54,16 +21,6 @@ test('selection, replacement, removal and preview URL cleanup', async ({
 		.toBe(1)
 	await input.setInputFiles(image('replacement.png'))
 	await expect(page.getByRole('status')).toHaveText('replacement.png')
-	await expect(page.locator('img')).toBeVisible()
-	await expect
-		.poll(() =>
-			page
-				.locator('img')
-				.evaluate((img) =>
-					img instanceof HTMLImageElement ? img.naturalWidth : 0
-				)
-		)
-		.toBe(1)
 	await page.getByRole('button', { name: 'Remove', exact: true }).focus()
 	await page.keyboard.press('Enter')
 	await expect(input).toBeFocused()
@@ -163,11 +120,12 @@ test('tile opens the picker with pointer and keyboard, including replacement', a
 	await expect(page.getByRole('status')).toHaveText('new-avatar.png')
 })
 
-test('add tile stays reachable and removing an image restores picker focus and layout', async ({
+test('single image replaces the picker in place without moving surrounding content', async ({
 	page
 }) => {
 	await open(page)
 	const input = page.getByLabel('Avatar', { exact: true })
+	await expect(input).not.toHaveAttribute('multiple')
 	const before = await input.boundingBox()
 	const below = await page.getByRole('status').boundingBox()
 	const picker = page.waitForEvent('filechooser')
@@ -178,13 +136,14 @@ test('add tile stays reachable and removing an image restores picker focus and l
 		page.getByRole('button', { name: 'Remove', exact: true })
 	).toBeVisible()
 	await expect(page.locator('img')).toBeVisible()
-	const selected = await input.boundingBox()
-	if (!before || !selected) throw new Error('Expected picker bounds')
-	expect(selected.width).toEqual(before.width)
-	expect(selected.x).toBeGreaterThan(before.x)
+	expect(await page.locator('img').boundingBox()).toEqual(
+		await input.boundingBox()
+	)
+	expect(await input.boundingBox()).toEqual(before)
+	await expect(page.locator('input[type="file"]')).toHaveCount(1)
 	expect(await page.getByRole('status').boundingBox()).toEqual(below)
-	await page.getByRole('button', { name: 'Remove', exact: true }).focus()
-	await page.getByRole('button', { name: 'Remove', exact: true }).press('Enter')
+	await input.hover()
+	await page.getByRole('button', { name: 'Remove', exact: true }).click()
 	await expect(input).toBeFocused()
 	await expect(input).toHaveValue('')
 	expect(await input.boundingBox()).toEqual(before)
@@ -201,10 +160,8 @@ test('visible field label names the input and button labels can be customized', 
 	const picker = page.waitForEvent('filechooser')
 	await page.locator('label').click()
 	await (await picker).setFiles(image())
-	await page.getByRole('button', { name: 'Delete photo', exact: true }).focus()
-	await page
-		.getByRole('button', { name: 'Delete photo', exact: true })
-		.press('Enter')
+	await input.hover()
+	await page.getByRole('button', { name: 'Delete photo', exact: true }).click()
 	await expect(input).toBeFocused()
 	await expect(input).toHaveValue('')
 })

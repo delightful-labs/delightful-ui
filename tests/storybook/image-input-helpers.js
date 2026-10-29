@@ -10,6 +10,23 @@ export const image = (name = 'image.png') => ({
 	buffer: png
 })
 
+/**
+ * @param {import('@playwright/test').Page} page
+ * @param {string} name
+ */
+export async function openPreview(page, name) {
+	const trigger = page.getByRole('button', {
+		name: `File information: ${name}`,
+		exact: true
+	})
+	await trigger.focus()
+	await trigger.press('Enter')
+	const dialog = page.getByRole('dialog', { name, exact: true })
+	await expect(dialog).toBeVisible()
+	await expect(dialog.getByRole('heading', { name, exact: true })).toBeVisible()
+	return dialog
+}
+
 /** @param {import('@playwright/test').Page} page */
 export async function openImageInput(page, story = 'avatar', label = 'Avatar') {
 	await page.addInitScript(() => {

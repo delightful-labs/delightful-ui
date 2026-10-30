@@ -499,6 +499,22 @@ The development command uses http://127.0.0.1:6006 with a strict port. The stati
 
 After reviewing implementation, `pnpm test:storybook` builds a test-only Storybook and runs Select, Textarea, Checkbox, and InputDate Chromium scenarios on temporary preview port 6007. It includes binding fixtures without adding them to the normal Storybook.
 
+## Deployment and CI
+
+Netlify builds the public Storybook using `pnpm build-storybook` and publishes
+`storybook-static`. The root `netlify.toml` pins Node.js 24 and pnpm 10.22.0;
+production and deploy previews use the same configuration. Link the Netlify site
+to this repository with its base directory left at the repository root.
+
+The GitHub `CI` workflow runs on pull requests and supports manual runs. It installs
+lockfile-pinned dependencies, checks Svelte/TypeScript, runs unit tests, builds the
+demo/library, runs app Chromium and Storybook Chromium/mobile WebKit tests, and
+builds the public Storybook. Browser tests use one worker and temporary local
+preview servers. Browser reports and failure artifacts are retained for 14 days.
+No Netlify credentials are needed in GitHub: Netlify handles deployments through
+its repository integration. Branch protection can require the
+`Unit and browser tests` check after the workflow has run.
+
 ## Packaging and publishing
 
 Import components from `delightful-ui`: Text, Heading, Button, NumberKeypad, Details, Dialog, Popover, InputText, InputNumber, InputCurrency, InputDate, InputImage, InputAvatar, FieldFeedback, Select, Textarea, Checkbox, TagInput, LoadingSpinner, StatusMessage, LoadingScreen, Table, Navigation, Drawer, and ScreenReaderText.

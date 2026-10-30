@@ -2,6 +2,14 @@
 
 A Svelte 5 component library undergoing an API and styling migration. See [breaking changes](docs/svelte-5-breaking-changes.md) for the current migration reference.
 
+## Pull request titles
+
+Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) for pull request titles: `<type>[optional scope][!]: <description>`.
+
+Examples: `feat(details): animate opening and closing`, `fix: restore keyboard focus`, and `docs: clarify setup`. Use `!` for a breaking change and explain the change in the PR description. Choose a title that describes the complete change being merged.
+
+The `Conventional PR title` GitHub Actions check validates titles when a PR is opened, edited, reopened, updated with commits, or marked ready for review. The `Conventional PR titles` repository ruleset requires this check before merging into `main`.
+
 ## Development
 
 Use Node.js 22.17+ on the 22.x line, or Node.js 24+, and pnpm 10.22.0.

@@ -23,6 +23,23 @@
 </div>
 
 <style>
+	@property --dui-loading-spinner-border-width {
+		syntax: '<length>';
+		inherits: true;
+		initial-value: 4px;
+	}
+
+	@property --dui-loading-spinner-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-loading-spinner-size {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 80px;
+	}
+
 	.spinner {
 		display: block;
 		position: relative;

@@ -18,6 +18,16 @@
 </div>
 
 <style>
+	@property --dui-avatar-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-avatar-size {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.tile {
 		position: relative;
 		display: flex;

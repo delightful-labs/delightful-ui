@@ -30,6 +30,23 @@
 </nav>
 
 <style>
+	@property --dui-navigation-current-font-weight {
+		syntax: '<number> | normal | bold | bolder | lighter';
+		inherits: true;
+		initial-value: 600;
+	}
+
+	@property --dui-navigation-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-navigation-link-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 44px;
+	}
+
 	ul {
 		display: flex;
 		flex-direction: column;

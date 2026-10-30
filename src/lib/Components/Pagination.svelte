@@ -15,6 +15,11 @@
 </nav>
 
 <style>
+	@property --dui-pagination-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.pagination ul {
 		display: flex;
 		flex-wrap: wrap;

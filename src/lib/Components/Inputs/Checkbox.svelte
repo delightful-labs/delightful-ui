@@ -53,6 +53,43 @@
 </label>
 
 <style>
+	@property --dui-checkbox-accent-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-checkbox-disabled-opacity {
+		syntax: '<number> | <percentage>';
+		inherits: true;
+		initial-value: 0.5;
+	}
+
+	@property --dui-checkbox-error-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-checkbox-focus-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-checkbox-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-checkbox-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 44px;
+	}
+
+	@property --dui-checkbox-size {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.checkbox-field {
 		display: flex;
 		align-items: center;

@@ -57,6 +57,161 @@
 </button>
 
 <style>
+	@property --dui-button-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-background-color-active {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-background-color-destructive {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-background-color-destructive-hover {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #991b1b;
+	}
+
+	@property --dui-button-background-color-hover {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-background-color-primary {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #000;
+	}
+
+	@property --dui-button-background-color-primary-hover {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #94ff47;
+	}
+
+	@property --dui-button-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-border-color-destructive {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-border-color-destructive-hover {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #991b1b;
+	}
+
+	@property --dui-button-border-color-hover {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-border-color-primary-hover {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #94ff47;
+	}
+
+	@property --dui-button-border-style {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-border-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-box-shadow {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-color-active {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-color-destructive {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-color-destructive-hover {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #fff;
+	}
+
+	@property --dui-button-color-hover {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-color-primary {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #fff;
+	}
+
+	@property --dui-button-color-primary-hover {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #000;
+	}
+
+	@property --dui-button-disabled-opacity {
+		syntax: '<number> | <percentage>';
+		inherits: true;
+		initial-value: 0.5;
+	}
+
+	@property --dui-button-focus-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-font-family {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 44px;
+	}
+
+	@property --dui-button-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-button-pressed-offset {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.button {
 		--_dui-button-color: var(
 			--dui-button-color,

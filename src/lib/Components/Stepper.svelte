@@ -53,6 +53,93 @@
 </ol>
 
 <style>
+	@property --dui-stepper-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-completed-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-current-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-current-font-weight {
+		syntax: '<number> | normal | bold | bolder | lighter';
+		inherits: true;
+		initial-value: 600;
+	}
+
+	@property --dui-stepper-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-inactive-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-inactive-text-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-item-padding-block {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-border-width {
+		syntax: '<length> | thin | medium | thick';
+		inherits: true;
+		initial-value: 1px;
+	}
+
+	@property --dui-stepper-number-completed-background {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-completed-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-current-background {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-current-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-number-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-stepper-track-width {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.stepper {
 		color: var(--dui-stepper-color, var(--dui-color-foreground, inherit));
 		display: flex;

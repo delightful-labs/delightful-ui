@@ -27,6 +27,41 @@
 </header>
 
 <style>
+	@property --dui-top-navigation-background {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-top-navigation-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-top-navigation-border-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-top-navigation-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-top-navigation-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-top-navigation-height {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-top-navigation-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.top-navigation {
 		position: relative;
 		z-index: 1;

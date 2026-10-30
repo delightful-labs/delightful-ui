@@ -41,6 +41,12 @@
 </InputWrapper>
 
 <style>
+	@property --dui-textarea-resize {
+		syntax: 'none | both | horizontal | vertical | block | inline';
+		inherits: true;
+		initial-value: vertical;
+	}
+
 	textarea {
 		max-inline-size: 100%;
 		resize: var(--dui-textarea-resize, vertical);

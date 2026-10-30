@@ -47,6 +47,33 @@
 </svelte:element>
 
 <style>
+	@property --dui-heading-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-heading-font-family {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-heading-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-heading-font-weight {
+		syntax: '<number> | normal | bold | bolder | lighter';
+		inherits: true;
+		initial-value: 600;
+	}
+
+	@property --dui-heading-line-height {
+		syntax: '<number> | <length-percentage> | normal';
+		inherits: true;
+		initial-value: 1.3;
+	}
+
 	.heading {
 		margin: 0;
 		font-size: var(--dui-heading-font-size, var(--_dui-heading-size));

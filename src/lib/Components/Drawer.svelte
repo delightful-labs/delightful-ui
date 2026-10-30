@@ -117,6 +117,67 @@
 </aside>
 
 <style>
+	@property --dui-drawer-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-duration {
+		syntax: '<time>';
+		inherits: true;
+		initial-value: 225ms;
+	}
+
+	@property --dui-drawer-enter-easing {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-exit-easing {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-heading-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-height {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-panel-border-inline-end {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-top {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-drawer-width {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.inline-drawer {
 		--_dui-drawer-width: var(--dui-drawer-width, 24rem);
 		--_dui-drawer-transition-easing: var(

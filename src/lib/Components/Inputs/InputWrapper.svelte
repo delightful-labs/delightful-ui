@@ -16,6 +16,93 @@
 </div>
 
 <style>
+	@property --dui-field-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-field-font-family {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-field-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-field-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-border-color-focus {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-border-style {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-border-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-disabled-opacity {
+		syntax: '<number> | <percentage>';
+		inherits: true;
+		initial-value: 0.5;
+	}
+
+	@property --dui-input-error-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-focus-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-font-family {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-input-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 44px;
+	}
+
+	@property --dui-input-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.wrapper {
 		display: flex;
 		flex-direction: column;

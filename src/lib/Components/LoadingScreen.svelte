@@ -30,6 +30,21 @@
 </div>
 
 <style>
+	@property --dui-loading-screen-content-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-loading-screen-min-height {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-loading-screen-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.loading-screen {
 		box-sizing: border-box;
 		display: grid;

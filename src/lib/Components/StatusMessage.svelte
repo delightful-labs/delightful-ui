@@ -43,6 +43,47 @@
 </div>
 
 <style>
+	@property --dui-status-message-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-status-message-compact-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-status-message-error-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-status-message-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-status-message-indicator-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-status-message-spinner-border-width {
+		syntax: '<length>';
+		inherits: true;
+		initial-value: 2px;
+	}
+
+	@property --dui-status-message-spinner-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-status-message-success-color {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.status-message {
 		--dui-loading-spinner-size: var(--dui-status-message-spinner-size, 1.5rem);
 		display: flex;

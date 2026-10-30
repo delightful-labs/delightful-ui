@@ -120,6 +120,27 @@
 </div>
 
 <style>
+	@property --dui-number-keypad-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-number-keypad-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-number-keypad-key-aspect-ratio {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-number-keypad-key-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 64px;
+	}
+
 	.number-keypad {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));

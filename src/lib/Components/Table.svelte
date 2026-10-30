@@ -31,6 +31,47 @@
 </div>
 
 <style>
+	@property --dui-table-cell-padding-block {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-cell-padding-inline {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-header-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-header-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-min-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-row-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-table-row-border-width {
+		syntax: '<length> | thin | medium | thick';
+		inherits: true;
+		initial-value: 1px;
+	}
+
 	.table-container {
 		min-inline-size: 0;
 		max-inline-size: 100%;

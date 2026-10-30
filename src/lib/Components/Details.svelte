@@ -108,6 +108,109 @@
 </details>
 
 <style>
+	@property --dui-details-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-border-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-caret-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-content-border-width {
+		syntax: '<length> | thin | medium | thick';
+		inherits: true;
+		initial-value: 1px;
+	}
+
+	@property --dui-details-content-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-focus-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-panel-max-height {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-panel-max-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-panel-offset {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-panel-shadow {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-panel-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-panel-z-index {
+		syntax: '<integer> | auto';
+		inherits: true;
+		initial-value: 10;
+	}
+
+	@property --dui-details-summary-background-color-hover {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-summary-color-hover {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-summary-font-family {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-summary-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-details-summary-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 44px;
+	}
+
+	@property --dui-details-summary-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
 	details {
 		box-sizing: border-box;
 		min-width: 0;

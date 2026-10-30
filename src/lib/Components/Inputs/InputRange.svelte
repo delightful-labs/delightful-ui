@@ -48,6 +48,11 @@
 </InputWrapper>
 
 <style>
+	@property --dui-input-accent-color {
+		syntax: '*';
+		inherits: true;
+	}
+
 	input {
 		inline-size: 100%;
 		padding: 0;

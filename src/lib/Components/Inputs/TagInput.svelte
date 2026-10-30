@@ -397,6 +397,37 @@
 </InputWrapper>
 
 <style>
+	@property --dui-tag-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-tag-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-tag-entry-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-tag-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-tag-min-height {
+		syntax: '<length-percentage>';
+		inherits: true;
+		initial-value: 48px;
+	}
+
+	@property --dui-tag-remove-background-color-hover {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.help,
 	.error,
 	.feedback {

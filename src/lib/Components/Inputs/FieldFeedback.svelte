@@ -26,6 +26,21 @@
 </div>
 
 <style>
+	@property --dui-field-feedback-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-field-feedback-error-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-field-feedback-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.field-feedback {
 		display: grid;
 		gap: var(

@@ -42,6 +42,41 @@
 </li>
 
 <style>
+	@property --dui-pagination-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-pagination-control-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-pagination-current-background {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-pagination-current-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-pagination-focus-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-pagination-hover-background {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-pagination-item-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.item,
 	.ellipsis {
 		box-sizing: border-box;

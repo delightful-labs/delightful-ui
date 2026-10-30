@@ -81,3 +81,93 @@ Use one compact × close button, accessibly named by closeLabel, in a fixed-size
 ### Drawer height and shell stability — Finance adopted
 
 Both variants default to 100dvh via --dui-drawer-height. Inline placement is sticky at the top of its containing page; overlay placement remains fixed. A constrained two-row grid keeps the close control visible while the body scrolls independently, with min-block-size zero and contained overscroll. Finance uses a persistent optional-sticky TopNavigation in the main content, with the Drawer toggle inside it. Keep the toggle available while open; the Drawer’s inline/overlay behavior and caller-owned `aria-expanded` communicate state. Finance supplies localized screen-reader-only toggle text and Drawer close text rather than hard-coded ARIA labels. The responsive mode choice and page layout remain Finance-owned.
+
+## ButtonContent — reviewed; unit checks pass
+
+Compose inside Button with a required SVG component `icon`, caller-translated
+`text`, and optional `loading` (default false). Keep the text visible while
+replacing the decorative icon with LoadingSpinner. Both occupy the same fixed
+square slot (registered default 16px), preserving dimensions during loading. Own icon/label
+spacing through gap, using existing spacing tokens. Expose
+`--dui-button-content-gap`, `--dui-button-content-icon-size`, and
+`--dui-button-content-spinner-border-width` for consumer sizing.
+Register all three with `@property`, `<length>` syntax and inheritance so consumers
+can configure them on ancestor elements. Registration initial values must be
+computationally independent: use 8px gap, 16px icon size and 2px spinner border.
+Consumers can still supply relative lengths such as 1em or theme-token references;
+the existing spacing-token and 1em fallbacks apply without property registration.
+
+The parent button owns disabled, aria-busy, events and workflow state. The spinner
+is decorative; keep the accessible label stable. No lifecycle or async behavior
+belongs in this presentation component. Storybook demonstrates idle and loading
+states through controls. After implementation approval, add unit coverage for the
+label and decorative icon/spinner replacement; defer browser tests until requested,
+including a bounds comparison between idle/loading and a visible label gap.
+
+Finance adoption is a separate review: drawer and bank-page sync actions,
+category/tag archive actions, account archive and bank account discovery are
+candidates. Preserve navigation and icon-only controls. Refresh the vendored
+package deliberately and remove its superseded archive at adoption time.
+
+Implementation approved for unit verification. Both ButtonContent SSR cases and
+the four existing Button cases pass, covering escaped caller text, decorative
+unfocusable icon output, spinner replacement and stable loading labels without
+adding a live region. Package validation passes. Browser geometry and interaction
+checks remain deferred at the user's request.
+
+### SVG coordinate normalization — reviewed; verification pending
+
+TDesign source SVGs use the invalid `view-box` attribute. Supplying only width and
+height clips their 24-unit paths rather than scaling them. ButtonContent must
+compose DUI Icon, which accepts imported SVG components through `icon` as well as
+its existing path children. Icon owns viewBox normalization, default 1em
+dimensions, aspect ratio and decorative/accessibility attributes. Default viewBox
+to `0 0 24 24`, with overrides for other coordinate systems, and use `xMidYMid meet`.
+Icon defaults to display:block. ButtonContent supplies only its icon and the
+slot's 100% dimensions; it does not set a viewBox or a display override. Icon's
+`xMidYMid meet` default fits the whole drawing without cropping; a valid viewBox
+is still required to define the source coordinates, and Icon supplies the
+24-unit default centrally. Direct Icon callers can override viewBox for other
+coordinate systems. Do not
+mask incorrect scaling by clipping overflow. This boundary applies to every
+ButtonContent consumer, including Storybook and Finance.
+
+After review, extend SSR coverage for the valid viewBox and its caller override.
+Cover Icon's imported decorative, labelled and title-labelled forms alongside
+the existing native path/title forms. Imported title labels use aria-label;
+native path children retain their SVG title element. Storybook includes an
+imported SVG example.
+Browser checks remain deferred; verify full icon visibility and idle/loading
+bounds at small/default/large icon sizes when browser verification is resumed.
+
+## Property registration ownership — reviewed; verification pending
+
+Rehouse the closed typed-theme-properties branch's 218 registrations on this
+branch without merging its commits. Preserve the original syntax, inheritance
+and initial-value descriptors exactly. Place 188 component properties in 25
+owning component style blocks; retain 30 shared theme registrations in theme.css.
+The three new ButtonContent registrations remain in ButtonContent.
+
+Use the natural shared owner for cross-component properties: Button for button
+tokens, InputWrapper for shared field/input tokens, AvatarTile for avatar tokens,
+and LoadingSpinner for spinner tokens. Keep specialized feedback, currency,
+range, textarea and pagination-item properties with those components. This is
+CSS registration ownership only: no markup, event handlers, actors, schemas or
+async workflows change in this slice.
+
+Static verification must confirm that every original descriptor is preserved,
+all 221 names have one registration, theme.css contains only shared properties,
+and component contents outside inserted registrations remain unchanged. Run
+formatting, Svelte/type and package checks for review. Do not add or run tests
+before approval. After approval, inspect the existing component unit suites and
+the closed branch's browser assertions against this implementation; browser
+verification remains deferred by the user's instruction. In particular, later
+browser checks must cover components with and without the optional theme,
+ancestor overrides, relative dimensions, and dark-theme/fallback behavior.
+
+The user approved committing the implementation in both repositories. Svelte/type,
+formatting, registration ownership/descriptor checks and package validation pass.
+The six Button/ButtonContent unit checks passed before the later Icon and
+registration changes; updating and rerunning affected unit coverage remains
+outstanding. Browser verification remains explicitly deferred. Finance's vendored
+archive contains the current library source, including these registrations.

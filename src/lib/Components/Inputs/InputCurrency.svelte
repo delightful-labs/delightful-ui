@@ -55,6 +55,11 @@
 </InputWrapper>
 
 <style>
+	@property --dui-input-currency-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.entry {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;

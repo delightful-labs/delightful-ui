@@ -40,6 +40,27 @@
 </svelte:element>
 
 <style>
+	@property --dui-text-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-text-font-family {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-text-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-text-line-height {
+		syntax: '<number> | <length-percentage> | normal';
+		inherits: true;
+		initial-value: 1.5;
+	}
+
 	.text {
 		margin: 0;
 		font-size: var(--dui-text-font-size, var(--_dui-text-size));

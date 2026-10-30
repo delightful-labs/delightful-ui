@@ -13,6 +13,46 @@
 </div>
 
 <style>
+	@property --dui-popover-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-border-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-gap {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-shadow {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-popover-width {
+		syntax: '*';
+		inherits: true;
+	}
+
 	.popover {
 		box-sizing: border-box;
 		inline-size: var(--dui-popover-width, 24rem);

@@ -87,6 +87,63 @@
 </dialog>
 
 <style>
+	@property --dui-dialog-backdrop-color {
+		syntax: '<color>';
+		inherits: true;
+		initial-value: #000;
+	}
+
+	@property --dui-dialog-backdrop-opacity {
+		syntax: '<number> | <percentage>';
+		inherits: true;
+		initial-value: 0.5;
+	}
+
+	@property --dui-dialog-background-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-border-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-border-style {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-border-width {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-color {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-heading-font-size {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-padding {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-shadow {
+		syntax: '*';
+		inherits: true;
+	}
+
+	@property --dui-dialog-width {
+		syntax: '*';
+		inherits: true;
+	}
+
 	dialog {
 		box-sizing: border-box;
 		inline-size: var(--dui-dialog-width, 32rem);

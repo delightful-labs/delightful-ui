@@ -15,6 +15,7 @@
 		open = $bindable(false),
 		id,
 		'aria-labelledby': labelledBy,
+		onbeforetoggle,
 		onclose,
 		ontoggle,
 		children,
@@ -24,7 +25,8 @@
 	const dialogId = $derived(id ?? generatedId)
 	const headingId = `${generatedId}-heading`
 	const supportsClosedBy =
-		typeof HTMLDialogElement !== 'undefined' && 'closedBy' in HTMLDialogElement.prototype
+		typeof HTMLDialogElement !== 'undefined' &&
+		'closedBy' in HTMLDialogElement.prototype
 	function closeOnBackdrop(event: MouseEvent | TouchEvent) {
 		if (
 			!supportsClosedBy &&
@@ -59,6 +61,12 @@
 	bind:this={dialog}
 	onclick={closeOnBackdrop}
 	ontouchend={closeOnBackdrop}
+	onbeforetoggle={(event) => {
+		// Native closure restores focus before queued close/toggle events arrive.
+		// Synchronize now so an immediate activation can reopen the dialog.
+		if (event.newState === 'closed') open = false
+		onbeforetoggle?.(event)
+	}}
 	onclose={(event) => {
 		open = event.currentTarget.open
 		onclose?.(event)

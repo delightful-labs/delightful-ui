@@ -238,6 +238,59 @@
 		inset-inline-end: 0;
 	}
 
+	/* Delay native content hiding until the closing transition finishes. */
+	details {
+		--_dui-details-easing: var(
+			--dui-details-exit-easing,
+			cubic-bezier(0.4, 0, 1, 1)
+		);
+	}
+
+	details[open] {
+		--_dui-details-easing: var(
+			--dui-details-enter-easing,
+			cubic-bezier(0, 0, 0.2, 1)
+		);
+	}
+
+	details::details-content {
+		transition: content-visibility var(--dui-details-duration, 225ms)
+			allow-discrete;
+	}
+
+	@supports (interpolate-size: allow-keywords) {
+		details[data-position='inline']::details-content {
+			interpolate-size: allow-keywords;
+			block-size: 0;
+			overflow: clip;
+			transition:
+				block-size var(--dui-details-duration, 225ms) var(--_dui-details-easing),
+				content-visibility var(--dui-details-duration, 225ms) allow-discrete;
+		}
+
+		details[data-position='inline'][open]::details-content {
+			block-size: auto;
+		}
+	}
+
+	.details-panel {
+		transform: translateY(-0.25rem);
+		transition: transform var(--dui-details-duration, 225ms)
+			var(--_dui-details-easing);
+	}
+
+	details[open] .details-panel {
+		transform: translateY(0);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		details::details-content,
+		details[data-position='inline']::details-content,
+		.details-panel {
+			transition: none;
+		}
+	}
+
 	@media (forced-colors: active) {
 		.details-panel {
 			box-shadow: none;

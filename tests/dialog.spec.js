@@ -47,6 +47,26 @@ test('modal focus, submission, reopening and Escape preserve native behavior', a
 	await expect(page.locator('#review-dialog')).not.toBeVisible()
 })
 
+test('native closure allows immediate reopening before queued close events', async ({
+	page
+}) => {
+	const dialog = await openDialog(page)
+	await dialog.evaluate((element) => {
+		if (!(element instanceof HTMLDialogElement))
+			throw new Error('Expected a native dialog')
+		const opener = Array.from(document.querySelectorAll('button')).find(
+			(button) => button.textContent?.trim() === 'Open dialog'
+		)
+		if (!opener) throw new Error('Expected the dialog opener')
+		element.close()
+		opener.click()
+	})
+	await expect(dialog).toBeVisible()
+	await expect(
+		page.getByText('Dialog state: open', { exact: true })
+	).toBeVisible()
+})
+
 test('required validation blocks save while formnovalidate permits cancel', async ({
 	page
 }) => {

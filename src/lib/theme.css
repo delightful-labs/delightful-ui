@@ -1,4 +1,1189 @@
 /* Import explicitly with `import 'delightful-ui/theme.css'`. */
+/*
+ * Register shared tokens only when the optional theme is imported.
+ * Typed registrations require independent initial values; the declarations below
+ * retain rem scaling, fluid spacing, aliases, and theme-dependent colors.
+ * Font stacks and shadows use universal syntax without an initial value so their
+ * existing var() fallbacks remain available when unset.
+ */
+@property --dui-color-foreground {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #262626;
+}
+
+@property --dui-color-background {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #fff;
+}
+
+@property --dui-color-accent {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #94ff47;
+}
+
+@property --dui-color-on-accent {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #262626;
+}
+
+@property --dui-color-focus {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #262626;
+}
+
+@property --dui-color-error {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #b91c1c;
+}
+
+@property --dui-color-on-error {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #fff;
+}
+
+@property --dui-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-font-family-body {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-font-size-xs {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 12px;
+}
+
+@property --dui-font-size-sm {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 14px;
+}
+
+@property --dui-font-size-md {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 16px;
+}
+
+@property --dui-font-size-lg {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 18px;
+}
+
+@property --dui-font-size-xl {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 20px;
+}
+
+@property --dui-font-size-xxl {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 24px;
+}
+
+@property --dui-spacing-xxs {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 4px;
+}
+
+@property --dui-spacing-xs {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 8px;
+}
+
+@property --dui-spacing-sm {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 12px;
+}
+
+@property --dui-spacing-md {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 16px;
+}
+
+@property --dui-spacing-lg {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 24px;
+}
+
+@property --dui-spacing-xl {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 32px;
+}
+
+@property --dui-spacing-xxl {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 48px;
+}
+
+@property --dui-space-xs {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 8px;
+}
+
+@property --dui-space-sm {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 16px;
+}
+
+@property --dui-space-md {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 24px;
+}
+
+@property --dui-space-lg {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 32px;
+}
+
+@property --dui-border-width {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 2px;
+}
+
+@property --dui-pressed-offset {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 3px;
+}
+
+@property --dui-shadow {
+	syntax: '*';
+	inherits: true;
+}
+
+/*
+ * Button properties with literal defaults can be typed directly.
+ * Properties with shared-token, inherited, or appearance-dependent fallbacks use
+ * universal syntax without an initial value to preserve those fallback chains.
+ */
+@property --dui-button-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-background-color-active {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-background-color-destructive {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-background-color-destructive-hover {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #991b1b;
+}
+
+@property --dui-button-background-color-hover {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-background-color-primary {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #000;
+}
+
+@property --dui-button-background-color-primary-hover {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #94ff47;
+}
+
+@property --dui-button-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-border-color-destructive {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-border-color-destructive-hover {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #991b1b;
+}
+
+@property --dui-button-border-color-hover {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-border-color-primary-hover {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #94ff47;
+}
+
+@property --dui-button-border-style {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-border-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-box-shadow {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-color-active {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-color-destructive {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-color-destructive-hover {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #fff;
+}
+
+@property --dui-button-color-hover {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-color-primary {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #fff;
+}
+
+@property --dui-button-color-primary-hover {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #000;
+}
+
+@property --dui-button-disabled-opacity {
+	syntax: '<number> | <percentage>';
+	inherits: true;
+	initial-value: 0.5;
+}
+
+@property --dui-button-focus-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 44px;
+}
+
+@property --dui-button-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-button-pressed-offset {
+	syntax: '*';
+	inherits: true;
+}
+
+/*
+ * Input and field properties retain shared-token and inherited fallbacks.
+ * Checkbox size stays untyped so its 1.25rem fallback scales with the root font.
+ * Fixed minimum heights, disabled opacity, and resize keywords are typed.
+ */
+@property --dui-checkbox-accent-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-checkbox-disabled-opacity {
+	syntax: '<number> | <percentage>';
+	inherits: true;
+	initial-value: 0.5;
+}
+
+@property --dui-checkbox-error-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-checkbox-focus-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-checkbox-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-checkbox-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 44px;
+}
+
+@property --dui-checkbox-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-feedback-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-feedback-error-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-feedback-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-field-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-accent-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-border-color-focus {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-border-style {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-border-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-currency-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-disabled-opacity {
+	syntax: '<number> | <percentage>';
+	inherits: true;
+	initial-value: 0.5;
+}
+
+@property --dui-input-error-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-focus-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-input-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 44px;
+}
+
+@property --dui-input-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-textarea-resize {
+	syntax: 'none | both | horizontal | vertical | block | inline';
+	inherits: true;
+	initial-value: vertical;
+}
+
+/*
+ * Dialog, Popover, and Drawer retain contextual sizing and shared-token fallbacks.
+ * Backdrop defaults and Drawer duration are independent and can be typed.
+ * Widths, viewport-relative height, easing, borders, shadows, and shared-token
+ * overrides use universal syntax without an initial value.
+ */
+@property --dui-dialog-backdrop-color {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #000;
+}
+
+@property --dui-dialog-backdrop-opacity {
+	syntax: '<number> | <percentage>';
+	inherits: true;
+	initial-value: 0.5;
+}
+
+@property --dui-dialog-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-border-style {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-border-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-heading-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-shadow {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-dialog-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-duration {
+	syntax: '<time>';
+	inherits: true;
+	initial-value: 225ms;
+}
+
+@property --dui-drawer-enter-easing {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-exit-easing {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-heading-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-height {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-panel-border-inline-end {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-top {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-drawer-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-border-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-shadow {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-popover-width {
+	syntax: '*';
+	inherits: true;
+}
+
+/*
+ * Details and navigation retain contextual sizing and shared-token fallbacks.
+ * Fixed target heights, border widths, font weights, and stacking order are typed.
+ * Relative sizes, current-color defaults, shared-token overrides, and complex
+ * backgrounds and shadows use universal syntax without an initial value.
+ */
+@property --dui-details-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-border-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-caret-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-content-border-width {
+	syntax: '<length> | thin | medium | thick';
+	inherits: true;
+	initial-value: 1px;
+}
+
+@property --dui-details-content-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-focus-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-panel-max-height {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-panel-max-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-panel-offset {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-panel-shadow {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-panel-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-panel-z-index {
+	syntax: '<integer> | auto';
+	inherits: true;
+	initial-value: 10;
+}
+
+@property --dui-details-summary-background-color-hover {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-summary-color-hover {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-summary-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-summary-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-details-summary-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 44px;
+}
+
+@property --dui-details-summary-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-navigation-current-font-weight {
+	syntax: '<number> | normal | bold | bolder | lighter';
+	inherits: true;
+	initial-value: 600;
+}
+
+@property --dui-navigation-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-navigation-link-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 44px;
+}
+
+@property --dui-pagination-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-control-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-current-background {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-current-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-focus-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-hover-background {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-pagination-item-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-completed-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-current-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-current-font-weight {
+	syntax: '<number> | normal | bold | bolder | lighter';
+	inherits: true;
+	initial-value: 600;
+}
+
+@property --dui-stepper-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-inactive-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-inactive-text-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-item-padding-block {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-border-width {
+	syntax: '<length> | thin | medium | thick';
+	inherits: true;
+	initial-value: 1px;
+}
+
+@property --dui-stepper-number-completed-background {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-completed-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-current-background {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-current-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-number-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-stepper-track-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-background {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-border-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-height {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-top-navigation-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+/*
+ * Remaining public tokens cover typography, tables, tags, avatars, keypads, and
+ * loading/status components. Fixed numeric defaults are typed; contextual colors,
+ * relative sizes, shared-token fallbacks, and complex values remain unrestricted.
+ * Keypad aspect ratio uses universal syntax to preserve ratios such as 3 / 2.
+ */
+@property --dui-avatar-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-avatar-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-color-success {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-heading-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-heading-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-heading-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-heading-font-weight {
+	syntax: '<number> | normal | bold | bolder | lighter';
+	inherits: true;
+	initial-value: 600;
+}
+
+@property --dui-heading-line-height {
+	syntax: '<number> | <length-percentage> | normal';
+	inherits: true;
+	initial-value: 1.3;
+}
+
+@property --dui-loading-screen-content-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-loading-screen-min-height {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-loading-screen-padding {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-loading-spinner-border-width {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 4px;
+}
+
+@property --dui-loading-spinner-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-loading-spinner-size {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 80px;
+}
+
+@property --dui-number-keypad-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-number-keypad-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-number-keypad-key-aspect-ratio {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-number-keypad-key-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 64px;
+}
+
+@property --dui-status-message-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-status-message-compact-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-status-message-error-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-status-message-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-status-message-indicator-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-status-message-spinner-border-width {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 2px;
+}
+
+@property --dui-status-message-spinner-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-status-message-success-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-cell-padding-block {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-cell-padding-inline {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-header-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-header-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-min-width {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-row-border-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-table-row-border-width {
+	syntax: '<length> | thin | medium | thick';
+	inherits: true;
+	initial-value: 1px;
+}
+
+@property --dui-tag-background-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-tag-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-tag-entry-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-tag-gap {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-tag-min-height {
+	syntax: '<length-percentage>';
+	inherits: true;
+	initial-value: 48px;
+}
+
+@property --dui-tag-remove-background-color-hover {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-text-color {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-text-font-family {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-text-font-size {
+	syntax: '*';
+	inherits: true;
+}
+
+@property --dui-text-line-height {
+	syntax: '<number> | <length-percentage> | normal';
+	inherits: true;
+	initial-value: 1.5;
+}
+
 @layer dui-theme {
 	:root {
 		--dui-color-foreground: #262626;

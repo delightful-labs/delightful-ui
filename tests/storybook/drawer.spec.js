@@ -187,41 +187,48 @@ test('long inline content scrolls inside the drawer with reduced motion', async 
 	).toBeInViewport()
 })
 
-test('closing makes descendants inert immediately while layout space animates away', async ({
-	page
-}) => {
-	await page.emulateMedia({ reducedMotion: 'no-preference' })
-	await page.goto(
-		'/iframe.html?id=layout-drawer--inline-sidebar&viewMode=story'
-	)
-	const toggle = page.getByRole('button', {
-		name: 'Toggle sidebar',
-		exact: true
-	})
-	await toggle.click()
-	const aside = page.locator('aside')
-	await expect.poll(async () => (await aside.boundingBox())?.width).toBe(288)
-	await aside.evaluate((element) =>
-		element.style.setProperty('--dui-drawer-duration', '1s')
-	)
-	const closingWidth = await aside.evaluate((element) => {
-		const close = element.querySelector('button')
-		if (!close) throw new Error('Expected close control')
-		close.click()
-		return new Promise((resolve) =>
-			requestAnimationFrame(() =>
-				resolve(element.getBoundingClientRect().width)
-			)
+for (const duration of ['1s', 'invalid-duration']) {
+	test(`closing makes descendants inert while layout animates with ${duration}`, async ({
+		page
+	}) => {
+		await page.emulateMedia({ reducedMotion: 'no-preference' })
+		await page.goto(
+			'/iframe.html?id=layout-drawer--inline-sidebar&viewMode=story'
 		)
+		const toggle = page.getByRole('button', {
+			name: 'Toggle sidebar',
+			exact: true
+		})
+		await toggle.click()
+		const aside = page.locator('aside')
+		await expect.poll(async () => (await aside.boundingBox())?.width).toBe(288)
+		await page.evaluate(() => {
+			document.documentElement.style.setProperty('--dui-drawer-duration', '1s')
+		})
+		await aside.evaluate((element, duration) => {
+			element.style.setProperty('--dui-drawer-duration', duration)
+		}, duration)
+		const closingWidth = await aside.evaluate((element) => {
+			const close = element.querySelector('button')
+			if (!close) throw new Error('Expected close control')
+			close.click()
+			return new Promise((resolve) =>
+				requestAnimationFrame(() =>
+					resolve(element.getBoundingClientRect().width)
+				)
+			)
+		})
+		expect(closingWidth).toBeGreaterThan(0)
+		await expect(aside).toHaveAttribute('data-open', 'false')
+		await expect(aside).toHaveAttribute('inert', '')
+		await expect(aside).toHaveAttribute('aria-hidden', 'true')
+		await expect(aside).not.toHaveAttribute('hidden')
+		await expect(toggle).toBeFocused()
+		await expect(
+			page.getByRole('link', { name: 'Accounts', exact: true })
+		).toHaveCount(0)
+		await expect
+			.poll(async () => (await aside.boundingBox())?.width ?? 0)
+			.toBe(0)
 	})
-	expect(closingWidth).toBeGreaterThan(0)
-	await expect(aside).toHaveAttribute('data-open', 'false')
-	await expect(aside).toHaveAttribute('inert', '')
-	await expect(aside).toHaveAttribute('aria-hidden', 'true')
-	await expect(aside).not.toHaveAttribute('hidden')
-	await expect(toggle).toBeFocused()
-	await expect(
-		page.getByRole('link', { name: 'Accounts', exact: true })
-	).toHaveCount(0)
-	await expect.poll(async () => (await aside.boundingBox())?.width ?? 0).toBe(0)
-})
+}

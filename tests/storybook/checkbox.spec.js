@@ -118,3 +118,39 @@ test('clickable labels and Space preserve native focus and narrow layout', async
 		expect(box.x + box.width).toBeLessThanOrEqual(375)
 	}
 })
+
+test('checkbox targets scale with root typography and preserve inherited minimum height', async ({
+	page
+}) => {
+	await openStory(page, 'long-label')
+	const checkbox = page.getByRole('checkbox')
+	const label = page.locator('label').filter({ has: checkbox })
+	const baseline = await checkbox.boundingBox()
+	if (!baseline) throw new Error('Expected default checkbox geometry')
+	await page.evaluate(() => {
+		document.documentElement.style.fontSize = '32px'
+	})
+	const enlarged = await checkbox.boundingBox()
+	if (!enlarged) throw new Error('Expected enlarged checkbox geometry')
+	expect(enlarged.width).toBeGreaterThan(baseline.width)
+	expect(enlarged.height).toBeGreaterThan(baseline.height)
+	await page.evaluate(() => {
+		document.documentElement.style.fontSize = ''
+		document.documentElement.style.setProperty(
+			'--dui-checkbox-min-height',
+			'100px'
+		)
+	})
+	const inherited = await label.boundingBox()
+	if (!inherited) throw new Error('Expected inherited label geometry')
+	await label.evaluate((element) => {
+		element.style.setProperty('--dui-checkbox-min-height', 'invalid-height')
+	})
+	const recovered = await label.boundingBox()
+	if (!recovered) throw new Error('Expected recovered label geometry')
+	expect(recovered.height).toBeCloseTo(inherited.height, 1)
+	await checkbox.focus()
+	await checkbox.press('Space')
+	await expect(checkbox).toBeChecked()
+	await expect(checkbox).toBeFocused()
+})

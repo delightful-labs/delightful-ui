@@ -121,3 +121,35 @@ test('label and keyboard interaction fit narrow viewports', async ({
 	expect(box.x).toBeGreaterThanOrEqual(0)
 	expect(box.x + box.width).toBeLessThanOrEqual(375)
 })
+
+test('input height overrides inherit and invalid local values retain a usable control', async ({
+	page
+}) => {
+	await openStory(page, 'inputs-select--form-submission')
+	const select = page.getByRole('combobox', { name: 'Category' })
+	const baseline = await select.boundingBox()
+	if (!baseline) throw new Error('Expected default select geometry')
+	await page.evaluate(() => {
+		document.documentElement.style.setProperty('--dui-input-min-height', '80px')
+	})
+	const inherited = await select.boundingBox()
+	if (!inherited) throw new Error('Expected inherited select geometry')
+	expect(inherited.height).toBeGreaterThan(baseline.height)
+	await select.evaluate((element) => {
+		element.style.setProperty('--dui-input-min-height', '120px')
+	})
+	const local = await select.boundingBox()
+	if (!local) throw new Error('Expected local select geometry')
+	expect(local.height).toBeGreaterThan(inherited.height)
+	await select.evaluate((element) => {
+		element.style.setProperty('--dui-input-min-height', 'invalid-height')
+	})
+	const recovered = await select.boundingBox()
+	if (!recovered) throw new Error('Expected recovered select geometry')
+	expect(recovered.height).toBeCloseTo(inherited.height, 1)
+	await select.selectOption('work')
+	await page.getByRole('button', { name: 'Submit', exact: true }).click()
+	await expect(page.locator('pre[aria-live="polite"]')).toHaveText(
+		'[["category","work"]]'
+	)
+})

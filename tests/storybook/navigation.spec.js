@@ -110,3 +110,46 @@ test('dropdown links stay nonmodal and close on selection or an outside click', 
 	await expect(workspace).toBeHidden()
 	await expect(trigger).toHaveAttribute('aria-expanded', 'false')
 })
+
+test('pagination wraps within narrow bounds and preserves current-page keyboard access', async ({
+	page
+}) => {
+	await page.setViewportSize({ width: 320, height: 700 })
+	await page.goto(
+		'/iframe.html?id=navigation-pagination--page-navigation&viewMode=story'
+	)
+	const nav = page.getByRole('navigation', { name: 'Search results pages' })
+	const current = nav.getByRole('link', { name: 'Page 4', exact: true })
+	await expect(current).toHaveAttribute('aria-current', 'page')
+	for (const link of await nav.getByRole('link').all()) {
+		const box = await link.boundingBox()
+		if (!box) throw new Error('Expected visible page control')
+		expect(box.x).toBeGreaterThanOrEqual(0)
+		expect(box.x + box.width).toBeLessThanOrEqual(320)
+	}
+	await current.focus()
+	await current.press('Tab')
+	await expect(
+		nav.getByRole('link', { name: 'Page 5', exact: true })
+	).toBeFocused()
+})
+
+test('stepper keeps progress announcements and long labels within narrow bounds', async ({
+	page
+}) => {
+	await page.setViewportSize({ width: 320, height: 700 })
+	await page.goto('/iframe.html?id=layout-stepper--long-labels&viewMode=story')
+	const progress = page.getByRole('list', { name: 'Application progress' })
+	const items = progress.getByRole('listitem')
+	await expect(items).toHaveCount(3)
+	await expect(items.nth(0)).toContainText('completed')
+	await expect(items.nth(1)).toHaveAttribute('aria-current', 'step')
+	await expect(items.nth(1)).toHaveText('2 Supporting documents and evidence')
+	await expect(items.nth(2)).toContainText('not completed')
+	for (const item of await items.all()) {
+		const box = await item.boundingBox()
+		if (!box) throw new Error('Expected visible progress step')
+		expect(box.x).toBeGreaterThanOrEqual(0)
+		expect(box.x + box.width).toBeLessThanOrEqual(320)
+	}
+})
